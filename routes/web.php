@@ -6,6 +6,7 @@ use App\Http\Controllers\formcontroller;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FermeController;
+use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\EspeceController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ReportController;
@@ -21,15 +22,9 @@ Route::get('dashboard', function(){ return view('dashboard'); })->name('dashboar
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('Rapport', function() { return view('Rapport');})->name('Rapport');
-
     Route::get('Veterinaire', [VeterinaireController::class, 'index'])->name('Veterinaire');
 
-    Route::get('Ferme', [FermeController::class, 'index'])->name('Ferme-index');
-
-    Route::get('/ferme/{id}/edit', [FermeController::class, 'edit'])->name('ferme_edit');
-    Route::put('/ferme/{id}', [FermeController::class, 'update'])->name('ferme.update');
-
+    Route::get('/fermes', [FermeController::class, 'index'])->name('Ferme');
 
 });
 
@@ -38,8 +33,18 @@ Route::get('Contact', [FormController::class, 'showContactForm'])->name('Contact
 Route::post('form', [FormController::class, 'store'])->name('form');
 
 Route::POST('ferme', [FermeController::class, 'store'])->name('ferme');
+Route::get('/fermes/{id}/edit', [FermeController::class, 'edit'])->name('fermes.edit');
+Route::put('/fermes/{ferme}', [FermeController::class, 'update'])->name('fermes.update');
+Route::get('fermes/{ferme}/animaux', [AnimalController::class, 'index'])->name('animals.index');
+Route::delete('fermes/{ferme}/animaux/{animal}', [AnimalController::class, 'destroy'])->name('animals.destroy');
 
-// Route::put('modifier', [fermeController::class, 'update'])->name('modifier');
+
+
+Route::get('/fermes/{ferme}/animaux/create', [AnimalController::class, 'create'])->name('animals.create');
+Route::post('fermes/{ferme}/animals', [AnimalController::class, 'store'])->name('animals.store');
+Route::get('/api/especes/{espece}/races', [EspeceController::class, 'getRaces']);
+Route::get('/api/especes/{espece}/races', [EspeceController::class, 'getRaces']);
+Route::delete('/fermes/{ferme}', [FermeController::class, 'destroy'])->name('fermes.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -54,10 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
-
     Route::get('admin/{user}/activate', [AdminController::class, 'activate'])->name('admin.users.activate');
     Route::get('admin/{user}/deactivate', [AdminController::class, 'deactivate'])->name('admin.users.deactivate');
-
 
     Route::get('tasks', [TaskController::class, 'adminIndex'])->name('admin.taches');
     Route::get('tasks/create', [TaskController::class, 'adminCreate'])->name('admin.create_tache');
@@ -66,8 +69,6 @@ Route::middleware('auth')->group(function () {
     Route::put('tasks/{task}', [TaskController::class, 'adminUpdate'])->name('admin.tasks.update');
     Route::delete('tasks/{task}', [TaskController::class, 'adminDestroy'])->name('admin.tasks.destroy');
 });
-
-// Auth::routes(['verify' => true]);
 
 Route::get('index', [PusherController::class, 'index']);
 
@@ -92,5 +93,3 @@ Route::post('/reports/{ferme_id}', [PerformanceReportController::class, 'getPerf
 Route::get('/reports/{ferme_id}', [PerformanceReportController::class, 'index'])->name('reports.index');
 
 require __DIR__.'/auth.php';
-
-

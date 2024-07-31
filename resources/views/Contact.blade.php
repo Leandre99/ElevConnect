@@ -41,7 +41,7 @@
                                         href="{{ route('welcome') }}">Accueil</a>
                                 </li>
                                 <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
@@ -75,7 +75,7 @@
                                             href="{{ route('welcome') }}">Accueil</a>
                                     </li>
                                     <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                        <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                                     </li>
                                     <li class="nav-item px-2">
                                         <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>

@@ -4,25 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ferme extends Model
+class Ferme extends Model
 {
-        protected $fillable = [
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
         'nomferme',
-        'especes',
-        'race',
-        'agemoyen',
-        'nombre_animaux',
-        'user_id'];
+        'description',
+        'adresse',
+    ];
 
-        public function user(): BelongsTo
-        {
-            return $this->belongsTo(User::class);
-        }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-        public function races(): BelongsTo
-        {
-            return $this->belongsTo(Race::class,'race');
-        }
+    public function animaux()
+    {
+        return $this->hasMany(Animal::class);
+    }
 }

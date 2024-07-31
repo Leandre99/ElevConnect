@@ -22,8 +22,8 @@ class Task extends Model
         return $this->belongsTo(Race::class);
     }
 
-    public function completedTasks()
-    {
-        return $this->hasMany(CompletedTask::class);
-    }
+    // public function completedTasks()
+    // {
+    //     return $this->hasMany(CompletedTask::class);
+    // }
 }

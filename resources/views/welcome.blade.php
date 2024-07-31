@@ -40,7 +40,7 @@
                                     href="{{ route('welcome') }}">Accueil</a>
                             </li>
                             <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                             </li>
                             <li class="nav-item px-2">
                                 <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
@@ -64,7 +64,7 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a></li>
+                                        <li><li class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Fermeli>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
                                     </ul>
@@ -75,7 +75,7 @@
                                         href="{{ route('welcome') }}">Accueil</a>
                                 </li>
                                 <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
@@ -125,7 +125,7 @@
                         <h1 class="mt-6 mb-sm-4 fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6"><br class="d-block d-lg-block" />ElevConnect,</h1>
                         <p class="mb-4 fs-1" style="color: black;">Simplifiez votre élevage, maximisez votre
                             productivité et assurez le bien-être de chaque animal grace à des spécialistes.</p>
-                            <a class="btn btn-success mb-5" href="{{ route('Ferme-index') }}" style="cursor: pointer;">Ma ferme</a>
+                            <a class="btn btn-success mb-5" href="{{ route('Ferme') }}" style="cursor: pointer;">Ma ferme</a>
 
                     </div>
                 </div>

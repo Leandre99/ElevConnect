@@ -6,7 +6,6 @@ use App\Models\Race;
 use App\Models\Task;
 use App\Models\Ferme;
 use Illuminate\Http\Request;
-use App\Models\CompletedTask;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -115,11 +114,11 @@ class TaskController extends Controller
             'ferme_id' => 'required|exists:fermes,id',
         ]);
 
-        $completedTask = CompletedTask::create([
-            'user_id' => Auth::id(),
-            'task_id' => $request->task_id,
-            'ferme_id' => $request->ferme_id,
-        ]);
+        // $completedTask = CompletedTask::create([
+        //     'user_id' => Auth::id(),
+        //     'task_id' => $request->task_id,
+        //     'ferme_id' => $request->ferme_id,
+        // ]);
 
         return redirect()->back()->with('success', 'Task marked as completed.');
     }

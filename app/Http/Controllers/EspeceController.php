@@ -59,4 +59,9 @@ class EspeceController extends Controller
         return redirect()->route('especes.index')
             ->with('success', 'Espece deleted successfully.');
     }
+
+    public function getRaces(Espece $espece)
+    {
+        return response()->json($espece->races);
+    }
 }

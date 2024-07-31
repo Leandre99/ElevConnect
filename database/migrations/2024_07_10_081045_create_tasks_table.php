@@ -17,7 +17,6 @@ return new class extends Migration
         $table->string('nomtache');
         $table->integer('age_min')->nullable();
         $table->integer('age_max')->nullable();
-        
         $table->timestamps();
     });
 }

@@ -26,4 +26,9 @@ class Race extends Model
         {
             return $this->hasMany(ferme::class);
         }
+
+        public function animaux()
+    {
+        return $this->hasMany(Animal::class);
+    }
 }

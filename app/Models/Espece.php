@@ -14,4 +14,9 @@ class Espece extends Model
     {
         return $this->hasMany(Animal::class);
     }
+
+    public function races()
+    {
+        return $this->hasMany(Race::class);
+    }
 }
