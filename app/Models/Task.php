@@ -10,20 +10,17 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'race_id',
         'nomtache',
+        'race_id',
+        'frequence',
+        'quantite',
+        'type',
         'age_min',
-        'age_max',
-        'jour',
+        'age_max'
     ];
 
     public function race()
     {
         return $this->belongsTo(Race::class);
     }
-
-    // public function completedTasks()
-    // {
-    //     return $this->hasMany(CompletedTask::class);
-    // }
 }

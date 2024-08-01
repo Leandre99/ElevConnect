@@ -117,9 +117,14 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nom</th>
-                <th>Jour</th>
+                <th>Description</th>
+                <th>Espèce</th>
                 <th>Race</th>
+                <th>Fréquence</th>
+                <th>Quantité</th>
+                <th>Type</th>
+                <th>Âge min</th>
+                <th>Âge Max</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -128,8 +133,13 @@
             <tr>
                 <td>{{ $task->id }}</td>
                 <td>{{ $task->nomtache }}</td>
-                <td>{{ $task->jour }}</td>
+                <td>{{ $task->espece->nom }}</td> <!-- Assuming 'espece' is a relationship and 'nom' is the property of the species -->
                 <td>{{ $task->race->nomrace }}</td>
+                <td>{{ $task->frequence }}</td> <!-- Assuming 'frequence' is a property of the task -->
+                <td>{{ $task->quantite }}</td> <!-- Assuming 'quantite' is a property of the task -->
+                <td>{{ $task->type }}</td> <!-- Assuming 'type' is a property of the task -->
+                <td>{{ $task->age_min }}</td> <!-- Assuming 'age_min' is a property of the task -->
+                <td>{{ $task->age_max }}</td> <!-- Assuming 'age_max' is a property of the task -->
                 <td>
                     <a href="{{ route('admin.edit_tache', $task) }}" class="btn btn-primary btn-sm">Modifier</a>
                     <form action="{{ route('admin.tasks.destroy', $task) }}" method="POST" style="display:inline;">
@@ -142,6 +152,7 @@
             @endforeach
         </tbody>
     </table>
+
 </div>
 
 </main>

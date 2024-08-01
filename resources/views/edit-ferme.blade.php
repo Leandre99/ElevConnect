@@ -135,15 +135,13 @@
                     </div>
                     <div class="d-flex justify-content-between" style="margin-top: 20px;">
                         <button type="submit" class="btn btn-primary">Mettre à jour</button>
-
-                        <!-- Formulaire de suppression -->
-                        <form action="{{ route('fermes.destroy', $ferme->id) }}" method="POST"
-                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette ferme ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Supprimer la ferme</button>
-                        </form>
                     </div>
+                </form>
+                <form action="{{ route('fermes.destroy', $ferme->id) }}" method="POST"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette ferme ?');" style="margin-top: 20px;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
             </div>
         </section>

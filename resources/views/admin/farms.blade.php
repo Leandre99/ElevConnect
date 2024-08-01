@@ -114,11 +114,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Proprietaire</th>
                             <th>Nom</th>
-                            <th>Espèce</th>
-                            <th>Race</th>
-                            <th>Âge Moyen</th>
-                            <th>Nombre d'Animaux</th>
+                            <th>Description</th>
+                            <th>Adresse</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -126,13 +125,13 @@
                         @foreach ($farms as $farm)
                         <tr>
                             <td>{{ $farm->id }}</td>
+                            <td>{{$farm->user->name}}</td>
                             <td>{{ $farm->nomferme }}</td>
-                            <td>{{ $farm->especes }}</td>
-                            <td>{{ $farm->race }}</td>
-                            <td>{{ $farm->agemoyen }}</td>
-                            <td>{{ $farm->nombre_animaux }}</td>
+                            <td>{{ $farm->description }}</td>
+                            <td>{{ $farm->adresse }}</td>
                             <td>
-                                <a href="{{ route('admin.farms.edit', $farm) }}" class="btn btn-primary btn-sm">Modifier</a>
+                                <a href="#" style="margin:2%" class="btn btn-primary btn-sm">Accéder</a>
+                                <a href="{{ route('admin.farms.edit', $farm) }}" style="margin:2%" class="btn btn-secondary btn-sm">Modifier</a>
                                 <form action="{{ route('admin.farms.destroy', $farm) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')

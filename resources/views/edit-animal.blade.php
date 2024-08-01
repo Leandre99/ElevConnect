@@ -112,36 +112,20 @@
                 </div>
             </div>
         </nav>
-
-        <section>
 <div class="container">
-    <h1>Ajouter un Animal à la Ferme</h1>
+    <h1>Modifier l'animal</h1>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('animals.store', ['ferme' => $ferme]) }}" method="POST">
+    <form action="{{ route('animals.update', $animal->id) }}" method="POST">
         @csrf
-
+        @method('PUT')
         <div class="mb-3">
             <label for="espece" class="form-label">Espèce</label>
             <select class="form-select" id="espece" name="espece_id" required>
-                <option value="" disabled selected>Choisir une espèce</option>
-                @foreach($especes as $espece)
-                    <option value="{{ $espece->id }}">{{ $espece->nomespece }}</option>
+                <option value="" disabled>Choisir une espèce</option>
+                @foreach ($especes as $espece)
+                    <option value="{{ $espece->id }}" {{ $espece->id == $animal->espece_id ? 'selected' : '' }}>
+                        {{ $espece->nomespece }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -149,28 +133,122 @@
         <div class="mb-3">
             <label for="race" class="form-label">Race</label>
             <select class="form-select" id="race" name="race_id" required>
-                <option value="" disabled selected>Choisir une race</option>
+                <option value="" disabled>Choisir une race</option>
+                @foreach ($races as $race)
+                    <option value="{{ $race->id }}" {{ $race->id == $animal->race_id ? 'selected' : '' }}>
+                        {{ $race->nomrace }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="age" class="form-label">Âge Moyen(en semaine)</label>
-            <input type="number" class="form-control" id="age" name="age" required>
+            <label for="age" class="form-label">Âge</label>
+            <input type="number" class="form-control" id="age" name="age" value="{{ $animal->age }}" required>
         </div>
 
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="number" class="form-control" id="nombre" name="nombre" required>
+            <input type="number" class="form-control" id="nombre" name="nombre" value="{{ $animal->nombre }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
     </form>
 </div>
-</section>
 </main>
+<script>
+    document.getElementById('espece').addEventListener('change', function() {
+        const selectedSpeciesId = this.value;
+        const raceSelect = document.getElementById('race');
 
+        // Réinitialiser la liste des races
+        raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
 
+        // Remplir la liste des races en fonction de l'espèce sélectionnée
+        fetch(`/especes/${selectedSpeciesId}/races`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(race => {
+                    const option = document.createElement('option');
+                    option.value = race.id;
+                    option.textContent = race.nomrace;
+                    raceSelect.appendChild(option);
+                });
+            });
+    });
+</script>
+<script>
+    document.getElementById('especes').addEventListener('change', function() {
+        const selectedSpecies = this.value;
+        const raceSelect = document.getElementById('race');
+        // Réinitialisez la liste des races
+        raceSelect.innerHTML = '';
 
+        // Remplissez la liste des races en fonction de l'espèce sélectionnée
+        switch (selectedSpecies) {
+            case 'volailles':
+                addRaceOption('Pintade');
+                addRaceOption('Poulet de chair');
+                addRaceOption('Poule pondeuse');
+                addRaceOption('Dinde');
+                addRaceOption('Poulet locale (Bicyclette)');
+                // Ajoutez d'autres races de volailles ici
+                break;
+            case 'bovins':
+                addRaceOption('Vache');
+                addRaceOption('Taureaux');
+                addRaceOption('Veaux');
+                break;
+            case 'caprins':
+                addRaceOption('Chèvre Djallonké');
+                addRaceOption('Chèvre du Sahel')
+                break;
+            case 'ovins':
+                addRaceOption('Balibali');
+                addRaceOption('Autres');
+                break;
+            case 'porcs':
+                addRaceOption('Porc Local');
+                addRaceOption('Porc Landrace')
+                addRaceOption('Autre');
+                break;
+        }
+
+        // Fonction pour ajouter une option de race
+        function addRaceOption(raceName) {
+            const option = document.createElement('option');
+            option.value = raceName;
+            option.textContent = raceName;
+            raceSelect.appendChild(option);
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const especeSelect = document.getElementById('espece');
+        const raceSelect = document.getElementById('race');
+
+        especeSelect.addEventListener('change', function() {
+            const especeId = this.value;
+            raceSelect.innerHTML =
+            '<option value="" disabled selected>Choisir une race</option>'; // Reset races
+
+            if (especeId) {
+                fetch(`/races/${especeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(race => {
+                            const option = document.createElement('option');
+                            option.value = race.id;
+                            option.textContent = race.nomrace;
+                            raceSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching races:', error));
+            }
+        });
+    });
+</script>
 <script src="vendors/is/is.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
 <script src="assets/js/theme.js"></script>
@@ -201,34 +279,6 @@
         });
     });
 </script>
-
-<script>
-    document.getElementById('espece').addEventListener('change', function() {
-        const especeId = this.value;
-        const raceSelect = document.getElementById('race');
-
-        // Réinitialiser les options de race
-        raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
-
-        // Filtrer les races en fonction de l'espèce sélectionnée
-        fetch(`/api/especes/${especeId}/races`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur lors de la récupération des races');
-                }
-                return response.json();
-            })
-            .then(races => {
-                races.forEach(race => {
-                    const option = document.createElement('option');
-                    option.value = race.id;
-                    option.textContent = race.nomrace;
-                    raceSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Erreur:', error));
-    });
-</script>
 </body>
-</html>
 
+</html>

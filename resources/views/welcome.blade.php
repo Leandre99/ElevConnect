@@ -64,7 +64,7 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><li class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Fermeli>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
                                     </ul>

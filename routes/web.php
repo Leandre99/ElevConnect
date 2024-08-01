@@ -15,15 +15,12 @@ use App\Http\Controllers\VeterinaireController;
 use App\Http\Controllers\PerformanceReportController;
 
 Route::get('/', function () { return view('welcome');})->name('welcome');
-
 Route::get('register',function(){ return view('auth/register'); });
-
 Route::get('dashboard', function(){ return view('dashboard'); })->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('Veterinaire', [VeterinaireController::class, 'index'])->name('Veterinaire');
-
     Route::get('/fermes', [FermeController::class, 'index'])->name('Ferme');
 
 });
@@ -37,14 +34,18 @@ Route::get('/fermes/{id}/edit', [FermeController::class, 'edit'])->name('fermes.
 Route::put('/fermes/{ferme}', [FermeController::class, 'update'])->name('fermes.update');
 Route::get('fermes/{ferme}/animaux', [AnimalController::class, 'index'])->name('animals.index');
 Route::delete('fermes/{ferme}/animaux/{animal}', [AnimalController::class, 'destroy'])->name('animals.destroy');
-
-
+Route::get('races/{espece_id}', [AnimalController::class, 'getRaces'])->name('races.get');
 
 Route::get('/fermes/{ferme}/animaux/create', [AnimalController::class, 'create'])->name('animals.create');
 Route::post('fermes/{ferme}/animals', [AnimalController::class, 'store'])->name('animals.store');
 Route::get('/api/especes/{espece}/races', [EspeceController::class, 'getRaces']);
-Route::get('/api/especes/{espece}/races', [EspeceController::class, 'getRaces']);
+
 Route::delete('/fermes/{ferme}', [FermeController::class, 'destroy'])->name('fermes.destroy');
+
+Route::get('/animaux/{animal}/edit', [AnimalController::class, 'edit'])->name('animals.edit');
+Route::put('/animaux/{animal}', [AnimalController::class, 'update'])->name('animals.update');
+
+Route::get('/especes/{espece}/races', [TaskController::class, 'getRacesBySpecies']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

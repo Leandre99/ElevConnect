@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plateforme ElevConnect</title>
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link
+        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
@@ -64,9 +67,12 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.farms') }}">Dashboard
+                                                Ferme</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.users') }}">Dashboard
+                                                User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
+                                                Tâche</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -108,58 +114,177 @@
                 </div>
             </div>
         </nav>
-<div class="container mt-5">
-    <h1>Créer une Tâche</h1>
 
-    <form action="{{ route('admin.tasks.store') }}" method="POST">
-        @csrf
+        <div class="container mt-5">
+            <h1>Créer une Tâche</h1>
 
-        <div class="form-group">
-            <label for="nomtache">Nom de la Tâche</label>
-            <input type="text" class="form-control" id="nomtache" name="nomtache" required>
+            <form action="{{ route('admin.tasks.store') }}" method="POST">
+                @csrf
+
+                <div class="form-group">
+                    <label for="nomtache">Description</label>
+                    <input type="text" class="form-control" id="nomtache" name="nomtache" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="espece" class="form-label">Espèce</label>
+                    <select class="form-select" id="espece" name="espece_id" required>
+                        <option value="" disabled selected>Choisir une espèce</option>
+                        @foreach ($especes as $espece)
+                            <option value="{{ $espece->id }}">{{ $espece->nomespece }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="race_id">Race</label>
+                    <select class="form-control" id="race_id" name="race_id" required>
+                        <option value="" disabled selected>Choisir une race</option>
+                        <!-- Les options seront ajoutées dynamiquement -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="frequence">Frequence</label>
+                    <input type="string" class="form-control" id="frequence" name="frequence" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantite">Quantité</label>
+                    <input type="string" class="form-control" id="quantite" name="quantite" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <input type="string" class="form-control" id="type" name="type" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age_min">Âge Minimum</label>
+                    <input type="number" class="form-control" id="age_min" name="age_min" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age_max">Âge Maximum</label>
+                    <input type="number" class="form-control" id="age_max" name="age_max" required>
+                </div>
+
+                <button type="submit" style="margin: 2%" class="btn btn-primary">Créer</button>
+            </form>
         </div>
 
-        <div class="form-group">
-            <label for="jour">Jour</label>
-            <input type="text" class="form-control" id="jour" name="jour" required>
-        </div>
+    </main>
+    <script>
+        document.getElementById('espece').addEventListener('change', function() {
+            const selectedSpeciesId = this.value;
+            const raceSelect = document.getElementById('race');
 
-        <div class="form-group">
-            <label for="race_id">Race</label>
-            <select class="form-control" id="race_id" name="race_id" required>
-                @foreach ($races as $race)
-                <option value="{{ $race->id }}">{{ $race->nomrace }}</option>
-                @endforeach
-            </select>
-        </div>
+            // Réinitialiser la liste des races
+            raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
 
-        <div class="form-group">
-            <label for="age_min">Âge Minimum</label>
-            <input type="number" class="form-control" id="age_min" name="age_min" required>
-        </div>
+            // Remplir la liste des races en fonction de l'espèce sélectionnée
+            fetch(`/especes/${selectedSpeciesId}/races`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(race => {
+                        const option = document.createElement('option');
+                        option.value = race.id;
+                        option.textContent = race.nomrace;
+                        raceSelect.appendChild(option);
+                    });
+                });
+        });
+    </script>
+    <script>
+        document.getElementById('especes').addEventListener('change', function() {
+            const selectedSpecies = this.value;
+            const raceSelect = document.getElementById('race');
+            // Réinitialisez la liste des races
+            raceSelect.innerHTML = '';
 
-        <div class="form-group">
-            <label for="age_max">Âge Maximum</label>
-            <input type="number" class="form-control" id="age_max" name="age_max" required>
-        </div>
+            // Remplissez la liste des races en fonction de l'espèce sélectionnée
+            switch (selectedSpecies) {
+                case 'volailles':
+                    addRaceOption('Pintade');
+                    addRaceOption('Poulet de chair');
+                    addRaceOption('Poule pondeuse');
+                    addRaceOption('Dinde');
+                    addRaceOption('Poulet locale (Bicyclette)');
+                    // Ajoutez d'autres races de volailles ici
+                    break;
+                case 'bovins':
+                    addRaceOption('Vache');
+                    addRaceOption('Taureaux');
+                    addRaceOption('Veaux');
+                    break;
+                case 'caprins':
+                    addRaceOption('Chèvre Djallonké');
+                    addRaceOption('Chèvre du Sahel')
+                    break;
+                case 'ovins':
+                    addRaceOption('Balibali');
+                    addRaceOption('Autres');
+                    break;
+                case 'porcs':
+                    addRaceOption('Porc Local');
+                    addRaceOption('Porc Landrace')
+                    addRaceOption('Autre');
+                    break;
+            }
 
-        <div class="form-group">
-            <label for="jour">Jour</label>
-            <input type="jour" class="form-control" id="jour" name="jour" required>
-        </div>
+            // Fonction pour ajouter une option de race
+            function addRaceOption(raceName) {
+                const option = document.createElement('option');
+                option.value = raceName;
+                option.textContent = raceName;
+                raceSelect.appendChild(option);
+            }
+        });
+    </script>
+    <script>
+        document.getElementById('espece').addEventListener('change', function() {
+            const selectedSpeciesId = this.value;
+            const raceSelect = document.getElementById('race_id');
 
-        <button type="submit" style="margin: 2%" class="btn btn-primary">Créer</button>
-    </form>
-</div>
+            // Réinitialiser la liste des races
+            raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
 
-</main>
-<script src="vendors/is/is.min.js"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-<script src="assets/js/theme.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
+            if (selectedSpeciesId) {
+                // Utiliser AJAX pour obtenir les races pour l'espèce sélectionnée
+                fetch(`/especes/${selectedSpeciesId}/races`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Remplir la liste des races en fonction des données obtenues
+                        data.forEach(race => {
+                            const option = document.createElement('option');
+                            option.value = race.id;
+                            option.textContent = race.nomrace;
+                            raceSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                    });
+            }
+        });
+        </script>
+
+    <script src="vendors/is/is.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
+        rel="stylesheet">
 </body>
+
 </html>
-
-

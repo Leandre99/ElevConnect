@@ -37,14 +37,15 @@ class User extends Authenticatable
         return $this->hasMany(Ferme::class);
     }
 
-    public function completedTasks()
-    {
-        return $this->hasMany(CompletedTask::class);
-    }
+    // public function completedTasks()
+    // {
+    //     return $this->hasMany(CompletedTask::class);
+    // }
 
     public function performanceReports()
 {
     return $this->hasMany(PerformanceReport::class);
 }
+
 
 }

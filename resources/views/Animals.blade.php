@@ -123,71 +123,79 @@
             <h3 class="mt-4">Liste des animaux</h3>
             <ul class="list-group">
                 @foreach ($animaux as $animal)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ $animal->race->nomrace }} - {{ $animal->age }} Semaines ({{ $animal->nombre }} animaux)
-                        <form
-                            action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
-                            method="POST"
-                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                        </form>
-                    </li>
-                @endforeach
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ $animal->race->nomrace }} - {{ $animal->age }} Semaines ({{ $animal->nombre }} animaux)
+                  <div class="d-flex">
+                    <a href="{{ route('animals.edit', $animal->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                    <form
+                        action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
+                        method="POST"
+                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm ms-2">Supprimer</button>
+                    </form>
+                  </div>
+                </li>
+            @endforeach
             </ul>
 
             <!-- Modal pour ajouter un animal -->
-            <!-- Modal pour ajouter un animal -->
-<div class="modal fade" id="addAnimalModal" tabindex="-1" aria-labelledby="addAnimalModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addAnimalModalLabel">Ajouter un animal à la ferme: {{ $ferme->nomferme }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal fade" id="addAnimalModal" tabindex="-1" aria-labelledby="addAnimalModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addAnimalModalLabel">Ajouter un animal à la ferme:
+                                {{ $ferme->nomferme }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('animals.store', $ferme->id) }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <!-- Sélection de l'espèce -->
+                                <div class="mb-3">
+                                    <label for="espece" class="form-label">Espèce</label>
+                                    <select class="form-select" id="espece" name="espece_id" required>
+                                        <option value="" disabled selected>Choisir une espèce</option>
+                                        @foreach ($especes as $espece)
+                                            <option value="{{ $espece->id }}">{{ $espece->nomespece }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Sélection de la race -->
+                                <div class="mb-3">
+                                    <label for="race" class="form-label">Race</label>
+                                    <select class="form-select" id="race" name="race_id" required>
+                                        <option value="" disabled selected>Choisir une race</option>
+                                        @foreach ($races as $race)
+                                            <option value="{{ $race->id }}">{{ $race->nomrace }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Champ pour l'âge -->
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Âge</label>
+                                    <input type="number" class="form-control" id="age" name="age"
+                                        required>
+                                </div>
+                                <!-- Champ pour le nombre d'animaux -->
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="number" class="form-control" id="nombre" name="nombre"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <form action="{{ route('animals.store', $ferme->id) }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <!-- Sélection de l'espèce -->
-                    <div class="mb-3">
-                        <label for="espece" class="form-label">Espèce</label>
-                        <select class="form-select" id="espece" name="espece_id" required>
-                            <option value="" disabled selected>Choisir une espèce</option>
-                            @foreach ($especes as $espece)
-                                <option value="{{ $espece->id }}">{{ $espece->nomespece }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!-- Sélection de la race -->
-                    <div class="mb-3">
-                        <label for="race" class="form-label">Race</label>
-                        <select class="form-select" id="race" name="race_id" required>
-                            <option value="" disabled selected>Choisir une race</option>
-                            @foreach ($races as $race)
-                                <option value="{{ $race->id }}">{{ $race->nomrace }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!-- Champ pour l'âge -->
-                    <div class="mb-3">
-                        <label for="age" class="form-label">Âge</label>
-                        <input type="number" class="form-control" id="age" name="age" required>
-                    </div>
-                    <!-- Champ pour le nombre d'animaux -->
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="number" class="form-control" id="nombre" name="nombre" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
         </div>
     </main>
@@ -258,17 +266,38 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const especeSelect = document.getElementById('espece');
+            const raceSelect = document.getElementById('race');
+
+            especeSelect.addEventListener('change', function() {
+                const especeId = this.value;
+                raceSelect.innerHTML =
+                '<option value="" disabled selected>Choisir une race</option>'; // Reset races
+
+                if (especeId) {
+                    fetch(`/races/${especeId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(race => {
+                                const option = document.createElement('option');
+                                option.value = race.id;
+                                option.textContent = race.nomrace;
+                                raceSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching races:', error));
+                }
+            });
+        });
+    </script>
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="assets/js/theme.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fonction pour tronquer le texte

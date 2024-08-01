@@ -71,7 +71,8 @@
                                                 Ferme</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{ route('admin.users') }}">Dashboard
                                                 User</a></li>
-                                                <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
+                                                Tâche</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -113,28 +114,36 @@
                 </div>
             </div>
         </nav>
-        <h2>Modifier la Ferme</h2>
-        <form action="{{ route('admin.farms.update', $farm->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <label for="nomferme">Nom de la Ferme:</label>
-            <input type="text" id="nomferme" name="nomferme" value="{{ $farm->nomferme }}">
-
-            <label for="especes">Espèces:</label>
-            <input type="text" id="especes" name="especes" value="{{ $farm->especes }}">
-
-            <label for="race">Race:</label>
-            <input type="text" id="race" name="race" value="{{ $farm->race }}">
-
-            <label for="agemoyen">Âge Moyen:</label>
-            <input type="number" id="agemoyen" name="agemoyen" value="{{ $farm->agemoyen }}">
-
-            <label for="nombre_animaux">Nombre d'Animaux:</label>
-            <input type="number" id="nombre_animaux" name="nombre_animaux" value="{{ $farm->nombre_animaux }}">
-
-            <button type="submit">Mettre à jour</button>
-        </form>
-        
+        <div class="container">
+                <h1>Modifier la Ferme</h1>
+                <form action="{{ route('admin.farms.update',  $farm->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="nomferme" class="form-label">Nom de la ferme</label>
+                        <input type="text" class="form-control" id="nomferme" name="nomferme"
+                            value="{{ $farm->nomferme }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required>{{ $farm->description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse"
+                            value="{{ $farm->adresse }}" required>
+                    </div>
+                    <div class="d-flex justify-content-between" style="margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                </form>
+                <form action="{{ route('fermes.destroy', $farm->id) }}" method="POST"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette ferme ?');" style="margin-top: 20px;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
     </main>
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>

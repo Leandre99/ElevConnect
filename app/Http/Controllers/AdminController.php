@@ -63,7 +63,7 @@ class AdminController extends Controller
             $user->status = true;
             $user->save();
         }
-        return redirect()->route('admin.users')->with('success', 'Utilisateur activé avec succès.');
+        return redirect()->route('admin.users')->with('success', 'Veterinaire activé avec succès.');
     }
 
     public function deactivate($id)
@@ -73,6 +73,6 @@ class AdminController extends Controller
             $user->status = false;
             $user->save();
         }
-        return redirect()->route('admin.users')->with('success', 'Utilisateur désactivé avec succès.');
+        return redirect()->route('admin.users')->with('success', 'Veterinaire désactivé avec succès.');
     }
 }
