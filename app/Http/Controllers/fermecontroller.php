@@ -9,7 +9,8 @@ class FermeController extends Controller
 {
     public function index()
     {
-        $fermes = Ferme::all();
+        $user = auth()->user();
+        $fermes = Ferme::where('user_id', $user->id)->get();
         return view('Ferme', compact('fermes'));
     }
 

@@ -28,6 +28,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 2%">
             <div class="container-fluid">
                 <a class="navbar-brand mx-auto" href="/" style="color: rgb(115, 168, 36)">ElevConnect</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -66,11 +67,27 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="#">Dashboard Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="#">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
-                                                Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
                                     </ul>
+                                </li>
+                                @elseif (Auth::user()->role === 'Veterinaire')
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium active" style="font-weight: bold;"
+                                        href="{{ route('welcome') }}">Accueil</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                 </li>
                             @else
                                 <li class="nav-item px-2">

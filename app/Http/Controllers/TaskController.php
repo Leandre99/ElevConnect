@@ -6,31 +6,37 @@ use Carbon\Carbon;
 use App\Models\Race;
 use App\Models\Task;
 use App\Models\Ferme;
+use App\Models\Animal;
 use App\Models\Espece;
 use Illuminate\Http\Request;
+use App\Models\CompletedTask;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskController extends Controller
 {
+
     public function index($id)
     {
         $id = (int)$id;
         $ferme = Ferme::find($id);
+        if (!$ferme) {
+            return redirect()->route('fermes.index')->withErrors('Ferme non trouvée.');
+        }
+
         $createdDate = $ferme->created_at;
         $currentDate = Carbon::now();
         $daysSinceCreation = $createdDate->diffInDays($currentDate);
 
-        $race = Race::find($ferme->race);
-
+        $races = Race::whereIn('id', Animal::where('ferme_id', $id)->pluck('race_id'))->get();
         $tasks = Task::leftJoin('completed_tasks', function ($join) {
             $join->on('tasks.id', '=', 'completed_tasks.task_id')
                 ->where('completed_tasks.user_id', Auth::id());
         })->select('tasks.*', 'completed_tasks.task_id')
-            ->where('race_id', $race->id)
+            ->whereIn('race_id', $races->pluck('id'))
             ->where('jour', $daysSinceCreation)
             ->get();
-
-        return view('tasks.index', compact('tasks', 'ferme', 'race'));
+        return view('tasks.index', compact('tasks', 'ferme', 'races'));
     }
 
     public function create()
@@ -42,22 +48,26 @@ class TaskController extends Controller
     {
         $request->validate([
             'nomtache' => 'required|string',
+            'espece_id' => 'required|exists:especes,id',
             'race_id' => 'required|exists:races,id',
             'frequence' => 'nullable|integer',
             'quantite' => 'nullable|integer',
             'type' => 'nullable|string',
             'age_min' => 'nullable|integer',
             'age_max' => 'nullable|integer',
+            'jour' => 'required|integer'
         ]);
 
         Task::create([
             'nomtache' => $request->nomtache,
+            'espece_id' => $request->espece_id,
             'race_id' => $request->race_id,
             'frequence' => $request->frequence,
             'quantite' => $request->quantite,
             'type' => $request->type,
             'age_min' => $request->age_min,
             'age_max' => $request->age_max,
+            'jour' => $request->jour
         ]);
 
         return redirect()->route('tasks.index')->with('success', 'Tâche créée avec succès.');
@@ -72,22 +82,26 @@ class TaskController extends Controller
     {
         $request->validate([
             'nomtache' => 'required|string',
+            'espece_id' => 'required|exists:especes,id',
             'race_id' => 'required|exists:races,id',
             'frequence' => 'nullable|integer',
             'quantite' => 'nullable|integer',
             'type' => 'nullable|string',
             'age_min' => 'nullable|integer',
             'age_max' => 'nullable|integer',
+            'jour' => 'required|integer'
         ]);
 
         $task->update([
             'nomtache' => $request->nomtache,
+            'espece_id' => $request->espece_id,
             'race_id' => $request->race_id,
             'frequence' => $request->frequence,
             'quantite' => $request->quantite,
             'type' => $request->type,
             'age_min' => $request->age_min,
             'age_max' => $request->age_max,
+            'jour' => $request->jour
         ]);
 
         return redirect()->route('tasks.index')->with('success', 'Tâche mise à jour avec succès.');
@@ -102,14 +116,15 @@ class TaskController extends Controller
 
     public function markAsCompleted(Request $request, Task $task)
     {
-        $request->validate([
-            'task_id' => 'required|exists:tasks,id',
-            'ferme_id' => 'required|exists:fermes,id',
+
+        $userId = Auth::id();
+
+        $completedTask = CompletedTask::updateOrCreate([
+            'task_id' => $task->id,
+            'user_id' => $userId,
         ]);
-
-        return redirect()->back()->with('success', 'Tâche marquée comme complétée.');
+        return back();
     }
-
     public function adminIndex()
     {
         $tasks = Task::all();
@@ -120,29 +135,33 @@ class TaskController extends Controller
     {
         $races = Race::all();
         $especes = Espece::all();
-        return view('admin.create_tache', compact('races','especes'));
+        return view('admin.create_tache', compact('races', 'especes'));
     }
 
     public function adminStore(Request $request)
     {
         $request->validate([
             'nomtache' => 'required|string',
+            'espece_id' => 'required|exists:especes,id',
             'race_id' => 'required|exists:races,id',
             'frequence' => 'nullable|integer',
             'quantite' => 'nullable|integer',
             'type' => 'nullable|string',
             'age_min' => 'nullable|integer',
             'age_max' => 'nullable|integer',
+            'jour' => 'required|integer'
         ]);
 
         Task::create([
             'nomtache' => $request->nomtache,
+            'espece_id' => $request->espece_id,
             'race_id' => $request->race_id,
             'frequence' => $request->frequence,
             'quantite' => $request->quantite,
             'type' => $request->type,
             'age_min' => $request->age_min,
             'age_max' => $request->age_max,
+            'jour' => $request->jour
         ]);
 
         return redirect()->route('admin.taches')->with('success', 'Tâche créée avec succès.');
@@ -165,6 +184,7 @@ class TaskController extends Controller
             'type' => 'nullable|string',
             'age_min' => 'nullable|integer',
             'age_max' => 'nullable|integer',
+            'jour' => 'required|integer'
         ]);
 
         $task->update([
@@ -175,6 +195,7 @@ class TaskController extends Controller
             'type' => $request->type,
             'age_min' => $request->age_min,
             'age_max' => $request->age_max,
+            'jour' => $request->jour
         ]);
 
         return redirect()->route('admin.taches')->with('success', 'Tâche mise à jour avec succès.');
@@ -187,9 +208,8 @@ class TaskController extends Controller
         return redirect()->route('admin.taches')->with('success', 'Tâche supprimée avec succès.');
     }
     public function getRacesBySpecies($id)
-{
-    $races = Race::where('espece_id', $id)->get();
-    return response()->json($races);
-}
-
+    {
+        $races = Race::where('espece_id', $id)->get();
+        return response()->json($races);
+    }
 }

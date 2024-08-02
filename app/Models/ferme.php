@@ -25,4 +25,9 @@ class Ferme extends Model
     {
         return $this->hasMany(Animal::class);
     }
+
+    public function races()
+{
+    return $this->belongsToMany(Race::class);
+}
 }

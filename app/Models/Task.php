@@ -11,16 +11,23 @@ class Task extends Model
 
     protected $fillable = [
         'nomtache',
+        'espece_id',
         'race_id',
         'frequence',
         'quantite',
         'type',
         'age_min',
-        'age_max'
+        'age_max',
+        'jour'
     ];
 
     public function race()
     {
         return $this->belongsTo(Race::class);
+    }
+
+    public function espece()
+    {
+        return $this->belongsTo(Espece::class);
     }
 }

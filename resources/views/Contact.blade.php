@@ -62,12 +62,30 @@
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Gestion des Fermes
+                                            Gestion
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item fw-medium" href="#">Dashboard Ferme</a></li>
-                                            <li><a class="dropdown-item fw-medium" href="#">Dashboard User</a></li>
+                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
+                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
+                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
                                         </ul>
+                                    </li>
+                                    @elseif (Auth::user()->role === 'Veterinaire')
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium active" style="font-weight: bold;"
+                                            href="{{ route('welcome') }}">Accueil</a>
+                                    </li>
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
+                                    </li>
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                    </li>
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
+                                    </li>
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                     </li>
                                 @else
                                     <li class="nav-item px-2">

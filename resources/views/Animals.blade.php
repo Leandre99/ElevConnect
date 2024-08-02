@@ -12,15 +12,14 @@
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
-    <link rel="manifest" href="assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
-    <link href="assets/css/theme.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#animalsTable').DataTable();
+        });
+    </script>
 
 </head>
 
@@ -114,31 +113,103 @@
         </nav>
 
         <div class="container">
-            <h1>Animaux de la ferme: {{ $ferme->nomferme }}</h1>
+            <h1 style="padding-top: 5%">Animaux de la ferme: {{ $ferme->nomferme }}</h1>
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAnimalModal">
                 Ajouter un animal
             </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+                Signaler une maladie
+            </button>
 
-            <h3 class="mt-4">Liste des animaux</h3>
-            <ul class="list-group">
-                @foreach ($animaux as $animal)
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ $animal->race->nomrace }} - {{ $animal->age }} Semaines ({{ $animal->nombre }} animaux)
-                  <div class="d-flex">
-                    <a href="{{ route('animals.edit', $animal->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-                    <form
-                        action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
-                        method="POST"
-                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm ms-2">Supprimer</button>
-                    </form>
-                  </div>
-                </li>
-            @endforeach
-            </ul>
+            <!-- Modal -->
+            <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reportModalLabel">Signaler une maladie</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('alerts.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="description">Description du problème</label>
+                                    <textarea id="description" name="description" class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="priority">Priorité</label>
+                                    <select id="priority" name="priority" class="form-control" required>
+                                        <option value="high">Élevée</option>
+                                        <option value="medium">Moyenne</option>
+                                        <option value="low">Faible</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="media">Ajouter une photo ou une vidéo (optionnel)</label>
+                                    <input type="file" id="media" name="media" class="form-control">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Soumettre</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <h3 class="mt-4"style="padding-bottom: 2%">Liste des animaux</h3>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <table id="animalsTable" class="display table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Espèce</th>
+                                    <th>Race</th>
+                                    <th>Âge (Semaines)</th>
+                                    <th>Nombre d'animaux</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($animaux as $animal)
+                                    <tr>
+                                        <td>{{ $animal->race->espece->nomespece }}</td>
+                                        <td>{{ $animal->race->nomrace }}</td>
+                                        <td>{{ $animal->age }}</td>
+                                        <td>{{ $animal->nombre }}</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a href="{{ route('animals.edit', $animal->id) }}"
+                                                    class="btn btn-warning btn-sm me-2">Modifier</a>
+                                                <form
+                                                    action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-danger btn-sm">Supprimer</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <!-- Modal pour ajouter un animal -->
             <div class="modal fade" id="addAnimalModal" tabindex="-1" aria-labelledby="addAnimalModalLabel"
@@ -274,7 +345,7 @@
             especeSelect.addEventListener('change', function() {
                 const especeId = this.value;
                 raceSelect.innerHTML =
-                '<option value="" disabled selected>Choisir une race</option>'; // Reset races
+                    '<option value="" disabled selected>Choisir une race</option>'; // Reset races
 
                 if (especeId) {
                     fetch(`/races/${especeId}`)
@@ -295,9 +366,14 @@
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="assets/js/theme.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fonction pour tronquer le texte

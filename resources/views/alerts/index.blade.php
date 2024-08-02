@@ -2,23 +2,29 @@
 <html lang="en-US" dir="ltr">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Taches du jour</title>
-    <link
-        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <title>Plateforme ElevConnect</title>
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#animalsTable').DataTable();
+        });
+    </script>
+
 </head>
 
 <body>
-    <header>
+    <main class="main" id="top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 2%">
             <div class="container-fluid">
                 <a class="navbar-brand mx-auto" href="/" style="color: rgb(115, 168, 36)">ElevConnect</a>
@@ -58,14 +64,15 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
                                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Gestion des Fermes
+                                        Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="#">Dashboard Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="#">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
                                     </ul>
                                 </li>
-                            @elseif (Auth::user()->role === 'Veterinaire')
+                                @elseif (Auth::user()->role === 'Veterinaire')
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium active" style="font-weight: bold;"
                                         href="{{ route('welcome') }}">Accueil</a>
@@ -97,6 +104,7 @@
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                 </li>
                             @endif
+
                             <li class="nav-item dropdown mx-auto">
                                 <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -120,107 +128,103 @@
                 </div>
             </div>
         </nav>
-    </header>
 
-    <div class="container my-5">
-        <h1 class="mb-4">Tâches Journalières pour : <strong>{{ $ferme->nomferme }}</strong></h1>
+        <div class="container">
+            <h1>Alertes</h1>
+            <table id="alertsTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Priorité</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($alerts as $alert)
+                        <tr>
+                            <td>{{ $alert->priority }}</td>
+                            <td>{{ $alert->description }}</td>
+                            <td>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                    data-bs-target="#alertModal{{ $alert->id }}">
+                                    Voir les détails
+                                </button>
 
-        @if (session('message'))
-            <div class="alert alert-success mb-4">
-                {{ session('message') }}
-            </div>
-        @endif
+                                <!-- Modal -->
+                                <div class="modal fade" id="alertModal{{ $alert->id }}" tabindex="-1"
+                                    aria-labelledby="alertModalLabel{{ $alert->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="alertModalLabel{{ $alert->id }}">
+                                                    Détails de l'alerte</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Description:</strong> {{ $alert->description }}</p>
+                                                <p><strong>Priorité:</strong> {{ $alert->priority }}</p>
+                                                @if ($alert->media)
+                                                    <p><strong>Media:</strong></p>
+                                                    <a href="{{ asset('storage/' . $alert->media) }}"
+                                                        target="_blank">
+                                                        <img src="{{ asset('storage/' . $alert->media) }}"
+                                                            class="img-fluid" alt="Media">
+                                                    </a>
+                                                @endif
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="{{ route('alerts.intervene', $alert->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">Intervenir</button>
+                                                </form>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        @foreach ($races as $race)
-            <div class="card mb-4">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="card-title mb-0">Race: {{ $race->nomrace }}</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        @foreach ($tasks->where('race_id', $race->id) as $task)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ $task->nomtache }}
-                                @if ($task->task_id === null)
-                                    <form id="mark-task-form-{{ $task->id }}"
-                                        action="{{ route('tasks.mark-as-completed', $task) }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="task_id" value="{{ $task->id }}">
-                                        <input type="hidden" name="ferme_id" value="{{ $ferme->id }}">
-                                        <button type="submit" class="btn btn-success btn-sm">
-                                            <i class="bi bi-check-circle"></i> Accomplie
-                                        </button>
-                                        <img class="check-circle" src="{{ asset('assets/images/check.png') }}"
-                                            style="display: none; width: 24px;">
-                                    </form>
-                                @else
-                                    <img class="check-circle" src="{{ asset('assets/images/check.png') }}"
-                                        style="width: 24px;">
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endforeach
-    </div>
 
+        <script>
+            $(document).ready(function() {
+                $('#alertsTable').DataTable();
+            });
+        </script>
+
+        <script src="vendors/is/is.min.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+        <script src="assets/js/theme.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
+            rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                function truncateText(element, maxLength) {
+                    const text = element.textContent.trim();
+                    if (text.length > maxLength) {
+                        element.textContent = text.slice(0, maxLength) + '...';
+                    }
+                }
+
+                const descriptionElements = document.querySelectorAll('.description-truncate');
+
+
+                descriptionElements.forEach(element => {
+                    truncateText(element, 100);
+                });
+            });
+        </script>
 </body>
-<script>
-    $(document).ready(function() {
-        $('form[id^="mark-task-form"]').on('submit', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du formulaire
-
-            var form = $(this);
-            var taskId = form.find('input[name="task_id"]').val();
-
-            $.ajax({
-                method: 'PATCH', // Utiliser la méthode PATCH ou POST comme nécessaire
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function(response) {
-                    // Une fois que la tâche est marquée comme complétée, masquer le bouton et afficher l'image du check circle
-                    form.find('.mark-complete-btn').hide();
-                    form.find('.check-circle').show();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        // Intercepter la soumission du formulaire pour marquer la tâche comme complétée
-        $('form[id^="mark-task-form"]').on('submit', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du formulaire
-
-            var form = $(this);
-            var taskId = form.find('input[name="task_id"]').val();
-
-            $.ajax({
-                method: 'PATCH', // Utiliser la méthode PATCH
-                url: form.attr('action'),
-                data: form.serialize(), // Sérialiser les données du formulaire
-                success: function(response) {
-                    // Une fois que la tâche est marquée comme complétée, masquer le bouton et afficher l'image du check circle
-                    form.find('.mark-complete-btn').hide();
-                    form.find('.check-circle').show();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Erreur lors de la requête AJAX:', xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-</script>
 
 </html>

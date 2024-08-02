@@ -69,6 +69,23 @@
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
                                     </ul>
                                 </li>
+                                @elseif (Auth::user()->role === 'Veterinaire')
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium active" style="font-weight: bold;"
+                                        href="{{ route('welcome') }}">Accueil</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
+                                </li>
                             @else
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium active" style="font-weight: bold;"
@@ -428,21 +445,21 @@
                     </div><br>
 
                     <div class="col-md-4 col-lg-4 col-sm-4">
-                        <div class="card bg-success">
-                            <div class="card-body p-sm-4">
-                                <h5 class="text-white">ElevConnect</h5>
-                                <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
-                                <button class="btn btn-light text-success w-100" type="button">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <i class="agrikon-icon-email"></i>
-                                            <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
-                                        </li>
-                                    </ul>
-                                </button>
-                            </div>
+                    <div class="card bg-success">
+                        <div class="card-body p-sm-4">
+                            <h5 style="color:black;">ElevConnect</h5>
+                            <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
+                            <p>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <i class="agrikon-icon-email"></i>
+                                        <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
+                                    </li>
+                                </ul>
+                            </p>
                         </div>
                     </div>
+                </div>
                 </div><br>
             </div>
         </footer>

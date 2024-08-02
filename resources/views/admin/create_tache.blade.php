@@ -145,19 +145,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="frequence">Frequence</label>
-                    <input type="string" class="form-control" id="frequence" name="frequence" required>
+                    <label for="frequence">Frequence (En jours)</label>
+                    <input type="number" class="form-control" id="frequence" name="frequence" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="quantite">Quantité</label>
-                    <input type="string" class="form-control" id="quantite" name="quantite" required>
+                    <label for="quantite">Quantité (En g)</label>
+                    <input type="number" class="form-control" id="quantite" name="quantite" required>
                 </div>
 
                 <div class="form-group">
                     <label for="type">Type</label>
-                    <input type="string" class="form-control" id="type" name="type" required>
+                    <select class="form-select" id="type" name="type" required>
+                        <option value="" disabled selected>Choisir un type</option>
+                        <option value="Alimentation">Alimentation</option>
+                        <option value="Soins">Soins</option>
+                        <option value="Environnement">Environnement</option>
+                    </select>
                 </div>
+
 
                 <div class="form-group">
                     <label for="age_min">Âge Minimum</label>
@@ -167,6 +173,11 @@
                 <div class="form-group">
                     <label for="age_max">Âge Maximum</label>
                     <input type="number" class="form-control" id="age_max" name="age_max" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jour">Jour</label>
+                    <input type="number" class="form-control" id="jour" name="jour" required>
                 </div>
 
                 <button type="submit" style="margin: 2%" class="btn btn-primary">Créer</button>
@@ -246,11 +257,9 @@
             const selectedSpeciesId = this.value;
             const raceSelect = document.getElementById('race_id');
 
-            // Réinitialiser la liste des races
             raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
 
             if (selectedSpeciesId) {
-                // Utiliser AJAX pour obtenir les races pour l'espèce sélectionnée
                 fetch(`/especes/${selectedSpeciesId}/races`)
                     .then(response => {
                         if (!response.ok) {
@@ -259,7 +268,6 @@
                         return response.json();
                     })
                     .then(data => {
-                        // Remplir la liste des races en fonction des données obtenues
                         data.forEach(race => {
                             const option = document.createElement('option');
                             option.value = race.id;

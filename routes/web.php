@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\formcontroller;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\FermeController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\EspeceController;
@@ -12,17 +13,26 @@ use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VeterinaireController;
+use App\Http\Controllers\CompletedTaskController;
 use App\Http\Controllers\PerformanceReportController;
 
-Route::get('/', function () { return view('welcome');})->name('welcome');
-Route::get('register',function(){ return view('auth/register'); });
-Route::get('dashboard', function(){ return view('dashboard'); })->name('dashboard');
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
+Route::get('register', function () {
+    return view('auth/register');
+});
+
+Route::get('dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('Veterinaire', [VeterinaireController::class, 'index'])->name('Veterinaire');
-    Route::get('/fermes', [FermeController::class, 'index'])->name('Ferme');
 
+    Route::get('/fermes', [FermeController::class, 'index'])->name('Ferme');
 });
 
 Route::get('Contact', [FormController::class, 'showContactForm'])->name('Contact');
@@ -30,31 +40,44 @@ Route::get('Contact', [FormController::class, 'showContactForm'])->name('Contact
 Route::post('form', [FormController::class, 'store'])->name('form');
 
 Route::POST('ferme', [FermeController::class, 'store'])->name('ferme');
+
 Route::get('/fermes/{id}/edit', [FermeController::class, 'edit'])->name('fermes.edit');
+
 Route::put('/fermes/{ferme}', [FermeController::class, 'update'])->name('fermes.update');
+
 Route::get('fermes/{ferme}/animaux', [AnimalController::class, 'index'])->name('animals.index');
+
 Route::delete('fermes/{ferme}/animaux/{animal}', [AnimalController::class, 'destroy'])->name('animals.destroy');
+
 Route::get('races/{espece_id}', [AnimalController::class, 'getRaces'])->name('races.get');
 
 Route::get('/fermes/{ferme}/animaux/create', [AnimalController::class, 'create'])->name('animals.create');
+
 Route::post('fermes/{ferme}/animals', [AnimalController::class, 'store'])->name('animals.store');
+
 Route::get('/api/especes/{espece}/races', [EspeceController::class, 'getRaces']);
 
 Route::delete('/fermes/{ferme}', [FermeController::class, 'destroy'])->name('fermes.destroy');
 
 Route::get('/animaux/{animal}/edit', [AnimalController::class, 'edit'])->name('animals.edit');
+
 Route::put('/animaux/{animal}', [AnimalController::class, 'update'])->name('animals.update');
 
 Route::get('/especes/{espece}/races', [TaskController::class, 'getRacesBySpecies']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/admin/farms', [AdminController::class, 'indexFarms'])->name('admin.farms');
+
     Route::get('/admin/users', [AdminController::class, 'indexUsers'])->name('admin.users');
+
     Route::get('/admin/farms/{farm}/edit', [AdminController::class, 'editFarm'])->name('admin.farms.edit');
+
     Route::put('/admin/farms/{farm}', [AdminController::class, 'updateFarm'])->name('admin.farms.update');
     Route::delete('/admin/farms/{farm}', [AdminController::class, 'destroyFarm'])->name('admin.farms.destroy');
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
@@ -79,11 +102,11 @@ Route::post('receive', [PusherController::class, 'receive']);
 
 Route::get('tasks/{id}', [TaskController::class, 'index'])->name('tasks.index');
 
-Route::patch('tasks', [TaskController::class, 'markAsCompleted'])->name('tasks.markAsCompleted');
+// Route::patch('tasks', [TaskController::class, 'markAsCompleted'])->name('tasks.markAsCompleted');
 
-Route::patch('/tasks/{task}/mark-as-completed', 'TaskController@markAsCompleted')->name('tasks.mark-as-completed');
+// Route::patch('/tasks/{task}/mark-as-completed', 'TaskController@markAsCompleted')->name('tasks.mark-as-completed');
 
-Route::post('/tasks/{task}/mark-as-completed', [TaskController::class, 'markAsCompleted'])->name('tasks.mark-as-completed');
+// Route::post('/tasks/{task}/mark-as-completed', [TaskController::class, 'markAsCompleted'])->name('tasks.mark-as-completed');
 
 // Route::post('/reports/generate', [PerformanceReportController::class, 'generateWeeklyReport'])->name('reports.generate');
 
@@ -93,4 +116,16 @@ Route::post('/reports/{ferme_id}', [PerformanceReportController::class, 'getPerf
 
 Route::get('/reports/{ferme_id}', [PerformanceReportController::class, 'index'])->name('reports.index');
 
-require __DIR__.'/auth.php';
+Route::patch('tasks/{task}/mark-as-completed', [TaskController::class, 'markAsCompleted'])->name('tasks.mark-as-completed');
+
+Route::resource('completed_tasks', CompletedTaskController::class);
+
+Route::post('alerts/store', [AlertController::class, 'store'])->name('alerts.store');
+
+Route::post('alerts/{alert}/intervene', [AlertController::class, 'intervene'])->name('alerts.intervene');
+
+Route::middleware(['veterinaire'])->group(function () {
+    Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
+});
+
+require __DIR__ . '/auth.php';
