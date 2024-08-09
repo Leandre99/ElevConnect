@@ -6,7 +6,10 @@ use App\Models\Ferme;
 use App\Models\Animal;
 use App\Models\Espece;
 use App\Models\Race;
+use App\Models\Tache;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnimalController extends Controller
 {
@@ -115,5 +118,40 @@ class AnimalController extends Controller
         }
 
         return redirect()->route('animals.index', $ferme)->with('success', 'Animal mis à jour avec succès.');
+    }
+
+    public function createTaskForAnimal($ferme_id, $animal_id)
+    {
+        $ferme = Ferme::find($ferme_id);
+        $animal = Animal::find($animal_id);
+        $race = Race::find($animal->race_id);
+
+        $variable = Task::where('race_id', $race->id)
+            ->where('age_min', '<=', $animal->age)
+            ->where('age_max', '>=', $animal->age)->get();
+
+
+        foreach ($variable as $value) {
+            if ($value->frequence == 1) {
+                for ($i = $value->frequence; $i <= 7; $i++) {
+                    $tache = new Tache();
+                    $tache->race_id = $animal->id;
+                    $tache->ferme_id = $ferme->id;
+                    $tache->task_id = $value->id;
+                    $tache->nomtache = $value->nomtache;
+                    $tache->quantite = $value->quantite;
+                    $tache->user_id = Auth::id();
+                    $tache->status = 0;
+                    $tache->type = $value->type;
+                    $tache->affichage_date = date('Y-m-d', strtotime($ferme->expired_date . '+'.$i.' days'));
+                    $tache->save();
+                }
+            }
+            else{
+
+            }
+        }
+        $ferme->expired_date =  date('Y-m-d', strtotime($ferme->expired_date . '+7 days'));
+        $ferme->save();
     }
 }

@@ -122,7 +122,7 @@
                 Signaler une maladie
             </button>
 
-            <!-- Modal -->
+            <!-- Modal maldie-->
             <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -156,16 +156,17 @@
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Annuler</button>
                                 <button type="submit" class="btn btn-primary">Soumettre</button>
+                                @if (session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+
             <h3 class="mt-4"style="padding-bottom: 2%">Liste des animaux</h3>
 
             <div class="container">
@@ -247,7 +248,7 @@
                                 </div>
                                 <!-- Champ pour l'âge -->
                                 <div class="mb-3">
-                                    <label for="age" class="form-label">Âge</label>
+                                    <label for="age" class="form-label">Âge Moyen (En semaine)</label>
                                     <input type="number" class="form-control" id="age" name="age"
                                         required>
                                 </div>

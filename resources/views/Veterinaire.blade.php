@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plateforme ElevConnect</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="/chat.css">
@@ -60,12 +63,16 @@
                                             Gestion
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                            <li><a class="dropdown-item fw-medium"
+                                                    href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                            <li>
+                                            <li><a class="dropdown-item fw-medium"
+                                                    href="{{ route('admin.users') }}">Dashboard User</a></li>
+                                            <li><a class="dropdown-item fw-medium"
+                                                    href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
                                         </ul>
                                     </li>
-                                    @elseif (Auth::user()->role === 'Veterinaire')
+                                @elseif (Auth::user()->role === 'Veterinaire')
                                     <li class="nav-item px-2">
                                         <a class="nav-link fw-medium active" style="font-weight: bold;"
                                             href="{{ route('welcome') }}">Accueil</a>
@@ -99,12 +106,14 @@
                                 @endif
 
                                 <li class="nav-item dropdown mx-auto">
-                                    <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
-                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle fw-medium" href="#"
+                                        id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         {{ Auth::user()->name }}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('profile.edit') }}">Profil</a>
                                         </li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
@@ -237,9 +246,7 @@
         </div>
     </footer>
     <script src="vendors/is/is.min.js">
-        < script / >
-            <
-            script src = "https://polyfill.io/v3/polyfill.min.js?features=window.scroll" >
+        < script src = "https://polyfill.io/v3/polyfill.min.js?features=window.scroll" >
     </script>
     <link href ="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

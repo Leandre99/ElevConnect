@@ -10,6 +10,7 @@ use App\Models\Animal;
 use App\Models\Espece;
 use Illuminate\Http\Request;
 use App\Models\CompletedTask;
+use App\Models\Tache;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -29,13 +30,17 @@ class TaskController extends Controller
         $daysSinceCreation = $createdDate->diffInDays($currentDate);
 
         $races = Race::whereIn('id', Animal::where('ferme_id', $id)->pluck('race_id'))->get();
-        $tasks = Task::leftJoin('completed_tasks', function ($join) {
-            $join->on('tasks.id', '=', 'completed_tasks.task_id')
-                ->where('completed_tasks.user_id', Auth::id());
-        })->select('tasks.*', 'completed_tasks.task_id')
-            ->whereIn('race_id', $races->pluck('id'))
-            ->where('jour', $daysSinceCreation)
-            ->get();
+        $races = Animal::where('ferme_id', $id)->with(['race'])->get();
+        // $tasks = Task::leftJoin('completed_tasks', function ($join) {
+        //     $join->on('tasks.id', '=', 'completed_tasks.task_id')
+        //         ->where('completed_tasks.user_id', Auth::id());
+        // })->select('tasks.*', 'completed_tasks.task_id')
+        //     ->whereIn('race_id', $races->pluck('id'))
+        //     ->where('jour', $daysSinceCreation)
+        //     ->get();
+
+        $tasks = Tache::where('affichage_date', date('Y-m-d'))->get();
+
         return view('tasks.index', compact('tasks', 'ferme', 'races'));
     }
 
@@ -114,15 +119,15 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Tâche supprimée avec succès.');
     }
 
-    public function markAsCompleted(Request $request, Task $task)
+    public function markAsCompleted(Request $request, Tache $task)
     {
+        $completedTask = Tache::where('id', $task->id)->update(['status' => 1]);
 
-        $userId = Auth::id();
 
-        $completedTask = CompletedTask::updateOrCreate([
-            'task_id' => $task->id,
-            'user_id' => $userId,
-        ]);
+        // $completedTask = CompletedTask::updateOrCreate([
+        //     'task_id' => $task->id,
+        //     'user_id' => $userId,
+        // ]);
         return back();
     }
     public function adminIndex()

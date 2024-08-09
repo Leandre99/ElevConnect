@@ -15,10 +15,17 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#animalsTable').DataTable();
-        });
+    <script src="https://meet.jit.si/external_api.js"></script>
+    <!-- Inclure DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+
+<!-- Inclure DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#alertsTable').DataTable();
+    });
     </script>
 
 </head>
@@ -67,12 +74,16 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.farms') }}">Dashboard
+                                                Ferme</a>
+                                        <li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.users') }}">Dashboard
+                                                User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
+                                                Tâche</a></li>
                                     </ul>
                                 </li>
-                                @elseif (Auth::user()->role === 'Veterinaire')
+                            @elseif (Auth::user()->role === 'Veterinaire')
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium active" style="font-weight: bold;"
                                         href="{{ route('welcome') }}">Accueil</a>
@@ -166,19 +177,56 @@
                                                 <p><strong>Priorité:</strong> {{ $alert->priority }}</p>
                                                 @if ($alert->media)
                                                     <p><strong>Media:</strong></p>
-                                                    <a href="{{ asset('storage/' . $alert->media) }}"
-                                                        target="_blank">
-                                                        <img src="{{ asset('storage/' . $alert->media) }}"
-                                                            class="img-fluid" alt="Media">
+                                                    <a href="{{ asset('storage/' . $alert->media) }}" target="_blank">
+                                                        <img src="{{ asset('storage/' . $alert->media) }}" class="img-fluid"
+                                                            alt="Media">
                                                     </a>
                                                 @endif
                                             </div>
                                             <div class="modal-footer">
-                                                <form action="{{ route('alerts.intervene', $alert->id) }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-primary">Intervenir</button>
-                                                </form>
-                                            </div>  
+                                                <!-- Bouton Intervenir -->
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#planMeetingModal{{ $alert->id }}"
+                                                    data-alerte-id="{{ $alert->id }}">
+                                                    Intervenir
+                                                </button>
+
+                                                <!-- Modal pour Planifier la Réunion -->
+                                                <div class="modal fade" id="planMeetingModal{{ $alert->id }}"
+                                                    tabindex="-1" aria-labelledby="planMeetingModalLabel{{ $alert->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="planMeetingModalLabel{{ $alert->id }}">
+                                                                    Planifier une Réunion</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form id="planMeetingForm{{ $alert->id }}"
+                                                                action="{{ route('meeting.schedule') }}" method="POST">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="meetingDate{{ $alert->id }}"
+                                                                            class="form-label">Date et Heure de la Réunion</label>
+                                                                        <input type="datetime-local" class="form-control"
+                                                                            id="meetingDate{{ $alert->id }}"
+                                                                            name="meetingDate" required>
+                                                                    </div>
+                                                                    <input type="hidden" name="alert_id" value="{{ $alert->id }}">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Annuler</button>
+                                                                    <button type="submit" class="btn btn-primary">Planifier</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -191,8 +239,33 @@
 
 
         <script>
-            $(document).ready(function() {
-                $('#alertsTable').DataTable();
+            function startJitsiMeeting(meetingName) {
+                const domain = 'meet.jit.si';
+                const options = {
+                    roomName: meetingName,
+                    width: '100%',
+                    height: 500,
+                    parentNode: document.querySelector('#jitsi-container'),
+                };
+                const api = new JitsiMeetExternalAPI(domain, options);
+            }
+
+            // Ouvre le modal avec la réunion Jitsi
+            function openJitsiModal(meetingName) {
+                startJitsiMeeting(meetingName);
+                $('#jitsiModal').modal('show');
+            }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+                    button.addEventListener('click', function() {
+                        var alerteId = this.getAttribute('data-alerte-id');
+                        var modalId = '#planMeetingModal' + alerteId;
+                        var modal = new bootstrap.Modal(document.querySelector(modalId));
+                        modal.show();
+                    });
+                });
             });
         </script>
 
@@ -225,6 +298,9 @@
                 });
             });
         </script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

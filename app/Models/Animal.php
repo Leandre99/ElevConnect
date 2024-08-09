@@ -28,4 +28,9 @@ class Animal extends Model
     {
         return $this->belongsTo(Ferme::class);
     }
+
+    public function tache()
+    {
+        return $this->hasMany(Tache::class);
+    }
 }

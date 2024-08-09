@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Tache extends Model
+{
+    use HasFactory;
+    protected $table = 'tache';
+    protected $fillable = [
+        'nomtache', 'race_id', 'quantite', 'type', 'user_id', 'status', 'task_id', 'ferme_id', 'affichage_date','expired_date'
+    ];
+
+    public function race()
+    {
+        return $this->belongsTo(Race::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
+    public function animal()
+        {
+            return $this->belongsTo(Animal::class);
+        }
+
+}

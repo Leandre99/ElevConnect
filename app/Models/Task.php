@@ -18,7 +18,8 @@ class Task extends Model
         'type',
         'age_min',
         'age_max',
-        'jour'
+        'jour',
+        'expired_date'
     ];
 
     public function race()
@@ -30,4 +31,10 @@ class Task extends Model
     {
         return $this->belongsTo(Espece::class);
     }
+
+    public function tache()
+{
+    return $this->hasMany(Tache::class);
+}
+
 }

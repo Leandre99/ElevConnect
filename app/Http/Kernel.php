@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\AdminMiddleware::class,
         'veterinaire' => \App\Http\Middleware\CheckVeterinaire::class,
     ];
+    
 
 }

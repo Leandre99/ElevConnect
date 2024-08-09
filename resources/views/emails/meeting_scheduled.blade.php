@@ -10,9 +10,9 @@
     <h1>Consultation vétérinaire planifiée</h1>
     <p>Bonjour,</p>
     <p>Votre alerte pour l'animal a été prise en compte. Une consultation a été planifiée :</p>
-    <p><strong>Description :</strong> {{ $alert->description }}</p>
-    <p><strong>Date et heure :</strong> {{ $meetingDateTime }}</p>
-    <p>Voici le lien pour rejoindre la réunion Google Meet : <a href="{{ $meetingLink }}">{{ $meetingLink }}</a></p>
+    <p><strong>Date et Heure :</strong> {{ \Carbon\Carbon::parse($meetingDate)->format('d/m/Y H:i') }}</p>
+    {{-- <p><strong>Date et heure :</strong> {{ $meetingDateTime }}</p> --}}
+    <p>Voici le lien pour rejoindre la réunion Google Meet : <a href="{{ $meetingUrl }}">{{ $meetingUrl}}</a></p>
     <p>Merci,</p>
     <p>Votre équipe vétérinaire</p>
 </body>

@@ -11,8 +11,10 @@ use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\EspeceController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VeterinaireController;
+use App\Http\Controllers\InterventionController;
 use App\Http\Controllers\CompletedTaskController;
 use App\Http\Controllers\PerformanceReportController;
 
@@ -127,5 +129,12 @@ Route::post('alerts/{alert}/intervene', [AlertController::class, 'intervene'])->
 Route::middleware(['veterinaire'])->group(function () {
     Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
 });
+
+Route::get('ferme/{ferme_id}/animal/{animal_id}',[AnimalController::class, 'createTaskForAnimal'])->name('generatetache');
+
+Route::get('/intervenir/{id}', [InterventionController::class, 'intervenir'])->name('intervenir');
+
+Route::post('/meeting/schedule', [MeetingController::class, 'schedule'])->name('meeting.schedule');
+
 
 require __DIR__ . '/auth.php';

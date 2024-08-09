@@ -9,4 +9,8 @@ class Alert extends Model
 {
     use HasFactory;
     protected $fillable = ['description', 'priority', 'media', 'user_id'];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

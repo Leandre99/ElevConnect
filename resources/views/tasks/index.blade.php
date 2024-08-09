@@ -134,14 +134,14 @@
         @foreach ($races as $race)
             <div class="card mb-4">
                 <div class="card-header bg-secondary text-white">
-                    <h5 class="card-title mb-0">Race: {{ $race->nomrace }}</h5>
+                    <h5 class="card-title mb-0">Race: {{ $race->race->nomrace }}</h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
                         @foreach ($tasks->where('race_id', $race->id) as $task)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 {{ $task->nomtache }}
-                                @if ($task->task_id === null)
+                                @if ($task->status == 0)
                                     <form id="mark-task-form-{{ $task->id }}"
                                         action="{{ route('tasks.mark-as-completed', $task) }}" method="POST"
                                         style="display: inline;">
