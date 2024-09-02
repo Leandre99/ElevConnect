@@ -122,7 +122,6 @@
                 Signaler une maladie
             </button>
 
-            <!-- Modal maldie-->
             <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -212,7 +211,6 @@
                 </div>
             </div>
 
-            <!-- Modal pour ajouter un animal -->
             <div class="modal fade" id="addAnimalModal" tabindex="-1" aria-labelledby="addAnimalModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -226,7 +224,7 @@
                         <form action="{{ route('animals.store', $ferme->id) }}" method="POST">
                             @csrf
                             <div class="modal-body">
-                                <!-- Sélection de l'espèce -->
+
                                 <div class="mb-3">
                                     <label for="espece" class="form-label">Espèce</label>
                                     <select class="form-select" id="espece" name="espece_id" required>
@@ -236,7 +234,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <!-- Sélection de la race -->
+
                                 <div class="mb-3">
                                     <label for="race" class="form-label">Race</label>
                                     <select class="form-select" id="race" name="race_id" required>
@@ -246,13 +244,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <!-- Champ pour l'âge -->
+
                                 <div class="mb-3">
                                     <label for="age" class="form-label">Âge Moyen (En semaine)</label>
                                     <input type="number" class="form-control" id="age" name="age"
                                         required>
                                 </div>
-                                <!-- Champ pour le nombre d'animaux -->
+
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
                                     <input type="number" class="form-control" id="nombre" name="nombre"
@@ -270,8 +268,9 @@
             </div>
 
         </div>
+
     </main>
-    <script>
+    {{-- <script>
         document.getElementById('espece').addEventListener('change', function() {
             const selectedSpeciesId = this.value;
             const raceSelect = document.getElementById('race');
@@ -291,7 +290,7 @@
                     });
                 });
         });
-    </script>
+    </script> --}}
     <script>
         document.getElementById('especes').addEventListener('change', function() {
             const selectedSpecies = this.value;
@@ -307,7 +306,6 @@
                     addRaceOption('Poule pondeuse');
                     addRaceOption('Dinde');
                     addRaceOption('Poulet locale (Bicyclette)');
-                    // Ajoutez d'autres races de volailles ici
                     break;
                 case 'bovins':
                     addRaceOption('Vache');
@@ -320,12 +318,10 @@
                     break;
                 case 'ovins':
                     addRaceOption('Balibali');
-                    addRaceOption('Autres');
                     break;
                 case 'porcs':
                     addRaceOption('Porc Local');
                     addRaceOption('Porc Landrace')
-                    addRaceOption('Autre');
                     break;
             }
 
@@ -346,7 +342,7 @@
             especeSelect.addEventListener('change', function() {
                 const especeId = this.value;
                 raceSelect.innerHTML =
-                    '<option value="" disabled selected>Choisir une race</option>'; // Reset races
+                    '<option value="" disabled selected>Choisir une race</option>';
 
                 if (especeId) {
                     fetch(`/races/${especeId}`)
@@ -367,17 +363,13 @@
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="assets/js/theme.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fonction pour tronquer le texte
             function truncateText(element, maxLength) {
                 const text = element.textContent.trim();
                 if (text.length > maxLength) {
@@ -385,12 +377,10 @@
                 }
             }
 
-            // Sélectionner tous les éléments avec la classe 'description-truncate'
             const descriptionElements = document.querySelectorAll('.description-truncate');
 
-            // Limiter le texte de chaque élément à 100 caractères
             descriptionElements.forEach(element => {
-                truncateText(element, 100); // Limiter à 100 caractères
+                truncateText(element, 100);
             });
         });
     </script>

@@ -161,10 +161,8 @@
         const selectedSpeciesId = this.value;
         const raceSelect = document.getElementById('race');
 
-        // Réinitialiser la liste des races
         raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
 
-        // Remplir la liste des races en fonction de l'espèce sélectionnée
         fetch(`/especes/${selectedSpeciesId}/races`)
             .then(response => response.json())
             .then(data => {
@@ -181,10 +179,8 @@
     document.getElementById('especes').addEventListener('change', function() {
         const selectedSpecies = this.value;
         const raceSelect = document.getElementById('race');
-        // Réinitialisez la liste des races
         raceSelect.innerHTML = '';
 
-        // Remplissez la liste des races en fonction de l'espèce sélectionnée
         switch (selectedSpecies) {
             case 'volailles':
                 addRaceOption('Pintade');
@@ -192,7 +188,6 @@
                 addRaceOption('Poule pondeuse');
                 addRaceOption('Dinde');
                 addRaceOption('Poulet locale (Bicyclette)');
-                // Ajoutez d'autres races de volailles ici
                 break;
             case 'bovins':
                 addRaceOption('Vache');
@@ -214,7 +209,6 @@
                 break;
         }
 
-        // Fonction pour ajouter une option de race
         function addRaceOption(raceName) {
             const option = document.createElement('option');
             option.value = raceName;
@@ -262,7 +256,6 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Fonction pour tronquer le texte
         function truncateText(element, maxLength) {
             const text = element.textContent.trim();
             if (text.length > maxLength) {
@@ -270,12 +263,10 @@
             }
         }
 
-        // Sélectionner tous les éléments avec la classe 'description-truncate'
         const descriptionElements = document.querySelectorAll('.description-truncate');
 
-        // Limiter le texte de chaque élément à 100 caractères
         descriptionElements.forEach(element => {
-            truncateText(element, 100); // Limiter à 100 caractères
+            truncateText(element, 100);
         });
     });
 </script>

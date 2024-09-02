@@ -425,10 +425,7 @@
         document.getElementById('especes').addEventListener('change', function() {
             const selectedSpecies = this.value;
             const raceSelect = document.getElementById('race');
-            // Réinitialisez la liste des races
             raceSelect.innerHTML = '';
-
-            // Remplissez la liste des races en fonction de l'espèce sélectionnée
             switch (selectedSpecies) {
                 case 'volailles':
                     addRaceOption('Pintade');
@@ -436,7 +433,6 @@
                     addRaceOption('Poule pondeuse');
                     addRaceOption('Dinde');
                     addRaceOption('Poulet locale (Bicyclette)');
-                    // Ajoutez d'autres races de volailles ici
                     break;
                 case 'bovins':
                     addRaceOption('Vache');
@@ -480,20 +476,15 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fonction pour tronquer le texte
             function truncateText(element, maxLength) {
                 const text = element.textContent.trim();
                 if (text.length > maxLength) {
                     element.textContent = text.slice(0, maxLength) + '...';
                 }
             }
-
-            // Sélectionner tous les éléments avec la classe 'description-truncate'
             const descriptionElements = document.querySelectorAll('.description-truncate');
-
-            // Limiter le texte de chaque élément à 100 caractères
             descriptionElements.forEach(element => {
-                truncateText(element, 100); // Limiter à 100 caractères
+                truncateText(element, 100);
             });
         });
     </script>

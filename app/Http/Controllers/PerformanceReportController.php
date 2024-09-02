@@ -126,10 +126,10 @@ class PerformanceReportController extends Controller
         // // Récupérer toutes les tâches pertinentes pour les races de l'utilisateur
         // $tasks = Task::whereIn('race_id', $races)->get();
 
-        // $totalTasks = $tasks->count(); // Nombre total de tâches spécifiques à la race
+        // $totalTasks = $tasks->count();
 
 
-        $averageAgeWeeks = 8; // Mettre à jour en fonction de votre application
+        $averageAgeWeeks = 8;
         $speciesDuration = [
             'Vache' => 52,
             'Taureaux' => 52,

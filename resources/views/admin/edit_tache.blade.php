@@ -169,7 +169,7 @@
 
             <div class="col-md-4">
                 <div class="form-floating">
-                    <input type="number" class="form-control" id="quantite" name="quantite" value="{{ $task->quantite }}" required>
+                    <input type="text" class="form-control" id="quantite" name="quantite" value="{{ $task->quantite }}" required>
                     <label for="quantite">Quantité</label>
                 </div>
             </div>

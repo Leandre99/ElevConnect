@@ -40,7 +40,6 @@ class TaskController extends Controller
         //     ->get();
 
         $tasks = Tache::where('affichage_date', date('Y-m-d'))->get();
-
         return view('tasks.index', compact('tasks', 'ferme', 'races'));
     }
 
@@ -119,16 +118,26 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Tâche supprimée avec succès.');
     }
 
+    // public function markAsCompleted(Request $request, Tache $task)
+    // {
+    //     $completedTask = Tache::where('id', $task->id)->update(['status' => 1]);
+
+    // $completedTask = CompletedTask::updateOrCreate([
+    //     'task_id' => $task->id,
+    //     'user_id' => $userId,
+    // ]);
+    //     return back();
+    // }
+
     public function markAsCompleted(Request $request, Tache $task)
     {
-        $completedTask = Tache::where('id', $task->id)->update(['status' => 1]);
+        $tache = Tache::find($task->id);
 
-
-        // $completedTask = CompletedTask::updateOrCreate([
-        //     'task_id' => $task->id,
-        //     'user_id' => $userId,
-        // ]);
-        return back();
+        if ($tache) {
+            $tache->status = 1;
+            $tache->save();
+            return back()->with('success', 'Tâche marquée comme complétée.');
+        }
     }
     public function adminIndex()
     {
@@ -202,7 +211,6 @@ class TaskController extends Controller
             'age_max' => $request->age_max,
             'jour' => $request->jour
         ]);
-
         return redirect()->route('admin.taches')->with('success', 'Tâche mise à jour avec succès.');
     }
 

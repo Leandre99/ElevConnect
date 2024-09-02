@@ -162,20 +162,15 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fonction pour tronquer le texte
             function truncateText(element, maxLength) {
                 const text = element.textContent.trim();
                 if (text.length > maxLength) {
                     element.textContent = text.slice(0, maxLength) + '...';
                 }
             }
-
-            // Sélectionner tous les éléments avec la classe 'description-truncate'
             const descriptionElements = document.querySelectorAll('.description-truncate');
-
-            // Limiter le texte de chaque élément à 100 caractères
             descriptionElements.forEach(element => {
-                truncateText(element, 100); // Limiter à 100 caractères
+                truncateText(element, 100);
             });
         });
     </script>

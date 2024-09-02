@@ -32,5 +32,7 @@ class Tache extends Model
         {
             return $this->belongsTo(Animal::class);
         }
-
+        protected $casts = [
+            'quantite' => 'string',
+        ];
 }

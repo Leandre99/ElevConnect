@@ -21,6 +21,18 @@
     <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -120,7 +132,7 @@
 
             <a href="{{ route('admin.create_tache') }}" class="btn btn-primary mb-3">Créer une Tâche</a>
 
-            <table class="table table-bordered">
+            <table id="example" class="display">
                 <thead>
                     <tr>
                         <th>ID</th>

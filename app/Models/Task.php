@@ -22,6 +22,7 @@ class Task extends Model
         'expired_date'
     ];
 
+    public $timestamps = true;
     public function race()
     {
         return $this->belongsTo(Race::class);

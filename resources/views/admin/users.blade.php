@@ -18,6 +18,18 @@
     <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
     <link href="assets/css/theme.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -110,7 +122,7 @@
         </nav>
             <div class="container">
                 <h1>Liste des Utilisateurs</h1>
-                <table class="table table-bordered">
+                <table id="example" class="display">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -149,7 +161,6 @@
                     </tbody>
                 </table>
             </div>
-            
         </main>
         <script src="vendors/is/is.min.js"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>

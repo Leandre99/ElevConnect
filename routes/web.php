@@ -14,7 +14,6 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VeterinaireController;
-use App\Http\Controllers\InterventionController;
 use App\Http\Controllers\CompletedTaskController;
 use App\Http\Controllers\PerformanceReportController;
 
@@ -132,7 +131,7 @@ Route::middleware(['veterinaire'])->group(function () {
 
 Route::get('ferme/{ferme_id}/animal/{animal_id}',[AnimalController::class, 'createTaskForAnimal'])->name('generatetache');
 
-Route::get('/intervenir/{id}', [InterventionController::class, 'intervenir'])->name('intervenir');
+// Route::get('/intervenir/{id}', [InterventionController::class, 'intervenir'])->name('intervenir');
 
 Route::post('/meeting/schedule', [MeetingController::class, 'schedule'])->name('meeting.schedule');
 

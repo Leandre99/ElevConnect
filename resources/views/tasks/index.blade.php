@@ -195,17 +195,17 @@
 
 <script>
     $(document).ready(function() {
-        // Intercepter la soumission du formulaire pour marquer la tâche comme complétée
+        // Intercepter la soumission du formulaire pour marquer la  tâche comme complétée
         $('form[id^="mark-task-form"]').on('submit', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+            event.preventDefault();
 
             var form = $(this);
             var taskId = form.find('input[name="task_id"]').val();
 
             $.ajax({
-                method: 'PATCH', // Utiliser la méthode PATCH
+                method: 'PATCH',
                 url: form.attr('action'),
-                data: form.serialize(), // Sérialiser les données du formulaire
+                data: form.serialize(),
                 success: function(response) {
                     // Une fois que la tâche est marquée comme complétée, masquer le bouton et afficher l'image du check circle
                     form.find('.mark-complete-btn').hide();

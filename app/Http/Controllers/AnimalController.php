@@ -10,6 +10,7 @@ use App\Models\Tache;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class AnimalController extends Controller
 {
@@ -129,13 +130,11 @@ class AnimalController extends Controller
         $variable = Task::where('race_id', $race->id)
             ->where('age_min', '<=', $animal->age)
             ->where('age_max', '>=', $animal->age)->get();
-
-
         foreach ($variable as $value) {
             if ($value->frequence == 1) {
                 for ($i = $value->frequence; $i <= 7; $i++) {
                     $tache = new Tache();
-                    $tache->race_id = $animal->id;
+                    $tache->race_id = $race->id;
                     $tache->ferme_id = $ferme->id;
                     $tache->task_id = $value->id;
                     $tache->nomtache = $value->nomtache;
@@ -143,12 +142,24 @@ class AnimalController extends Controller
                     $tache->user_id = Auth::id();
                     $tache->status = 0;
                     $tache->type = $value->type;
-                    $tache->affichage_date = date('Y-m-d', strtotime($ferme->expired_date . '+'.$i.' days'));
+                    $tache->affichage_date = date('Y-m-d', strtotime($ferme->expired_date . '+' . $i . ' days'));
                     $tache->save();
                 }
-            }
-            else{
-
+            } else {
+                $frequency = $value->frequence;
+                for ($i = 0; $i <= 7; $i += $frequency) {
+                    $tache = new Tache();
+                    $tache->race_id = $race->id;
+                    $tache->ferme_id = $ferme->id;
+                    $tache->task_id = $value->id;
+                    $tache->nomtache = $value->nomtache;
+                    $tache->quantite = $value->quantite;
+                    $tache->user_id = Auth::id();
+                    $tache->status = 0;
+                    $tache->type = $value->type;
+                    $tache->affichage_date = date('Y-m-d', strtotime($ferme->expired_date . ' + ' . $i . ' days'));
+                    $tache->save();
+                }
             }
         }
         $ferme->expired_date =  date('Y-m-d', strtotime($ferme->expired_date . '+7 days'));

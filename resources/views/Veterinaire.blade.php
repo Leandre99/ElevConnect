@@ -144,15 +144,14 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text fw-normal text-black">{{ $veterinaire->description }}</p>
-                                <!-- Button trigger modal -->
-                                <button type="button" style=" position: absolute; bottom:0; right:0;" class="btn"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal{{ $veterinaire->id }}">
-                                    <span class="material-symbols-outlined">
-                                        maps_ugc
-                                    </span>
+
+                                <button type="button" style="position: absolute; bottom: 0; right: 0;"
+                                    class="btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal{{ $veterinaire->id }}">
+                                    <img src="{{ asset('assets/images/messager.png') }}" alt="Icon"
+                                        style="width: 24px; height: 24px;">
                                 </button>
 
-                                <!-- Modal -->
                                 <div class="modal fade" id="exampleModal{{ $veterinaire->id }}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel{{ $veterinaire->id }}" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -165,24 +164,26 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="chat" id="chat-{{ $veterinaire->id }}">
-                                                    <!-- Header -->
+
                                                     <div class="top">
                                                         <div>
-                                                            <h5>{{ $veterinaire->name }}</h5>
+                                                            @if (Auth::user()->role === 'Veterinaire')
+                                                                <h5>{{ $message->user->name }}</h5>
+                                                            @else
+                                                                <h5>{{ $veterinaire->name }}</h5>
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                    <!-- End Header -->
 
-                                                    <!-- Chat -->
+
+
                                                     <div class="messages" id="messages-{{ $veterinaire->id }}">
                                                         @include('receive', [
                                                             'message' =>
                                                                 "Hey! Comment puis-je vous aider aujourd'hui !  👋",
                                                         ])
                                                     </div>
-                                                    <!-- End Chat -->
 
-                                                    <!-- Footer -->
                                                     <div class="bottom">
                                                         <form id="form-{{ $veterinaire->id }}">
                                                             <input type="text" id="message-{{ $veterinaire->id }}"
@@ -193,7 +194,7 @@
                                                                 value="{{ $veterinaire->id }}">
                                                         </form>
                                                     </div>
-                                                    <!-- End Footer -->
+
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -207,7 +208,6 @@
                         </div>
                     </div>
                 @endforeach
-
             </div>
         </div>
     </main>

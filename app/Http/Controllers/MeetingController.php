@@ -29,7 +29,6 @@ class MeetingController extends Controller
 
     $eleveur = User::find($alert->user_id);
 
-    // Envoyer le mail avec l'URL et la date/heure de la réunion
     Mail::to($eleveur->email)->send(new Alermail($meetingUrl, $meetingDate));
     return redirect()->back()->with('success', 'Réunion planifiée et notification envoyée!');
 }
