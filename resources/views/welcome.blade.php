@@ -299,7 +299,7 @@
                                                     </div>
                                                 </div>
                                                 <p class="mb-0 px-3 px-md-2 px-xxl-3">&quot;Depuis que j'utilise
-                                                    l'application, j'ai gagné un temps fou sur la gestion quotidienne de
+                                                    ElevConnect, j'ai gagné un temps fou sur la gestion quotidienne de
                                                     mon troupeau. Plus besoin de listes de tâches manuscrites, tout est
                                                     centralisé et automatisé. Je suis beaucoup plus efficace et je peux
                                                     me concentrer davantage sur le bien-être de mes vaches."</p>
