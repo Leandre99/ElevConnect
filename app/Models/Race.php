@@ -31,4 +31,8 @@ class Race extends Model
     {
         return $this->hasMany(Animal::class);
     }
+    public function taches()
+    {
+        return $this->hasMany(Tache::class);
+    }
 }

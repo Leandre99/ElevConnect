@@ -277,6 +277,7 @@
                                                             class="btn btn-success btn-sm me-2">
                                                             <i class="material-icons">tasks</i> Tâches
                                                         </a>
+
                                                         <a href="{{route('fermes.edit', $ferme->id)}}" class="btn btn-warning btn-sm me-2">
                                                             <i class="material-icons">edit</i> Modifier
                                                         </a>

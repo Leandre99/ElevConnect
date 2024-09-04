@@ -31,15 +31,9 @@ class TaskController extends Controller
 
         $races = Race::whereIn('id', Animal::where('ferme_id', $id)->pluck('race_id'))->get();
         $races = Animal::where('ferme_id', $id)->with(['race'])->get();
-        // $tasks = Task::leftJoin('completed_tasks', function ($join) {
-        //     $join->on('tasks.id', '=', 'completed_tasks.task_id')
-        //         ->where('completed_tasks.user_id', Auth::id());
-        // })->select('tasks.*', 'completed_tasks.task_id')
-        //     ->whereIn('race_id', $races->pluck('id'))
-        //     ->where('jour', $daysSinceCreation)
-        //     ->get();
-
-        $tasks = Tache::where('affichage_date', date('Y-m-d'))->get();
+        $tasks = Tache::where('ferme_id', $id)
+                        ->where('affichage_date', '<=', Carbon::now()->toDateString())
+                        ->get();
         return view('tasks.index', compact('tasks', 'ferme', 'races'));
     }
 

@@ -14,6 +14,7 @@ class Ferme extends Model
         'nomferme',
         'description',
         'adresse',
+        'is_active'
     ];
 
     public function user()
@@ -21,7 +22,7 @@ class Ferme extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function animaux()
+    public function animals()
     {
         return $this->hasMany(Animal::class);
     }
@@ -30,4 +31,9 @@ class Ferme extends Model
 {
     return $this->belongsToMany(Race::class);
 }
+public function tache()
+{
+    return $this->hasMany(Tache::class);
+}
+
 }

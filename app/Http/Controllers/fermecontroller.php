@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Ferme;
 use Illuminate\Http\Request;
 
+
 class FermeController extends Controller
 {
     public function index()
     {
         $user = auth()->user();
-        $fermes = Ferme::where('user_id', $user->id)->get();
+        $fermes = Ferme::where('user_id', $user->id)
+        ->where('is_active', true)
+        ->get();
         return view('Ferme', compact('fermes'));
     }
 
@@ -61,9 +64,40 @@ class FermeController extends Controller
     }
 
     public function destroy(Ferme $ferme)
-    {
-        $ferme->delete();
-        return redirect()->route('Ferme')->with('success', 'Ferme supprimée avec succès.');
-    }
+{
+    $ferme->is_active = false;
+    $ferme->save();
+
+    return redirect()->route('Ferme')->with('success', 'Ferme désactivée avec succès.');
+}
+public function activate(Ferme $ferme)
+{
+    $ferme->is_active = true;
+    $ferme->save();
+
+    return redirect()->route('admin.farms.index')->with('success', 'Ferme activée avec succès.');
+}
+
+public function deactivate(Ferme $ferme)
+{
+    $ferme->is_active = false;
+    $ferme->save();
+
+    return redirect()->route('admin.farms.index')->with('success', 'Ferme désactivée avec succès.');
+}
+public function toggleStatus(Ferme $farm)
+{
+    $farm->active = !$farm->active;
+    $farm->save();
+
+    return redirect()->route('admin.farms.index')->with('success', 'Statut de la ferme mis à jour avec succès.');
+}
+
+public function showAnimals($farmId)
+{
+    $farm = Ferme::with('animals')->findOrFail($farmId);
+    return view('admin.animal', compact('farm'));
+}
+
 }
 

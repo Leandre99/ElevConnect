@@ -224,7 +224,9 @@
                         <form action="{{ route('animals.store', $ferme->id) }}" method="POST">
                             @csrf
                             <div class="modal-body">
-
+                                <div class="alert alert-warning" role="alert">
+                                    Attention : Dès que vous ajoutez un animal à la ferme, les tâches correspondantes seront automatiquement générées par le système.
+                                </div>
                                 <div class="mb-3">
                                     <label for="espece" class="form-label">Espèce</label>
                                     <select class="form-select" id="espece" name="espece_id" required>

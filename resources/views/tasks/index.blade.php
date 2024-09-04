@@ -131,40 +131,55 @@
             </div>
         @endif
 
+
         @foreach ($races as $race)
-            <div class="card mb-4">
+            <div class="card mb-4 border-primary">
                 <div class="card-header bg-secondary text-white">
-                    <h5 class="card-title mb-0">Race: {{ $race->race->nomrace }}</h5>
+                    <h5 class="card-title mb-0">Race: {{ $race->nomrace }}</h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        @foreach ($tasks->where('race_id', $race->id) as $task)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ $task->nomtache }}
-                                @if ($task->status == 0)
-                                    <form id="mark-task-form-{{ $task->id }}"
-                                        action="{{ route('tasks.mark-as-completed', $task) }}" method="POST"
-                                        style="display: inline;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="task_id" value="{{ $task->id }}">
-                                        <input type="hidden" name="ferme_id" value="{{ $ferme->id }}">
-                                        <button type="submit" class="btn btn-success btn-sm">
-                                            <i class="bi bi-check-circle"></i> Accomplie
-                                        </button>
-                                        <img class="check-circle" src="{{ asset('assets/images/check.png') }}"
-                                            style="display: none; width: 24px;">
-                                    </form>
-                                @else
-                                    <img class="check-circle" src="{{ asset('assets/images/check.png') }}"
-                                        style="width: 24px;">
-                                @endif
+                        @php
+                            $tasksForRace = $tasks->where('race_id', $race->id);
+                        @endphp
+                        @if ($tasksForRace->isEmpty())
+                            <li class="list-group-item">
+                                <div class="alert alert-warning mb-0" role="alert">
+                                    <i class="bi bi-exclamation-circle"></i> Aucune tâche disponible pour le moment.
+                                </div>
                             </li>
-                        @endforeach
+                        @else
+                            @foreach ($tasksForRace as $task)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="me-3">{{ $task->nomtache }}</span>
+                                    @if ($task->status == 0)
+                                    <form id="mark-task-form-{{ $task->id }}"
+                                        action="{{ route('taches.mark-as-completed', $task) }}"
+                                        method="POST"
+                                        style="display: inline;">
+                                      @csrf
+                                      @method('PATCH')
+                                      <input type="hidden" name="tache_id" value="{{ $task->id }}">
+                                      <input type="hidden" name="ferme_id" value="{{ $ferme->id }}">
+                                      <button type="submit" class="btn btn-success btn-sm">
+                                          <i class="bi bi-check-circle"></i> Accomplie
+                                      </button>
+                                      <img class="check-circle ms-2" src="{{ asset('assets/images/check.png') }}" style="display: none; width: 24px;">
+                                  </form>
+
+                                    @else
+                                        <img class="check-circle ms-2" src="{{ asset('assets/images/check.png') }}"
+                                            style="width: 24px;">
+                                    @endif
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
                 </div>
             </div>
         @endforeach
+
+
     </div>
 
 </body>

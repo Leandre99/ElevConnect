@@ -21,6 +21,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
@@ -30,6 +32,51 @@
             });
         });
     </script>
+    <style>
+        .actions {
+    text-align: center;
+}
+
+.action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.action-icon:hover {
+    color: #fff;
+    opacity: 0.8;
+}
+
+.view-icon {
+    background-color: #007bff; /* Couleur de l'icône "Accéder" */
+}
+
+.edit-icon {
+    background-color: #ffc107; /* Couleur de l'icône "Modifier" */
+}
+
+.toggle-icon {
+    background-color: #28a745; /* Couleur de l'icône "Activer/Désactiver" */
+}
+
+.action-icon button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+}
+
+    </style>
 </head>
 
 <body>
@@ -120,41 +167,48 @@
                 </div>
             </div>
         </nav>
-            <div class="container">
-                <h1>Liste des Fermes</h1>
-                <table id="example" class="display">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Proprietaire</th>
-                            <th>Nom</th>
-                            <th>Description</th>
-                            <th>Adresse</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($farms as $farm)
-                        <tr>
-                            <td>{{ $farm->id }}</td>
-                            <td>{{$farm->user->name}}</td>
-                            <td>{{ $farm->nomferme }}</td>
-                            <td>{{ $farm->description }}</td>
-                            <td>{{ $farm->adresse }}</td>
-                            <td>
-                                <a href="#" style="margin:2%" class="btn btn-primary btn-sm">Accéder</a>
-                                <a href="{{ route('admin.farms.edit', $farm) }}" style="margin:2%" class="btn btn-secondary btn-sm">Modifier</a>
-                                <form action="{{ route('admin.farms.destroy', $farm) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+        <div class="container">
+            <h1>Liste des Fermes</h1>
+            <table id="example" class="display">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Proprietaire</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Adresse</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($farms as $farm)
+                    <tr>
+                        <td>{{ $farm->id }}</td>
+                        <td>{{ $farm->user->name }}</td>
+                        <td>{{ $farm->nomferme }}</td>
+                        <td>{{ $farm->description }}</td>
+                        <td>{{ $farm->adresse }}</td>
+                        <td class="actions">
+                            <a href="{{ route('admin.farms.show', $farm->id) }}" class="action-icon view-icon" title="Accéder">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('admin.farms.edit', $farm) }}" class="action-icon edit-icon" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="{{ route('admin.farms.toggleStatus', $farm) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="action-icon toggle-icon" title="{{ $farm->active ? 'Désactiver' : 'Activer' }}">
+                                    <i class="fas {{ $farm->active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        
         </main>
         <script src="vendors/is/is.min.js"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>

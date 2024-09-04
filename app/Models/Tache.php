@@ -10,12 +10,17 @@ class Tache extends Model
     use HasFactory;
     protected $table = 'tache';
     protected $fillable = [
-        'nomtache', 'race_id', 'quantite', 'type', 'user_id', 'status', 'task_id', 'ferme_id', 'affichage_date','expired_date'
+        'nomtache', 'race_id', 'quantite', 'type', 'user_id', 'status', 'tache_id', 'ferme_id', 'affichage_date','expired_date'
     ];
 
     public function race()
     {
         return $this->belongsTo(Race::class);
+    }
+
+    public function ferme()
+    {
+        return $this->belongsTo(Ferme::class);
     }
 
     public function user()
@@ -25,8 +30,14 @@ class Tache extends Model
 
     public function task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Tache::class, 'tache_id');
     }
+
+    public function completedTasks()
+{
+    return $this->hasMany(CompletedTask::class, 'tache_id');
+}
+
 
     public function animal()
         {

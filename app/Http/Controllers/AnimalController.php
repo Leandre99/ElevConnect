@@ -164,5 +164,7 @@ class AnimalController extends Controller
         }
         $ferme->expired_date =  date('Y-m-d', strtotime($ferme->expired_date . '+7 days'));
         $ferme->save();
+
+        return redirect()->route('tasks.index', $ferme_id);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\FermeController;
+use App\Http\Controllers\TacheController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\EspeceController;
 use App\Http\Controllers\PusherController;
@@ -58,7 +59,7 @@ Route::post('fermes/{ferme}/animals', [AnimalController::class, 'store'])->name(
 
 Route::get('/api/especes/{espece}/races', [EspeceController::class, 'getRaces']);
 
-Route::delete('/fermes/{ferme}', [FermeController::class, 'destroy'])->name('fermes.destroy');
+Route::patch('/fermes/{ferme}', [FermeController::class, 'destroy'])->name('fermes.destroy');
 
 Route::get('/animaux/{animal}/edit', [AnimalController::class, 'edit'])->name('animals.edit');
 
@@ -80,12 +81,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/farms/{farm}/edit', [AdminController::class, 'editFarm'])->name('admin.farms.edit');
 
     Route::put('/admin/farms/{farm}', [AdminController::class, 'updateFarm'])->name('admin.farms.update');
-    Route::delete('/admin/farms/{farm}', [AdminController::class, 'destroyFarm'])->name('admin.farms.destroy');
+    Route::patch('/admin/fermes/{ferme}/activate', [FermeController::class, 'activate'])->name('admin.farms.activate');
+    Route::patch('/admin/fermes/{ferme}/deactivate', [FermeController::class, 'deactivate'])->name('admin.farms.deactivate');
+    Route::patch('/admin/farms/{farm}/toggle', [FermeController::class, 'toggleStatus'])->name('admin.farms.toggleStatus');
+    Route::get('/admin/farms/{farm}/animals', [FermeController::class, 'showAnimals'])->name('admin.farms.show');
+
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
     Route::get('admin/{user}/activate', [AdminController::class, 'activate'])->name('admin.users.activate');
     Route::get('admin/{user}/deactivate', [AdminController::class, 'deactivate'])->name('admin.users.deactivate');
+    Route::get('admin/animals/{id}/edit', [AnimalController::class, 'edit'])->name('admin.animals.edit');
+    Route::put('admin/animaux/{animal}', [AnimalController::class, 'update'])->name('admin.animals.update');
+
+    Route::delete('admin/animals/{id}', [AnimalController::class, 'destroy'])->name('admin.animals.destroy');
 
     Route::get('tasks', [TaskController::class, 'adminIndex'])->name('admin.taches');
     Route::get('tasks/create', [TaskController::class, 'adminCreate'])->name('admin.create_tache');
@@ -100,8 +109,6 @@ Route::get('index', [PusherController::class, 'index']);
 Route::post('broadcast', [PusherController::class, 'Broadcast']);
 
 Route::post('receive', [PusherController::class, 'receive']);
-
-Route::get('tasks/{id}', [TaskController::class, 'index'])->name('tasks.index');
 
 // Route::patch('tasks', [TaskController::class, 'markAsCompleted'])->name('tasks.markAsCompleted');
 
@@ -129,7 +136,14 @@ Route::middleware(['veterinaire'])->group(function () {
     Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
 });
 
-Route::get('ferme/{ferme_id}/animal/{animal_id}',[AnimalController::class, 'createTaskForAnimal'])->name('generatetache');
+Route::get('ferme/{ferme_id}/animal/{animal_id}', [AnimalController::class, 'createTaskForAnimal'])->name('generatetache');
+
+// Route::get('tasks/{id}', [TaskController::class, 'index'])->name('tasks.index');
+
+Route::get('taches/{id}', [TacheController::class, 'index'])->name('tasks.index');
+
+Route::patch('taches/{tache}/mark-as-completed', [TacheController::class, 'markAsCompleted'])->name('taches.mark-as-completed');
+
 
 // Route::get('/intervenir/{id}', [InterventionController::class, 'intervenir'])->name('intervenir');
 

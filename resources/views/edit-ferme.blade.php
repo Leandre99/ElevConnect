@@ -137,12 +137,14 @@
                         <button type="submit" class="btn btn-primary">Mettre à jour</button>
                     </div>
                 </form>
+                @if ($ferme->is_active)
                 <form action="{{ route('fermes.destroy', $ferme->id) }}" method="POST"
-                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette ferme ?');" style="margin-top: 20px;">
+                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette ferme ?');" style="margin-top: 20px;">
                     @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-warning">Supprimer</button>
                 </form>
+            @endif
             </div>
         </section>
     </main>
