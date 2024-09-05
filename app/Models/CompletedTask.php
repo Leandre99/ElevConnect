@@ -10,18 +10,20 @@ class CompletedTask extends Model
     use HasFactory;
 
     protected $fillable = [
-        'task_id',
+        'tache_id',
         'user_id',
+        'ferme_id',
         'completed_at',
     ];
 
     public function task()
-    {
-        return $this->belongsTo(Task::class);
-    }
+{
+    return $this->belongsTo(Tache::class, 'task_id');
+}
+
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

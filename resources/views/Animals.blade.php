@@ -70,6 +70,7 @@
                                         <li><a class="dropdown-item fw-medium" href="#">Dashboard User</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
                                                 Tâche</a></li>
+                                                <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
                             @else

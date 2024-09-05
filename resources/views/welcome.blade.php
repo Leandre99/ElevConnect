@@ -67,6 +67,7 @@
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
                                 @elseif (Auth::user()->role === 'Veterinaire')

@@ -123,16 +123,16 @@ class TaskController extends Controller
     //     return back();
     // }
 
-    public function markAsCompleted(Request $request, Tache $task)
-    {
-        $tache = Tache::find($task->id);
+    // public function markAsCompleted(Request $request, Tache $task)
+    // {
+    //     $tache = Tache::find($task->id);
 
-        if ($tache) {
-            $tache->status = 1;
-            $tache->save();
-            return back()->with('success', 'Tâche marquée comme complétée.');
-        }
-    }
+    //     if ($tache) {
+    //         $tache->status = 1;
+    //         $tache->save();
+    //         return back()->with('success', 'Tâche marquée comme complétée.');
+    //     }
+    // }
     public function adminIndex()
     {
         $tasks = Task::all();

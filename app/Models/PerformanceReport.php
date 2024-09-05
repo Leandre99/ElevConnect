@@ -9,7 +9,6 @@ class PerformanceReport extends Model
 {
     use HasFactory;
 
-    // Champs qui peuvent être assignés en masse
     protected $fillable = [
         'user_id',
         'week_start_date',
@@ -18,13 +17,11 @@ class PerformanceReport extends Model
         'total_tasks'
     ];
 
-    // Définir les dates pour les attributs date
     protected $dates = [
         'week_start_date',
         'week_end_date'
     ];
 
-    // Optionnel : Si tu souhaites définir des relations, fais-le ici
     public function user()
     {
         return $this->belongsTo(User::class);

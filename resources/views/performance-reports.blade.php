@@ -162,40 +162,37 @@
             </div>
         </form>
 
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Utilisateur</th>
-                    <th>Tâches Complètes</th>
-                    <th>Tâches Totales</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $displayTotalTasks = true;
-                @endphp
-
-                @foreach ($reports as $report)
+        @if($completedTasksCount > 0)
+            <table class="table table-bordered mt-4">
+                <thead>
                     <tr>
-                        <td>{{ $report->id }}</td>
-                        <td>{{ $report->user->name }}</td>
-                        <td>{{ $report->task->nomtache }}</td>
-                        @if ($displayTotalTasks)
-                            <td rowspan="{{ $reports->count() }}">{{ $total_task}}</td>
-                            @php
-                                $displayTotalTasks = false;
-                            @endphp
-                        @endif
+                        <th>ID</th>
+                        <th>Utilisateur</th>
+                        <th>Tâche Complète</th>
+                        <th>Status</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($completedTasks as $report)
+                        <tr>
+                            <td>{{ $report->id }}</td>
+                            <td>{{ $report->user->name ?? 'Utilisateur inconnu' }}</td>
+                            <td>{{ $report->task->nomtache ?? 'Tâche inconnue' }}</td>
+                            <td>{{ $report->completed_at ? 'Complétée' : 'Non Complétée' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-        <h2>Status de Performance : </h2>
-        <p>Tâches Complétées: {{ $completedTasksCount }} / {{ $total_task }}</p>
-        <p>Date prédite de fin de l'élevage : {{ $endDatePrediction }}</p>
+            <h2>Status de Performance : </h2>
+            <p>Tâches Complétées: {{ $completedTasksCount }} / {{ $total_task }}</p>
+            <p>Date prédite de fin de l'élevage : {{ $endDatePrediction }}</p>
+        @else
+            <p>Aucune tâche complétée pour les dates sélectionnées.</p>
+        @endif
     </div>
+
+
 
     <footer class="bg-success" style="padding-top:5%;">
         <div class="container">
@@ -231,33 +228,6 @@
         </div>
     </footer>
 
-    <script>
-        // const ctx = document.getElementById('performanceChart').getContext('2d');
-        // const tasksChart = new Chart(ctx, {
-        //     type: 'line',
-        //     data: {
-        //         labels: ,
-        //         datasets: [{
-        //             label: 'Tâches Complétées',
-        //             data: ,
-        //             borderColor: 'rgba(75, 192, 192, 1)',
-        //             borderWidth: 2,
-        //             fill: false
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             x: {
-        //                 type: 'category',
-        //                 labels: ,
-        //             },
-        //             y: {
-        //                 beginAtZero: true
-        //             }
-        //         }
-        //     }
-        // });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">

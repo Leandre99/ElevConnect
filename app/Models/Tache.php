@@ -8,9 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Tache extends Model
 {
     use HasFactory;
-    protected $table = 'tache';
     protected $fillable = [
-        'nomtache', 'race_id', 'quantite', 'type', 'user_id', 'status', 'tache_id', 'ferme_id', 'affichage_date','expired_date'
+        'nomtache',
+        'race_id',
+        'quantite',
+        'type',
+        'user_id',
+        'status',
+        'task_id',
+        'ferme_id',
+        'affichage_date'
     ];
 
     public function race()
@@ -34,16 +41,15 @@ class Tache extends Model
     }
 
     public function completedTasks()
-{
-    return $this->hasMany(CompletedTask::class, 'tache_id');
-}
-
+    {
+        return $this->hasMany(CompletedTask::class, 'task_id');
+    }
 
     public function animal()
-        {
-            return $this->belongsTo(Animal::class);
-        }
-        protected $casts = [
-            'quantite' => 'string',
-        ];
+    {
+        return $this->belongsTo(Animal::class);
+    }
+    protected $casts = [
+        'quantite' => 'string',
+    ];
 }

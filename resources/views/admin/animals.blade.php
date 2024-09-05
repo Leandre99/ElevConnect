@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plateforme ElevConnect</title>
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link
+        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
@@ -20,7 +23,10 @@
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
@@ -29,6 +35,16 @@
                 "ordering": true
             });
         });
+    </script>
+    <script>
+        .btn - link {
+            color: #000;
+            font-size: 1.5rem;
+        }
+
+        .btn-link:hover {
+            color: # 007 bff;
+        }
     </script>
 </head>
 
@@ -76,10 +92,14 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.farms') }}">Dashboard
+                                                Ferme</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.users') }}">Dashboard
+                                                User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
+                                                Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.animals') }}">Dashboard
+                                                    Animal</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -121,54 +141,68 @@
                 </div>
             </div>
         </nav>
-            <div class="container">
-                <h1>Liste des Utilisateurs</h1>
-                <table id="example" class="display">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Email</th>
-                            <th>Rôle</th>
-                            <th>Actions</th>
-                            {{-- <th>Actions</th> --}}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
-                            <td>
-                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-primary btn-sm">Modifier</a>
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                </form>
-                                @if ($user->role === 'Veterinaire'  && $user->status == 1)
-                                <a href="{{ route('admin.users.deactivate', $user) }}" class="btn btn-warning btn-sm">Désactiver</a>
-                        @endif
-                        @if ($user->role === 'Veterinaire'  && $user->status == 0)
-                        <a href="{{ route('admin.users.activate', $user) }}" class="btn btn-success btn-sm">Activer</a>
 
-                        @endif
-                            </td>
+        <div class="container">
+            <h1>Animaux dans les fermes</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Race</th>
+                        <th>Age</th>
+                        <th>Nombre</th>
+                        <th>Ferme</th>
+                        <th>Utilisateur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($fermes as $ferme)
+                        @foreach ($ferme->animals as $animal)
+                            <tr>
+                                <td>{{ $animal->id }}</td>
+                                <td>{{ $animal->race->nomrace }}</td>
+                                <td>{{ $animal->age }}</td>
+                                <td>{{ $animal->nombre }}</td>
+                                <td>{{ $ferme->nomferme }}</td>
+                                <td>{{ $ferme->user->name }}</td>
+                                <td>
 
-                        </tr>
+                                    <form action="{{ route('admin.animals.destroy', $animal->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?')"  style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-link" aria-label="Supprimer">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+
+
+                                    <a href="{{ route('admin.animals.edit', $animal) }}" class="btn btn-link" aria-label="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </main>
-        <script src="vendors/is/is.min.js"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-        <script src="assets/js/theme.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
-    </body>
-    </html>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
+
+
+
+    </main>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
+        rel="stylesheet">
+</body>
+
+</html>

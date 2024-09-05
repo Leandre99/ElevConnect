@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Taches du jour</title>
     <link
         rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -133,51 +135,55 @@
 
 
         @foreach ($races as $race)
-            <div class="card mb-4 border-primary">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="card-title mb-0">Race: {{ $race->nomrace }}</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        @php
-                            $tasksForRace = $tasks->where('race_id', $race->id);
-                        @endphp
-                        @if ($tasksForRace->isEmpty())
-                            <li class="list-group-item">
-                                <div class="alert alert-warning mb-0" role="alert">
-                                    <i class="bi bi-exclamation-circle"></i> Aucune tâche disponible pour le moment.
-                                </div>
-                            </li>
-                        @else
-                            @foreach ($tasksForRace as $task)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span class="me-3">{{ $task->nomtache }}</span>
-                                    @if ($task->status == 0)
-                                    <form id="mark-task-form-{{ $task->id }}"
-                                        action="{{ route('taches.mark-as-completed', $task) }}"
-                                        method="POST"
-                                        style="display: inline;">
-                                      @csrf
-                                      @method('PATCH')
-                                      <input type="hidden" name="tache_id" value="{{ $task->id }}">
-                                      <input type="hidden" name="ferme_id" value="{{ $ferme->id }}">
-                                      <button type="submit" class="btn btn-success btn-sm">
-                                          <i class="bi bi-check-circle"></i> Accomplie
-                                      </button>
-                                      <img class="check-circle ms-2" src="{{ asset('assets/images/check.png') }}" style="display: none; width: 24px;">
-                                  </form>
+    <div class="card mb-4 border-primary">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="card-title mb-0">Race: {{ $race->nomrace }}</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                @php
+                    $tasksForRace = $tasks->where('race_id', $race->id);
+                @endphp
+                @if ($tasksForRace->isEmpty())
+                    <li class="list-group-item">
+                        <div class="alert alert-warning mb-0" role="alert">
+                            <i class="bi bi-exclamation-circle"></i> Aucune tâche disponible pour le moment.
+                        </div>
+                    </li>
+                @else
+                    @foreach ($tasksForRace as $task)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column">
+                                <span class="fw-bold">{{ $task->nomtache }}</span>
+                                <span class="text-muted">Spécificité: {{ $task->quantite }}</span>
+                            </div>
+                            @if ($task->status == 0)
+                                <form id="mark-task-form-{{ $task->id }}" action="{{ route('taches.mark-as-completed', $task->id) }}"
+                                    method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="tache_id" value="{{ $task->id }}">
+                                    <input type="hidden" name="ferme_id" value="{{ $ferme->id }}">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="bi bi-check-circle"></i> Accomplie
+                                    </button>
+                                    <img class="check-circle ms-2"
+                                        src="{{ asset('assets/images/check.png') }}"
+                                        style="display: none; width: 24px;">
+                                </form>
+                            @else
+                                <img class="check-circle ms-2" src="{{ asset('assets/images/check.png') }}"
+                                    style="width: 24px;">
+                            @endif
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
+        </div>
+    </div>
+@endforeach
 
-                                    @else
-                                        <img class="check-circle ms-2" src="{{ asset('assets/images/check.png') }}"
-                                            style="width: 24px;">
-                                    @endif
-                                </li>
-                            @endforeach
-                        @endif
-                    </ul>
-                </div>
-            </div>
-        @endforeach
+
 
 
     </div>
@@ -186,45 +192,20 @@
 <script>
     $(document).ready(function() {
         $('form[id^="mark-task-form"]').on('submit', function(event) {
-            event.preventDefault(); // Empêcher le comportement par défaut du formulaire
-
-            var form = $(this);
-            var taskId = form.find('input[name="task_id"]').val();
-
-            $.ajax({
-                method: 'PATCH', // Utiliser la méthode PATCH ou POST comme nécessaire
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function(response) {
-                    // Une fois que la tâche est marquée comme complétée, masquer le bouton et afficher l'image du check circle
-                    form.find('.mark-complete-btn').hide();
-                    form.find('.check-circle').show();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        // Intercepter la soumission du formulaire pour marquer la  tâche comme complétée
-        $('form[id^="mark-task-form"]').on('submit', function(event) {
             event.preventDefault();
 
             var form = $(this);
-            var taskId = form.find('input[name="task_id"]').val();
 
             $.ajax({
                 method: 'PATCH',
                 url: form.attr('action'),
                 data: form.serialize(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Assure-toi que le token CSRF est inclus
+                },
                 success: function(response) {
-                    // Une fois que la tâche est marquée comme complétée, masquer le bouton et afficher l'image du check circle
-                    form.find('.mark-complete-btn').hide();
-                    form.find('.check-circle').show();
+                    form.find('.mark-complete-btn').hide();  // Assure-toi que ce sélecteur est correct
+                    form.find('.check-circle').show();  // Assure-toi que ce sélecteur est correct
                 },
                 error: function(xhr, status, error) {
                     console.error('Erreur lors de la requête AJAX:', xhr.responseText);
@@ -233,6 +214,8 @@
         });
     });
 </script>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">

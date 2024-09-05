@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Race;
 use App\Models\User;
 use App\Models\ferme;
+use App\Models\Animal;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -11,10 +13,10 @@ class AdminController extends Controller
 {
 
     public function indexFarms()
-    {
-        $farms = Ferme::all();
-        return view('admin.farms', compact('farms'));
-    }
+        {
+            $farms = Ferme::all();
+            return view('admin.farms', compact('farms'));
+        }
 
     public function indexUsers()
     {
@@ -75,4 +77,35 @@ class AdminController extends Controller
         }
         return redirect()->route('admin.users')->with('success', 'Veterinaire désactivé avec succès.');
     }
+
+    public function indexAnimals()
+    {
+        $animals = Animal::with('race', 'ferme')->get();
+        $fermes = Ferme::all();
+        return view('admin.animals',['animals' => $animals, 'fermes' => $fermes]);
+    }
+
+    // public function editAnimal(Animal $animal)
+    // {
+    //     $fermes = Ferme::all();
+    //     $races = Race::all();
+
+    //     return view('admin.edit_animal', compact('animal', 'fermes', 'races'));
+    // }
+
+
+    // public function updateAnimal(Request $request, Animal $animal)
+    // {
+
+    //     $animal->update($request->all);
+
+    //     return redirect()->route('admin.edit_animal');
+    // }
+
+    // public function destroyAnimal(Animal $animal)
+    // {
+    //     $animal->delete();
+
+    //     return redirect()->route('admin.animals')->with('success', 'Animal supprimé avec succès.');
+    // }
 }

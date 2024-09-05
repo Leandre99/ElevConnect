@@ -79,7 +79,7 @@ class AnimalController extends Controller
     public function edit(Animal $animal)
     {
         $especes = Espece::all();
-        $races = Race::where('espece_id', $animal->espece_id)->get(); // Assurez-vous que les races sont filtrées par espèce
+        $races = Race::where('espece_id', $animal->espece_id)->get();
         return view('edit-animal', compact('animal', 'especes', 'races'));
     }
 
@@ -167,4 +167,30 @@ class AnimalController extends Controller
 
         return redirect()->route('tasks.index', $ferme_id);
     }
+
+    public function editAdminAnimal(Animal $animal)
+{
+    $fermes = Ferme::all();
+    $races = Race::all();
+
+    return view('admin.edit_animal', compact('animal', 'fermes', 'races'));
+}
+
+
+public function updateAdminAnimal(Request $request, Animal $animal)
+{
+    $animal->update($request->all());
+    return redirect()->route('admin.animals')->with('success', 'Animal mis à jour avec succès.');
+}
+
+
+
+public function destroyAdminAnimal($id)
+{
+    $animal = Animal::findOrFail($id);
+    $animal->delete();
+
+    return redirect()->route('admin.animals')->with('success', 'Animal deleted successfully!');
+}
+
 }

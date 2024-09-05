@@ -36,14 +36,15 @@
             });
         });
     </script>
-    <script>.btn-link {
-        color: #000;
-        font-size: 1.5rem;
-    }
+    <script>
+        .btn - link {
+            color: #000;
+            font-size: 1.5rem;
+        }
 
-    .btn-link:hover {
-        color: #007bff;
-    }
+        .btn-link:hover {
+            color: # 007 bff;
+        }
     </script>
 </head>
 
@@ -97,6 +98,8 @@
                                                 User</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
                                                 Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.animals') }}">Dashboard
+                                                Animal</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -138,44 +141,49 @@
                 </div>
             </div>
         </nav>
-        <div class="container">
-            <h1>Animaux dans la ferme: {{ $farm->nomferme }}</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Race</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($farm->animals as $animal)
-                        <tr>
-                            <td>{{ $animal->id }}</td>
-                            <td>{{ $animal->nom }}</td>
-                            <td>{{ $animal->race->nomrace }}</td>
-                            <td>
-                                <!-- Formulaire de suppression -->
-                                <form action="{{ route('admin.animals.destroy', $animal->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-link" aria-label="Supprimer">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
 
-                                <a href="{{ route('admin.animals.update', $animal->id) }}" class="btn btn-link" aria-label="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="container">
+            <h1>Modifier l'animal</h1>
+            <form action="#" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="form-group">
+                    <label for="race_id">Race:</label>
+                    <select name="race_id" id="race_id" class="form-control">
+                        @foreach($races as $race)
+                            <option value="{{ $race->id }}" {{ $animal->race_id == $race->id ? 'selected' : '' }}>
+                                {{ $race->nomrace }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ferme_id">Ferme:</label>
+                    <select name="ferme_id" id="ferme_id" class="form-control">
+                        @foreach($fermes as $ferme)
+                            <option value="{{ $ferme->id }}" {{ $animal->ferme_id == $ferme->id ? 'selected' : '' }}>
+                                {{ $ferme->nomferme }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Âge:</label>
+                    <input type="number" name="age" id="age" value="{{ old('nombre', $animal->age)  }}" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="number" name="nombre" id="nombre" value="{{old('nombre', $animal->nombre) }}" class="form-control">
+                </div>
+
+                <button style="margin-top: 3%" type="submit" class="btn btn-primary">Mettre à jour</button>
+            </form>
         </div>
-        
+
     </main>
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>

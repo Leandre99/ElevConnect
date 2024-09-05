@@ -73,6 +73,7 @@
                                                 User</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
                                                 Tâche</a></li>
+                                                <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -143,7 +144,7 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
-            </div>
+        </div>
     </main>
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
