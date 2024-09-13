@@ -13,4 +13,9 @@ class Alert extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function race()
+{
+    return $this->belongsTo(Race::class);
+}
+
 }

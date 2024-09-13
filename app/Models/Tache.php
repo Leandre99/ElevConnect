@@ -42,7 +42,7 @@ class Tache extends Model
 
     public function completedTasks()
     {
-        return $this->hasMany(CompletedTask::class, 'task_id');
+        return $this->hasMany(CompletedTask::class, 'tache_id');
     }
 
     public function animal()

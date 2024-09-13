@@ -11,12 +11,12 @@ class EspeceSeeder extends Seeder
 
     public function run()
     {
-        // DB::table('especes')->insert([
-        //     ['nomespece' => 'Bovins'],
-        //     ['nomespece' => 'Ovins'],
-        //     ['nomespece' => 'Caprins'],
-        //     ['nomespece' => 'Porcs'],
-        //     ['nomespece' => 'Volaille'],
-        // ]);
+        DB::table('especes')->insert([
+            ['nomespece' => 'Bovins'],
+            ['nomespece' => 'Ovins'],
+            ['nomespece' => 'Caprins'],
+            ['nomespece' => 'Porcs'],
+            ['nomespece' => 'Volaille'],
+        ]);
     }
 }

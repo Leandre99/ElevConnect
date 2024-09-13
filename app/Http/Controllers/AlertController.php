@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Race;
 use App\Models\Alert;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\MeetingScheduled;
+use Illuminate\Support\Facades\Mail;
 
 class AlertController extends Controller
 {
@@ -15,9 +16,11 @@ class AlertController extends Controller
         return view('alerts.index', compact('alerts'));
     }
     public function create()
-    {
-        return redirect()->back()->with('success', 'Réunion planifiée et notification envoyée!');
-    }
+{
+    $races = Race::all();
+    return view('Animals', compact('races'));
+}
+
 
     public function store(Request $request)
     {

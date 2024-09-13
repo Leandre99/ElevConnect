@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
+
 <head>
 
     <meta charset="utf-8">
@@ -20,7 +21,6 @@
     <meta name="theme-color" content="#ffffff">
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 </head>
 
 <body>
@@ -67,28 +67,15 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                        <li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
-                                </li>
-                                @elseif (Auth::user()->role === 'Veterinaire')
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium active" style="font-weight: bold;"
-                                        href="{{ route('welcome') }}">Accueil</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                 </li>
                             @else
                                 <li class="nav-item px-2">
@@ -102,17 +89,22 @@
                                     <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
                                 </li>
                                 <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
+                                </li>
+                                <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                 </li>
                             @endif
 
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#"
+                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                    <li><a class="dropdown-item fw-medium"
+                                            href="{{ route('profile.edit') }}">Profil</a>
                                     </li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -190,23 +182,37 @@
                                             padding: 10px 20px;
                                             border: none;
                                             cursor: pointer;
-                                            margin-top: 2%
+                                            margin-top: 2%;
+                                        }
+
+                                        .btn-orange {
+                                            background-color: orange;
+                                            color: white;
+                                        }
+
+                                        .modal-footer {
+                                            display: flex;
+                                            justify-content: space-between;
+                                            margin-top: 10px;
                                         }
                                     </style>
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><img class="img-fluid"
-                                                    src="{{ asset('assets/images/plus.png') }}"
-                                                    style="width:7%; padding-right:2%">Ajouter une nouvelle Ferme</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                <img class="img-fluid" src="{{ asset('assets/images/plus.png') }}"
+                                                    style="width:7%; padding-right:2%">
+                                                Ajouter une nouvelle Ferme
+                                            </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <form action="{{ route('ferme') }}" method="POST">
                                                 Ce formulaire vous permet de créer une nouvelle ferme et d'ajouter les
-                                                informations relatives à l'espèce principale d'animaux que vous élevez.
-                                                Vous pourrez ensuite ajouter des animaux d'autres espèces
-                                                ultérieurement.
+                                                informations relatives à
+                                                l'espèce principale d'animaux que vous élevez. Vous pourrez ensuite
+                                                ajouter des animaux d'autres
+                                                espèces ultérieurement.
                                                 @csrf
 
                                                 <input type="hidden" name="user_id"
@@ -218,12 +224,21 @@
                                                 <input type="text" id="description" name="description" required>
                                                 <label for="adresse">Adresse</label>
                                                 <input type="text" id="adresse" name="adresse" required>
-                                                <button type="submit">Enregistrer</button>
+
+                                                <!-- Boutons à l'intérieur du formulaire -->
+                                                <div class="modal-footer">
+                                                    <button type="submit"
+                                                        class="btn btn-success">Enregistrer</button>
+                                                    <button type="button" class="btn btn-orange"
+                                                        data-bs-dismiss="modal">Fermer</button>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
 
                             <!-- Modal pour la météo -->
                             <div class="modal fade" id="weatherModal" tabindex="-1"
@@ -265,7 +280,8 @@
                                                         <h5 class="mb-1">{{ $ferme->nomferme }}</h5>
                                                         <p class="mb-1">
                                                             <strong>Description:</strong>
-                                                            <span class="description-truncate">{{ $ferme->description }}</span><br>
+                                                            <span
+                                                                class="description-truncate">{{ $ferme->description }}</span><br>
                                                             <strong>Adresse:</strong> {{ $ferme->adresse }}
                                                         </p>
                                                     </div>
@@ -279,10 +295,12 @@
                                                             <i class="material-icons">tasks</i> Tâches
                                                         </a>
 
-                                                        <a href="{{route('fermes.edit', $ferme->id)}}" class="btn btn-warning btn-sm me-2">
+                                                        <a href="{{ route('fermes.edit', $ferme->id) }}"
+                                                            class="btn btn-warning btn-sm me-2">
                                                             <i class="material-icons">edit</i> Modifier
                                                         </a>
-                                                        <a href="{{ route('animals.index', $ferme->id) }}" class="btn btn-danger btn-sm">
+                                                        <a href="{{ route('animals.index', $ferme->id) }}"
+                                                            class="btn btn-danger btn-sm">
                                                             <i class="material-icons">list_alt</i>Animaux
                                                         </a>
                                                     </div>
@@ -347,14 +365,26 @@
                                             padding: 10px 20px;
                                             border: none;
                                             cursor: pointer;
-                                            margin-top: 2%
+                                            margin-top: 2%;
+                                        }
+
+                                        .btn-orange {
+                                            background-color: orange;
+                                            color: white;
+                                        }
+
+                                        .modal-footer {
+                                            display: flex;
+                                            justify-content: space-between;
+                                            margin-top: 10px;
                                         }
                                     </style>
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"><img class="img-fluid"
-                                                    src="{{ asset('assets/images/plus.png') }}"
-                                                    style="width:8%; padding-right:2%">Ajouter une nouvelle Ferme
+                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                <img class="img-fluid" src="{{ asset('assets/images/plus.png') }}"
+                                                    style="width:7%; padding-right:2%">
+                                                Ajouter une nouvelle Ferme
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -362,9 +392,10 @@
                                         <div class="modal-body">
                                             <form action="{{ route('ferme') }}" method="POST">
                                                 Ce formulaire vous permet de créer une nouvelle ferme et d'ajouter les
-                                                informations relatives à l'espèce principale d'animaux que vous élevez.
-                                                Vous pourrez ensuite ajouter des animaux d'autres espèces
-                                                ultérieurement.
+                                                informations relatives à
+                                                l'espèce principale d'animaux que vous élevez. Vous pourrez ensuite
+                                                ajouter des animaux d'autres
+                                                espèces ultérieurement.
                                                 @csrf
 
                                                 <input type="hidden" name="user_id"
@@ -376,12 +407,20 @@
                                                 <input type="text" id="description" name="description" required>
                                                 <label for="adresse">Adresse</label>
                                                 <input type="text" id="adresse" name="adresse" required>
-                                                <button type="submit">Enregistrer</button>
+
+                                                <!-- Boutons à l'intérieur du formulaire -->
+                                                <div class="modal-footer">
+                                                    <button type="submit"
+                                                        class="btn btn-success">Enregistrer</button>
+                                                    <button type="button" class="btn btn-orange"
+                                                        data-bs-dismiss="modal">Fermer</button>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         @endif
                     </div>
                 </div>
@@ -409,12 +448,12 @@
                             <h5 style="color:black;">ElevConnect</h5>
                             <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
                             <p>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <i class="agrikon-icon-email"></i>
-                                        <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
-                                    </li>
-                                </ul>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="agrikon-icon-email"></i>
+                                    <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
+                                </li>
+                            </ul>
                             </p>
                         </div>
                     </div>

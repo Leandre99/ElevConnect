@@ -65,28 +65,15 @@
                                             Gestion
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a><li>
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                            <li><a class="dropdown-item fw-medium"
+                                                    href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                            <li>
+                                            <li><a class="dropdown-item fw-medium"
+                                                    href="{{ route('admin.users') }}">Dashboard User</a></li>
+                                            <li><a class="dropdown-item fw-medium"
+                                                    href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
                                             <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                         </ul>
-                                    </li>
-                                    @elseif (Auth::user()->role === 'Veterinaire')
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium active" style="font-weight: bold;"
-                                            href="{{ route('welcome') }}">Accueil</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                     </li>
                                 @else
                                     <li class="nav-item px-2">
@@ -100,17 +87,22 @@
                                         <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
                                     </li>
                                     <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
+                                    </li>
+                                    <li class="nav-item px-2">
                                         <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                     </li>
                                 @endif
 
                                 <li class="nav-item dropdown mx-auto">
-                                    <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
-                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle fw-medium" href="#"
+                                        id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         {{ Auth::user()->name }}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('profile.edit') }}">Profil</a>
                                         </li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
@@ -183,9 +175,9 @@
                         <div class="mb-3">
                             <label for="plus_aime" class="form-label">Ce que vous aimez le plus chez nous :</label>
                             <select id="plus_aime" name="plus_aime" class="form-select" required>
-                                <option value="challenges">Les défis</option>
-                                <option value="projects">Les projets</option>
-                                <option value="community">La communauté</option>
+                                <option value="challenges">L'automatisation des taches</option>
+                                <option value="projects">La gestion des alertes maladies</option>
+                                <option value="community">Le rapport de performance</option>
                                 <option value="open_source">L'open source</option>
                             </select>
                         </div>
@@ -206,11 +198,11 @@
                             </div>
                             <div>
                                 <input type="checkbox" id="preferences4" name="preferences[]" value="Le formulaire de contact" class="form-check-input">
-                                <label for="preferences4" class="form-check-label">Le formulaire de contact</label>
+                                <label for="preferences4" class="form-check-label">La gestion des tâches</label>
                             </div>
                             <div>
                                 <input type="checkbox" id="preferences5" name="preferences[]" value="Le service de messagerie" class="form-check-input">
-                                <label for="preferences5" class="form-check-label">Le service de messagerie</label>
+                                <label for="preferences5" class="form-check-label">La gestion des alertes maladies</label>
                             </div>
                         </div>
 

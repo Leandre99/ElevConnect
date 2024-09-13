@@ -28,6 +28,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 2%">
             <div class="container-fluid">
                 <a class="navbar-brand mx-auto" href="/" style="color: rgb(115, 168, 36)">ElevConnect</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -66,11 +67,14 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="#">Dashboard Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="#">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
-                                                Tâche</a></li>
-                                                <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                        <li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -85,17 +89,22 @@
                                     <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
                                 </li>
                                 <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
+                                </li>
+                                <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                 </li>
                             @endif
 
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#"
+                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                    <li><a class="dropdown-item fw-medium"
+                                            href="{{ route('profile.edit') }}">Profil</a>
                                     </li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -148,13 +157,21 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="race_id">Race</label>
+                                    <select id="race_id" name="race_id" class="form-control" required>
+                                        <option value="">Sélectionner une race</option>
+                                        @foreach($races as $race)
+                                            <option value="{{ $race->id }}">{{ $race->nomrace }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="media">Ajouter une photo ou une vidéo (optionnel)</label>
                                     <input type="file" id="media" name="media" class="form-control">
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                                 <button type="submit" class="btn btn-primary">Soumettre</button>
                                 @if (session('success'))
                                     <div class="alert alert-success">
@@ -163,6 +180,7 @@
                                 @endif
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

@@ -73,23 +73,6 @@
                                             <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                         </ul>
                                     </li>
-                                @elseif (Auth::user()->role === 'Veterinaire')
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium active" style="font-weight: bold;"
-                                            href="{{ route('welcome') }}">Accueil</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
-                                    </li>
-                                    <li class="nav-item px-2">
-                                        <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
-                                    </li>
                                 @else
                                     <li class="nav-item px-2">
                                         <a class="nav-link fw-medium active" style="font-weight: bold;"
@@ -100,6 +83,9 @@
                                     </li>
                                     <li class="nav-item px-2">
                                         <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                    </li>
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                     </li>
                                     <li class="nav-item px-2">
                                         <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
@@ -169,14 +155,12 @@
                                                     <div class="top">
                                                         <div>
                                                             @if (Auth::user()->role === 'Veterinaire')
-                                                                <h5>{{ $message->user->name }}</h5>
+                                                                {{-- <h5>{{ $message->user->name }}</h5> --}}
                                                             @else
                                                                 <h5>{{ $veterinaire->name }}</h5>
                                                             @endif
                                                         </div>
                                                     </div>
-
-
 
                                                     <div class="messages" id="messages-{{ $veterinaire->id }}">
                                                         @include('receive', [
@@ -190,7 +174,9 @@
                                                             <input type="text" id="message-{{ $veterinaire->id }}"
                                                                 name="message" placeholder="Enter message..."
                                                                 autocomplete="off">
-                                                            <button type="submit"></button>
+                                                            <button type="submit" class="btn-submit">
+                                                                <i class="fas fa-paper-plane"></i>
+                                                            </button>
                                                             <input type="hidden" name="veterinaire_id"
                                                                 value="{{ $veterinaire->id }}">
                                                         </form>
@@ -267,7 +253,6 @@
             veterinaireIds.forEach(id => {
                 const channel = pusher.subscribe(`public.${id}`);
 
-                // Receive messages
                 channel.bind('chat', function(data) {
                     $.post("/receive", {
                         _token: '{{ csrf_token() }}',
@@ -279,7 +264,6 @@
                     });
                 });
 
-                // Broadcast messages
                 $(`#form-${id}`).submit(function(event) {
                     event.preventDefault();
 
@@ -297,7 +281,6 @@
                             veterinaire_id: id
                         }
                     }).done(function(res) {
-                        // Append the sent message to the messages container
                         $.post("/receive", {
                             _token: '{{ csrf_token() }}',
                             message: message,

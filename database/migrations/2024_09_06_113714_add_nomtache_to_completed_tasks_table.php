@@ -8,15 +8,16 @@ return new class extends Migration
 {
     public function up()
 {
-    Schema::table('tache', function (Blueprint $table) {
-        $table->string('quantite')->change();
+    Schema::table('completed_tasks', function (Blueprint $table) {
+        $table->string('nomtache')->nullable();
     });
 }
 
 public function down()
 {
-    Schema::table('tache', function (Blueprint $table) {
-        $table->integer('quantite')->change();
+    Schema::table('completed_tasks', function (Blueprint $table) {
+        $table->dropColumn('nomtache');
     });
 }
+
 };

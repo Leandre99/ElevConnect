@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plateforme ElevConnect</title>
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link
+        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
@@ -20,7 +23,8 @@
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js">
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script>
@@ -34,48 +38,50 @@
     </script>
     <style>
         .actions {
-    text-align: center;
-}
+            text-align: center;
+        }
 
-.action-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 18px;
-    color: #fff;
-    text-decoration: none;
-    margin-right: 8px;
-    transition: background-color 0.3s, color 0.3s;
-}
+        .action-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
+            margin-right: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-.action-icon:hover {
-    color: #fff;
-    opacity: 0.8;
-}
+        .action-icon:hover {
+            color: #fff;
+            opacity: 0.8;
+        }
 
-.view-icon {
-    background-color: #007bff; /* Couleur de l'icône "Accéder" */
-}
+        .view-icon {
+            background-color: #007bff;
+            /* Couleur de l'icône "Accéder" */
+        }
 
-.edit-icon {
-    background-color: #ffc107; /* Couleur de l'icône "Modifier" */
-}
+        .edit-icon {
+            background-color: #ffc107;
+            /* Couleur de l'icône "Modifier" */
+        }
 
-.toggle-icon {
-    background-color: #28a745; /* Couleur de l'icône "Activer/Désactiver" */
-}
+        .toggle-icon {
+            background-color: #28a745;
+            /* Couleur de l'icône "Activer/Désactiver" */
+        }
 
-.action-icon button {
-    border: none;
-    background: transparent;
-    color: inherit;
-    padding: 0;
-    cursor: pointer;
-}
-
+        .action-icon button {
+            border: none;
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -99,7 +105,7 @@
                                     href="{{ route('welcome') }}">Accueil</a>
                             </li>
                             <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                             </li>
                             <li class="nav-item px-2">
                                 <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
@@ -123,9 +129,13 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.farms')}}">Dashboard Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.users')}}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.taches')}}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                        <li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
@@ -135,10 +145,13 @@
                                         href="{{ route('welcome') }}">Accueil</a>
                                 </li>
                                 <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
@@ -146,12 +159,14 @@
                             @endif
 
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#"
+                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                    <li><a class="dropdown-item fw-medium"
+                                            href="{{ route('profile.edit') }}">Profil</a>
                                     </li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -183,41 +198,49 @@
                 </thead>
                 <tbody>
                     @foreach ($farms as $farm)
-                    <tr>
-                        <td>{{ $farm->id }}</td>
-                        <td>{{ $farm->user->name }}</td>
-                        <td>{{ $farm->nomferme }}</td>
-                        <td>{{ $farm->description }}</td>
-                        <td>{{ $farm->adresse }}</td>
-                        <td class="actions">
-                            <a href="{{ route('admin.farms.show', $farm->id) }}" class="action-icon view-icon" title="Accéder">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ route('admin.farms.edit', $farm) }}" class="action-icon edit-icon" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form action="{{ route('admin.farms.toggleStatus', $farm) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="action-icon toggle-icon" title="{{ $farm->active ? 'Désactiver' : 'Activer' }}">
-                                    <i class="fas {{ $farm->active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $farm->id }}</td>
+                            <td>{{ $farm->user->name }}</td>
+                            <td>{{ $farm->nomferme }}</td>
+                            <td>{{ $farm->description }}</td>
+                            <td>{{ $farm->adresse }}</td>
+                            <td class="actions">
+                                <a href="{{ route('admin.farms.show', $farm->id) }}" class="action-icon view-icon"
+                                    title="Accéder">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('admin.farms.edit', $farm) }}" class="action-icon edit-icon"
+                                    title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('admin.farms.toggleStatus', $farm) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="action-icon toggle-icon"
+                                        title="{{ $farm->active ? 'Désactiver' : 'Activer' }}">
+                                        <i class="fas {{ $farm->active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
 
-        </main>
-        <script src="vendors/is/is.min.js"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-        <script src="assets/js/theme.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
-    </body>
-    </html>
+    </main>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
+        rel="stylesheet">
+</body>
 
-
+</html>

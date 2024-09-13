@@ -14,12 +14,13 @@ class CompletedTask extends Model
         'user_id',
         'ferme_id',
         'completed_at',
+        'nomtache',
     ];
 
-    public function task()
-{
-    return $this->belongsTo(Tache::class, 'task_id');
-}
+    public function tache()
+    {
+        return $this->belongsTo(Tache::class, 'tache_id');
+    }
 
 
     public function user()

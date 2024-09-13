@@ -68,7 +68,7 @@
                                     href="{{ route('welcome') }}">Accueil</a>
                             </li>
                             <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                             </li>
                             <li class="nav-item px-2">
                                 <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
@@ -92,14 +92,14 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.farms') }}">Dashboard
-                                                Ferme</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.users') }}">Dashboard
-                                                User</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
-                                                Tâche</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.animals') }}">Dashboard
-                                                    Animal</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                        <li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
+                                        <li><a class="dropdown-item fw-medium"
+                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -108,10 +108,13 @@
                                         href="{{ route('welcome') }}">Accueil</a>
                                 </li>
                                 <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme-index') }}">Ma ferme</a>
+                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                </li>
+                                <li class="nav-item px-2">
+                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
@@ -119,12 +122,14 @@
                             @endif
 
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#"
+                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                    <li><a class="dropdown-item fw-medium"
+                                            href="{{ route('profile.edit') }}">Profil</a>
                                     </li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -204,5 +209,4 @@
     <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
         rel="stylesheet">
 </body>
-
 </html>
