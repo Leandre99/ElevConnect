@@ -64,4 +64,57 @@ class EspeceController extends Controller
     {
         return response()->json($espece->races);
     }
+
+    public function adminIndex()
+{
+    $especes = Espece::all();
+    return view('admin.especes.index', compact('especes'));
+}
+
+public function adminCreate()
+{
+    return view('admin.especes.create');
+}
+
+public function adminStore(Request $request)
+{
+    $request->validate([
+        'nomespece' => 'required|string|max:255',
+    ]);
+
+    Espece::create([
+        'nomespece' => $request->nomespece,
+    ]);
+
+    return redirect()->route('admin.especes')->with('success', 'Espèce ajoutée avec succès.');
+}
+
+public function adminEdit($id)
+{
+    $espece = Espece::findOrFail($id);
+    return view('admin.especes.edit', compact('espece'));
+}
+
+public function adminUpdate(Request $request, $id)
+{
+    $request->validate([
+        'nomespece' => 'required|string|max:255',
+    ]);
+
+    $espece = Espece::findOrFail($id);
+    $espece->update([
+        'nomespece' => $request->nomespece,
+    ]);
+
+    return redirect()->route('admin.especes')->with('success', 'Espèce mise à jour avec succès.');
+}
+
+public function adminDestroy($id)
+{
+    $espece = Espece::findOrFail($id);
+    $espece->delete();
+
+    return redirect()->route('admin.especes')->with('success', 'Espèce supprimée avec succès.');
+}
+
 }
