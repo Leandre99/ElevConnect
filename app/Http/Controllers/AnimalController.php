@@ -31,7 +31,6 @@ class AnimalController extends Controller
 
     public function store(Request $request, Ferme $ferme)
     {
-
         $request->validate([
             'espece_id' => 'required|exists:especes,id',
             'race_id' => 'required|exists:races,id',
@@ -85,7 +84,6 @@ class AnimalController extends Controller
 
     public function update(Request $request, Ferme $ferme, $id)
     {
-
         $request->validate([
             'espece_id' => 'required|exists:especes,id',
             'race_id' => 'required|exists:races,id',
@@ -93,9 +91,7 @@ class AnimalController extends Controller
             'nombre' => 'required|integer',
         ]);
 
-
         $animal = Animal::findOrFail($id);
-
 
         $existingAnimal = Animal::where('ferme_id', $ferme->id)
             ->where('espece_id', $request->input('espece_id'))
@@ -164,7 +160,6 @@ class AnimalController extends Controller
         }
         $ferme->expired_date =  date('Y-m-d', strtotime($ferme->expired_date . '+7 days'));
         $ferme->save();
-
         return redirect()->route('tasks.index', $ferme_id);
     }
 
@@ -172,7 +167,6 @@ class AnimalController extends Controller
 {
     $fermes = Ferme::all();
     $races = Race::all();
-
     return view('admin.edit_animal', compact('animal', 'fermes', 'races'));
 }
 
@@ -189,7 +183,6 @@ public function destroyAdminAnimal($id)
 {
     $animal = Animal::findOrFail($id);
     $animal->delete();
-
     return redirect()->route('admin.animals')->with('success', 'Animal deleted successfully!');
 }
 

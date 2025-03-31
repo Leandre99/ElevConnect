@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('alerts', function (Blueprint $table) {
-            $table->string('animal_race')->nullable(); // Ajoute le champ pour la race de l'animal
+            $table->string('animal_race')->nullable();
         });
     }
 

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ferme extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'user_id',
         'nomferme',
@@ -28,12 +27,12 @@ class Ferme extends Model
     }
 
     public function races()
-{
-    return $this->belongsToMany(Race::class);
-}
-public function tache()
-{
-    return $this->hasMany(Tache::class);
-}
+    {
+        return $this->belongsToMany(Race::class);
+    }
+    public function tache()
+    {
+        return $this->hasMany(Tache::class);
+    }
 
 }

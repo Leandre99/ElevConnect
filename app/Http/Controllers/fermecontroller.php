@@ -64,40 +64,36 @@ class FermeController extends Controller
     }
 
     public function destroy(Ferme $ferme)
-{
-    $ferme->is_active = false;
-    $ferme->save();
+    {
+        $ferme->is_active = false;
+        $ferme->save();
+        return redirect()->route('Ferme')->with('success', 'Ferme désactivée avec succès.');
+    }
+    public function activate(Ferme $ferme)
+    {
+        $ferme->is_active = true;
+        $ferme->save();
+        return redirect()->route('admin.farms.index')->with('success', 'Ferme activée avec succès.');
+    }
 
-    return redirect()->route('Ferme')->with('success', 'Ferme désactivée avec succès.');
-}
-public function activate(Ferme $ferme)
-{
-    $ferme->is_active = true;
-    $ferme->save();
+    public function deactivate(Ferme $ferme)
+    {
+        $ferme->is_active = false;
+        $ferme->save();
+        return redirect()->route('admin.farms.index')->with('success', 'Ferme désactivée avec succès.');
+    }
+    public function toggleStatus(Ferme $farm)
+    {
+        $farm->active = !$farm->active;
+        $farm->save();
+        return redirect()->route('admin.farms.index')->with('success', 'Statut de la ferme mis à jour avec succès.');
+    }
 
-    return redirect()->route('admin.farms.index')->with('success', 'Ferme activée avec succès.');
-}
-
-public function deactivate(Ferme $ferme)
-{
-    $ferme->is_active = false;
-    $ferme->save();
-
-    return redirect()->route('admin.farms.index')->with('success', 'Ferme désactivée avec succès.');
-}
-public function toggleStatus(Ferme $farm)
-{
-    $farm->active = !$farm->active;
-    $farm->save();
-
-    return redirect()->route('admin.farms.index')->with('success', 'Statut de la ferme mis à jour avec succès.');
-}
-
-public function showAnimals($farmId)
-{
-    $farm = Ferme::with('animals')->findOrFail($farmId);
-    return view('admin.animal', compact('farm'));
-}
+    public function showAnimals($farmId)
+    {
+        $farm = Ferme::with('animals')->findOrFail($farmId);
+        return view('admin.animal', compact('farm'));
+    }
 
 }
 

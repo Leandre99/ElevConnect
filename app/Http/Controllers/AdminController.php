@@ -31,9 +31,17 @@ class AdminController extends Controller
 
     public function updateFarm(Request $request, Ferme $farm)
     {
-        $farm->update($request->all());
-        return redirect()->route('admin.farms')->with('success', 'Ferme mise à jour avec succès');
+    $validatedData = $request->validate([
+        'nomferme' => 'required|string|max:255',
+        'description' => 'required|string',
+        'adresse' => 'required|string|max:255',
+    ]);
+
+    $farm->update($validatedData);
+
+    return redirect()->route('admin.farms')->with('success', 'Ferme mise à jour avec succès');
     }
+
 
     public function destroyFarm(Ferme $farm)
     {
@@ -85,27 +93,9 @@ class AdminController extends Controller
         return view('admin.animals',['animals' => $animals, 'fermes' => $fermes]);
     }
 
-    // public function editAnimal(Animal $animal)
-    // {
-    //     $fermes = Ferme::all();
-    //     $races = Race::all();
+    public function dashboard()
+    {
+        return view('admin/admin_dashboard');
+    }
 
-    //     return view('admin.edit_animal', compact('animal', 'fermes', 'races'));
-    // }
-
-
-    // public function updateAnimal(Request $request, Animal $animal)
-    // {
-
-    //     $animal->update($request->all);
-
-    //     return redirect()->route('admin.edit_animal');
-    // }
-
-    // public function destroyAnimal(Animal $animal)
-    // {
-    //     $animal->delete();
-
-    //     return redirect()->route('admin.animals')->with('success', 'Animal supprimé avec succès.');
-    // }
 }

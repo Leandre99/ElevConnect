@@ -10,24 +10,22 @@ class Race extends Model
 {
     protected $fillable = [
         'especes_id',
-        'nomrace',];
+        'nomrace',
+    ];
 
-        public function espece()
-        {
-            return $this->belongsTo(Espece::class);
-        }
-
-        public function tasks()
-        {
-            return $this->hasMany(Task::class);
-        }
-
-        public function ferme()
-        {
-            return $this->hasMany(ferme::class);
-        }
-
-        public function animaux()
+    public function espece()
+    {
+        return $this->belongsTo(Espece::class);
+    }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    public function ferme()
+    {
+        return $this->hasMany(ferme::class);
+    }
+    public function animaux()
     {
         return $this->hasMany(Animal::class);
     }

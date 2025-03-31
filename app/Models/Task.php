@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'nomtache',
         'espece_id',
@@ -34,8 +33,8 @@ class Task extends Model
     }
 
     public function tache()
-{
-    return $this->hasMany(Tache::class);
-}
+    {
+        return $this->hasMany(Tache::class);
+    }
 
 }

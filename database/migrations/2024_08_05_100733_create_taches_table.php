@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->boolean('status')->default(0);
             $table->foreignId('ferme_id')->constrained('fermes');
+            $table->foreignId('task_id')->constrained('tasks');
             $table->timestamps();
         });
     }

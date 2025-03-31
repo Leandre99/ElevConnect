@@ -22,11 +22,20 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Aubierge EGUIN',
-            'email' => 'auiereguin@gmail.com',
+            'email' => 'aubiergeeguin@gmail.com',
             'password' => Hash::make('Aubiergeeguin123'),
-            'role' => 'Eleveur', // Type de compte
+            'role' => 'Eleveur',
             'description' => 'Eleveur passionné par l\'agriculture durable.',
             'contact' => '58967435',
+        ]);
+
+        User::create([
+            'name' => 'Léandre ELISHA',
+            'email' => 'leandreelisha20@gmail.com',
+            'password' => Hash::make('Leandre123'),
+            'role' => 'Eleveur',
+            'description' => 'Eleveur passionné par l\'agriculture durable.',
+            'contact' => '0161050590',
         ]);
 
 
@@ -43,7 +52,7 @@ class UserSeeder extends Seeder
             'name' => 'Dr Eustache ZINSOU',
             'email' => 'eustachezinsou@gmail.com',
             'password' => Hash::make('Eustachezinsou123'),
-            'role' => 'Veterinaire', // Type de compte
+            'role' => 'Veterinaire',
             'description' => 'Vétérinaire et chercheur au BENIN, spécialisé dans la santé animale durable et l\'épidémiologie vétérinaire.',
             'contact' => '96783756',
         ]);
@@ -52,12 +61,9 @@ class UserSeeder extends Seeder
             'name' => 'Dr. Grace Kahindi',
             'email' => 'gracekahindi@gmail.com',
             'password' => Hash::make('Gracekahindi123'),
-            'role' => 'Veterinaire', // Type de compte
+            'role' => 'Veterinaire',
             'description' => 'Vétérinaire au Kenya, experte en médecine vétérinaire et conservation de la faune sauvage.',
             'contact' => '96785249',
         ]);
-
-        // Exemple d'utilisation de la méthode factory pour créer plusieurs utilisateurs aléatoires
-        // User::factory()->count(10)->create();
     }
 }

@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/farms', [AdminController::class, 'indexFarms'])->name('admin.farms');
     Route::get('/admin/users', [AdminController::class, 'indexUsers'])->name('admin.users');
     Route::get('/admin/farms/{farm}/edit', [AdminController::class, 'editFarm'])->name('admin.farms.edit');
@@ -81,6 +83,21 @@ Route::middleware('auth')->group(function () {
     Route::get('tasks/{task}/edit', [TaskController::class, 'adminEdit'])->name('admin.edit_tache');
     Route::put('tasks/{task}', [TaskController::class, 'adminUpdate'])->name('admin.tasks.update');
     Route::delete('tasks/{task}', [TaskController::class, 'adminDestroy'])->name('admin.tasks.destroy');
+
+Route::get('/admin/especes', [EspeceController::class, 'index'])->name('admin.especes.index');
+Route::get('/admin/especes/create', [EspeceController::class, 'create'])->name('admin.especes.create');
+Route::post('/admin/especes', [EspeceController::class, 'store'])->name('admin.especes.store');
+Route::get('/admin/especes/{espece}/edit', [EspeceController::class, 'edit'])->name('admin.especes.edit');
+Route::put('/admin/especes/{espece}', [EspeceController::class, 'update'])->name('admin.especes.update');
+Route::delete('/admin/especes/{espece}', [EspeceController::class, 'destroy'])->name('admin.especes.destroy');
+
+Route::get('/admin/races', [RaceController::class, 'index'])->name('admin.races.index');
+Route::get('/admin/races/create', [RaceController::class, 'create'])->name('admin.races.create');
+Route::post('/admin/races', [RaceController::class, 'store'])->name('admin.races.store');
+Route::get('/admin/races/{race}/edit', [RaceController::class, 'edit'])->name('admin.races.edit');
+Route::put('/admin/races/{race}', [RaceController::class, 'update'])->name('admin.races.update')
+Route::delete('/admin/races/{race}', [RaceController::class, 'destroy'])->name('admin.races.destroy');
+
 
 });
 

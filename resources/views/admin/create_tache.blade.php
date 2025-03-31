@@ -1,305 +1,117 @@
-<!DOCTYPE html>
-<html lang="en-US" dir="ltr">
+@extends('layouts.admin_layout')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Plateforme ElevConnect</title>
-    <link
-        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
-    <link rel="manifest" href="assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
-    <meta name="theme-color" content="#ffffff">
-    <link href="assets/css/theme.css" rel="stylesheet" />
-</head>
+@section('content')
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold text-success">Créer une Nouvelle Tâche</h4>
+            <a href="{{ route('admin.taches') }}" class="btn btn-outline-success">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+        </div>
 
-<body>
-    <main class="main" id="top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 2%">
-            <div class="container-fluid">
-                <a class="navbar-brand mx-auto" href="/" style="color: rgb(115, 168, 36)">ElevConnect</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        @guest
-                            <li class="nav-item px-2">
-                                <a class="nav-link fw-medium active" style="font-weight: bold;"
-                                    href="{{ route('welcome') }}">Accueil</a>
-                            </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
-                            </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
-                            </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
-                            </li>
-                            <li class="nav-item d-flex">
-                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute;right: 0;"
-                                    href="{{ route('register') }}">
-                                    <img src="{{ asset('assets/images/connexion.png') }}" width=30>
-                                </a>
-                            </li>
-                        @endguest
-
-                        @auth
-                            @if (Auth::user()->role === 'admin')
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
-                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Gestion
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
-                                        <li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
-                                    </ul>
-                                </li>
-                            @else
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium active" style="font-weight: bold;"
-                                        href="{{ route('welcome') }}">Accueil</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
-                                </li>
-                            @endif
-
-                            <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#"
-                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    {{ Auth::user()->name }}
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium"
-                                            href="{{ route('profile.edit') }}">Profil</a>
-                                    </li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <li>
-                                            <a class="dropdown-item fw-medium" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault(); this.closest('form').submit();">Se
-                                                déconnecter</a>
-                                        </li>
-                                    </form>
-                                </ul>
-                            </li>
-                        @endauth
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="container mt-5">
-            <h1>Créer une Tâche</h1>
-
+        <div class="card shadow-sm p-4">
             <form action="{{ route('admin.tasks.store') }}" method="POST">
                 @csrf
 
-                <div class="form-group">
-                    <label for="nomtache">Description</label>
-                    <input type="text" class="form-control" id="nomtache" name="nomtache" required>
+                <div class="row">
+                    <!-- Description -->
+                    <div class="col-md-6 mb-3">
+                        <label for="nomtache" class="form-label fw-bold">Description</label>
+                        <input type="text" class="form-control" id="nomtache" name="nomtache" required placeholder="Ex: Nourrir les animaux">
+                    </div>
+
+                    <!-- Espèce -->
+                    <div class="col-md-6 mb-3">
+                        <label for="espece" class="form-label fw-bold">Espèce</label>
+                        <select class="form-select" id="espece" name="espece_id" required>
+                            <option value="" disabled selected>Choisir une espèce</option>
+                            @foreach ($especes as $espece)
+                                <option value="{{ $espece->id }}">{{ $espece->nomespece }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Race -->
+                    <div class="col-md-6 mb-3">
+                        <label for="race_id" class="form-label fw-bold">Race</label>
+                        <select class="form-select" id="race_id" name="race_id" required>
+                            <option value="" disabled selected>Choisir une race</option>
+                        </select>
+                    </div>
+
+                    <!-- Fréquence -->
+                    <div class="col-md-6 mb-3">
+                        <label for="frequence" class="form-label fw-bold">Fréquence (en jours)</label>
+                        <input type="number" class="form-control" id="frequence" name="frequence" required placeholder="Ex: 7">
+                    </div>
+
+                    <!-- Quantité -->
+                    <div class="col-md-6 mb-3">
+                        <label for="quantite" class="form-label fw-bold">Quantité (en g)</label>
+                        <input type="number" class="form-control" id="quantite" name="quantite" required placeholder="Ex: 500">
+                    </div>
+
+                    <!-- Type -->
+                    <div class="col-md-6 mb-3">
+                        <label for="type" class="form-label fw-bold">Type</label>
+                        <select class="form-select" id="type" name="type" required>
+                            <option value="" disabled selected>Choisir un type</option>
+                            <option value="Alimentation">Alimentation</option>
+                            <option value="Soins">Soins</option>
+                            <option value="Environnement">Environnement</option>
+                        </select>
+                    </div>
+
+                    <!-- Âge minimum -->
+                    <div class="col-md-6 mb-3">
+                        <label for="age_min" class="form-label fw-bold">Âge Minimum</label>
+                        <input type="number" class="form-control" id="age_min" name="age_min" required placeholder="Ex: 3">
+                    </div>
+
+                    <!-- Âge maximum -->
+                    <div class="col-md-6 mb-3">
+                        <label for="age_max" class="form-label fw-bold">Âge Maximum</label>
+                        <input type="number" class="form-control" id="age_max" name="age_max" required placeholder="Ex: 12">
+                    </div>
+
+                    <!-- Jour -->
+                    <div class="col-md-6 mb-3">
+                        <label for="jour" class="form-label fw-bold">Jour</label>
+                        <input type="number" class="form-control" id="jour" name="jour" required placeholder="Ex: 1">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="espece" class="form-label">Espèce</label>
-                    <select class="form-select" id="espece" name="espece_id" required>
-                        <option value="" disabled selected>Choisir une espèce</option>
-                        @foreach ($especes as $espece)
-                            <option value="{{ $espece->id }}">{{ $espece->nomespece }}</option>
-                        @endforeach
-                    </select>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
                 </div>
-
-                <div class="form-group">
-                    <label for="race_id">Race</label>
-                    <select class="form-control" id="race_id" name="race_id" required>
-                        <option value="" disabled selected>Choisir une race</option>
-                        <!-- Les options seront ajoutées dynamiquement -->
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="frequence">Frequence (En jours)</label>
-                    <input type="number" class="form-control" id="frequence" name="frequence" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="quantite">Quantité (En g)</label>
-                    <input type="number" class="form-control" id="quantite" name="quantite" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select class="form-select" id="type" name="type" required>
-                        <option value="" disabled selected>Choisir un type</option>
-                        <option value="Alimentation">Alimentation</option>
-                        <option value="Soins">Soins</option>
-                        <option value="Environnement">Environnement</option>
-                    </select>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="age_min">Âge Minimum</label>
-                    <input type="number" class="form-control" id="age_min" name="age_min" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="age_max">Âge Maximum</label>
-                    <input type="number" class="form-control" id="age_max" name="age_max" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="jour">Jour</label>
-                    <input type="number" class="form-control" id="jour" name="jour" required>
-                </div>
-
-                <button type="submit" style="margin: 2%" class="btn btn-primary">Créer</button>
             </form>
         </div>
+    </div>
 
-    </main>
     <script>
         document.getElementById('espece').addEventListener('change', function() {
             const selectedSpeciesId = this.value;
-            const raceSelect = document.getElementById('race');
+            const raceSelect = document.getElementById('race_id');
 
-            // Réinitialiser la liste des races
-            raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
+            raceSelect.innerHTML = '<option value="" disabled selected>Chargement...</option>';
 
-            // Remplir la liste des races en fonction de l'espèce sélectionnée
             fetch(`/especes/${selectedSpeciesId}/races`)
                 .then(response => response.json())
                 .then(data => {
+                    raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
                     data.forEach(race => {
                         const option = document.createElement('option');
                         option.value = race.id;
                         option.textContent = race.nomrace;
                         raceSelect.appendChild(option);
                     });
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    raceSelect.innerHTML = '<option value="" disabled selected>Aucune race disponible</option>';
                 });
         });
     </script>
-    <script>
-        document.getElementById('especes').addEventListener('change', function() {
-            const selectedSpecies = this.value;
-            const raceSelect = document.getElementById('race');
-            // Réinitialisez la liste des races
-            raceSelect.innerHTML = '';
-
-            // Remplissez la liste des races en fonction de l'espèce sélectionnée
-            switch (selectedSpecies) {
-                case 'volailles':
-                    addRaceOption('Pintade');
-                    addRaceOption('Poulet de chair');
-                    addRaceOption('Poule pondeuse');
-                    addRaceOption('Dinde');
-                    addRaceOption('Poulet locale (Bicyclette)');
-                    // Ajoutez d'autres races de volailles ici
-                    break;
-                case 'bovins':
-                    addRaceOption('Vache');
-                    addRaceOption('Taureaux');
-                    addRaceOption('Veaux');
-                    break;
-                case 'caprins':
-                    addRaceOption('Chèvre Djallonké');
-                    addRaceOption('Chèvre du Sahel')
-                    break;
-                case 'ovins':
-                    addRaceOption('Balibali');
-                    addRaceOption('Autres');
-                    break;
-                case 'porcs':
-                    addRaceOption('Porc Local');
-                    addRaceOption('Porc Landrace')
-                    addRaceOption('Autre');
-                    break;
-            }
-
-            // Fonction pour ajouter une option de race
-            function addRaceOption(raceName) {
-                const option = document.createElement('option');
-                option.value = raceName;
-                option.textContent = raceName;
-                raceSelect.appendChild(option);
-            }
-        });
-    </script>
-    <script>
-        document.getElementById('espece').addEventListener('change', function() {
-            const selectedSpeciesId = this.value;
-            const raceSelect = document.getElementById('race_id');
-
-            raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
-
-            if (selectedSpeciesId) {
-                fetch(`/especes/${selectedSpeciesId}/races`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        data.forEach(race => {
-                            const option = document.createElement('option');
-                            option.value = race.id;
-                            option.textContent = race.nomrace;
-                            raceSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erreur:', error);
-                    });
-            }
-        });
-        </script>
-
-    <script src="vendors/is/is.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="assets/js/theme.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
-        rel="stylesheet">
-</body>
-
-</html>
+@endsection

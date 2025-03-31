@@ -58,7 +58,10 @@
 
                         @auth
                             @if (Auth::user()->role === 'admin')
-                                <li class="nav-item dropdown">
+                            <li class="nav-item">
+                                <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a> <!-- Lien vers le dashboard admin -->
+                            </li>
+                                {{-- <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
                                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Gestion
@@ -73,7 +76,7 @@
                                                 href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
                                         <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
                                     </ul>
-                                </li>
+                                </li> --}}
                             @else
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium active" style="font-weight: bold;"

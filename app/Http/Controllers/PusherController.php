@@ -22,7 +22,6 @@ class PusherController extends Controller
 
     public function receive(Request $request)
     {
-    
         $message = $request->get('message');
         $formattedMessage = view('receive', ['message' => $message])->render();
         return response()->json($formattedMessage);

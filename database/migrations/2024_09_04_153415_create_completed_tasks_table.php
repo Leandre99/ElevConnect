@@ -16,7 +16,6 @@ class CreateCompletedTasksTable extends Migration
             $table->unsignedBigInteger('task_id')->nullable(); // Au cas où task_id est utilisé
             $table->unsignedBigInteger('user_id');   // Pour la table users
 
-            // Timestamp pour marquer la tâche comme complétée
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 

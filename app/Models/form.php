@@ -21,6 +21,6 @@ class Form extends Model
     ];
 
     protected $casts = [
-        'preferences' => 'array', // Ensure preferences are cast to array
+        'preferences' => 'array',
     ];
 }
