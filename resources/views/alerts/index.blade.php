@@ -133,8 +133,7 @@
             <h1>Alertes</h1>
             <table id="alertsTable" class="display">
                 <thead>
-                    <tr>
-                        <th>Race</th>
+                    <tr>   
                         <th>Priorité</th>
                         <th>Description</th>
                         <th>Actions</th>
@@ -143,7 +142,6 @@
                 <tbody>
                     @foreach ($alerts as $alert)
                         <tr>
-                            <td>{{ $alert->animal_race}} </td>
                             <td>{{ $alert->priority }}</td>
                             <td>{{ $alert->description }}</td>
                             <td>

@@ -51,6 +51,7 @@
                             <li class="nav-item d-flex">
                                 <a class="nav-link fw-medium" style="font-weight:bold; position: absolute;right: 0;"
                                     href="{{ route('register') }}">
+                                    <span style="margin-right: 8px;">Connexion</span>
                                     <img src="{{ asset('assets/images/connexion.png') }}" width=30>
                                 </a>
                             </li>
@@ -58,25 +59,9 @@
 
                         @auth
                             @if (Auth::user()->role === 'admin')
-                            <li class="nav-item">
-                                <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a> <!-- Lien vers le dashboard admin -->
-                            </li>
-                                {{-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
-                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Gestion
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
-                                        <li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
-                                    </ul>
-                                </li> --}}
+                                <li class="nav-item">
+                                    <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a> <!-- Lien vers le dashboard admin -->
+                                </li>
                             @else
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium active" style="font-weight: bold;"

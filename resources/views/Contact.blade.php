@@ -217,39 +217,39 @@
             </div>
         </div>
 
-        <footer class="bg-success" style="padding-top:5%;">
-            <div class="container">
-                <div class="row text-md-left">
-                    <div class="col-md-4 col-lg-4 col-sm-4">
-                        <h5><img class="img-fluid" src="{{ asset('assets/images/preview.png') }}" style="width:50%;">
-                        </h5>
-                        <p style="margin-left:8%; color:white;"><b>Elev<span style="color: black;">Connect</b></p>
-                    </div><br>
+            <footer class="bg-success" style="padding-top:5%;">
+        <div class="container">
+            <div class="row text-md-left">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <h5><img class="img-fluid" src="{{ asset('assets/images/preview.png') }}" style="width:50%;">
+                    </h5>
+                    <p style="margin-left:8%; color:white;"><b>Elev<span style="color: black;">Connect</b></p>
+                </div><br>
 
-                    <div class="col-md-4 col-lg-4 col-sm-4" style="padding-top: 3%">
-                        <h5 style="color:black;">Explorez</h5>
-                        <p style="color:white;">A propos<br>Conditions générales d'utilisation<br>Avertissement</p>
-                    </div><br>
+                <div class="col-md-4 col-lg-4 col-sm-4" style="padding-top: 3%">
+                    <h5 style="color:black;">Explorez</h5>
+                    <p style="color:white;">A propos<br>Conditions générales d'utilisation<br>Avertissement</p>
+                </div><br>
 
-                    <div class="col-md-4 col-lg-4 col-sm-4">
-                        <div class="card bg-success">
-                            <div class="card-body p-sm-4">
-                                <h5 class="text-white">ElevConnect</h5>
-                                <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
-                                <button class="btn btn-light text-success w-100" type="button">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <i class="agrikon-icon-email"></i>
-                                            <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
-                                        </li>
-                                    </ul>
-                                </button>
-                            </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="card bg-success">
+                        <div class="card-body p-sm-4">
+                            <h5 style="color:black;">ElevConnect</h5>
+                            <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
+                            <p>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="agrikon-icon-email"></i>
+                                    <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
+                                </li>
+                            </ul>
+                            </p>
                         </div>
                     </div>
-                </div><br>
-            </div>
-        </footer>
+                </div>
+            </div><br>
+        </div>
+    </footer>
     </main>
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>

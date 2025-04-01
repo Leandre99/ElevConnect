@@ -216,16 +216,16 @@
                 <div class="col-md-4 col-lg-4 col-sm-4">
                     <div class="card bg-success">
                         <div class="card-body p-sm-4">
-                            <h5 class="text-white">ElevConnect</h5>
+                            <h5 style="color:black;">ElevConnect</h5>
                             <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
-                            <button class="btn btn-light text-success w-100" type="button">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <i class="agrikon-icon-email"></i>
-                                        <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
-                                    </li>
-                                </ul>
-                            </button>
+                            <p>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="agrikon-icon-email"></i>
+                                    <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
+                                </li>
+                            </ul>
+                            </p>
                         </div>
                     </div>
                 </div>
