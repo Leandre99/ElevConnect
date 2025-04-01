@@ -6,8 +6,10 @@ use App\Models\Race;
 use App\Models\User;
 use App\Models\ferme;
 use App\Models\Animal;
+use App\Models\Espece;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Controllers\EspeceController;
 
 class AdminController extends Controller
 {
@@ -93,9 +95,16 @@ class AdminController extends Controller
         return view('admin.animals',['animals' => $animals, 'fermes' => $fermes]);
     }
 
-    public function dashboard()
+    public function index()
     {
-        return view('admin/admin_dashboard');
+        $eleveurCount = User::where('role', 'Éleveur')->count();
+        $veterinaireCount = User::where('role', 'Vétérinaire')->count();
+        $farmCount = Ferme::count();
+        $especeCount = Espece::count();
+        $raceCount = Race::count();
+        return view('admin/admin_dashboard', compact(
+            'eleveurCount', 'veterinaireCount', 'farmCount', 'especeCount', 'raceCount'
+        ));
     }
 
 }

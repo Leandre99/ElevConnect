@@ -26,11 +26,13 @@
             left: 0;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
+
         .sidebar img {
             display: block;
             margin: 0 auto 15px;
             max-width: 100px;
         }
+
         .sidebar a {
             text-decoration: none;
             color: #333;
@@ -42,13 +44,16 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
+
         .sidebar a:hover, .sidebar .active {
             background-color: rgb(115, 168, 36);
             color: white;
         }
+
         .sidebar a i {
             margin-right: 10px;
         }
+
         .sidebar .logout {
             margin-top: 50px;
         }
@@ -87,48 +92,36 @@
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-home"></i> Tableau de bord
             </a>
-
             <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users') ? 'active' : '' }}">
                 <i class="fas fa-user"></i> Utilisateurs
             </a>
-
             <a href="{{ route('admin.farms') }}" class="{{ request()->routeIs('admin.farms') ? 'active' : '' }}">
                 <i class="fas fa-warehouse"></i> Ferme
             </a>
-
             <a href="{{ route('admin.animals') }}" class="{{ request()->routeIs('admin.animals') ? 'active' : '' }}">
                 <i class="fas fa-paw"></i> Animaux
             </a>
-
             <a href="{{ route('admin.taches') }}" class="{{ request()->routeIs('admin.taches') ? 'active' : '' }}">
                 <i class="fas fa-tasks"></i> Tâches
             </a>
-
-            <a href="{{route('admin.especes.index')}}" class="{{ request()->routeIs('admin.especes.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.especes.index') }}" class="{{ request()->routeIs('admin.especes.index') ? 'active' : '' }}">
                 <i class="fas fa-dna"></i> Espèces
             </a>
-
-            <a href="{{route('admin.races.index')}}" class="{{ request()->routeIs('admin.races.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.races.index') }}" class="{{ request()->routeIs('admin.races.index') ? 'active' : '' }}">
                 <i class="fas fa-hippo"></i> Races
             </a>
 
-                <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                    @csrf
-                    <a class="nav-link text-danger fw-medium" href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
-                </form>
-
+            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                @csrf
+                <a class="dropdown-item fw-medium text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </form>
         </nav>
 
         <div class="content-area">
             <nav class="navbar d-flex justify-content-between">
-                <span class="fw-bold fs-5">Tableau de bord</span>
-                <div>
-                    <input type="date" class="form-control d-inline-block w-auto">
-                    <button class="btn btn-success ms-2">Actualiser</button>
-                </div>
+                <span class="fw-bold fs-5">Bienvenue sur le tableau de bord</span>
             </nav>
 
             @yield('content')

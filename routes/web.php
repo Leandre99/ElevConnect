@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/farms', [AdminController::class, 'indexFarms'])->name('admin.farms');
     Route::get('/admin/users', [AdminController::class, 'indexUsers'])->name('admin.users');
     Route::get('/admin/farms/{farm}/edit', [AdminController::class, 'editFarm'])->name('admin.farms.edit');
