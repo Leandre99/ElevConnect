@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VeterinaireController;
 use App\Http\Controllers\CompletedTaskController;
 use App\Http\Controllers\PerformanceReportController;
+use App\Http\Controllers\RaceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -84,19 +85,19 @@ Route::middleware('auth')->group(function () {
     Route::put('tasks/{task}', [TaskController::class, 'adminUpdate'])->name('admin.tasks.update');
     Route::delete('tasks/{task}', [TaskController::class, 'adminDestroy'])->name('admin.tasks.destroy');
 
-Route::get('/admin/especes', [EspeceController::class, 'index'])->name('admin.especes.index');
-Route::get('/admin/especes/create', [EspeceController::class, 'create'])->name('admin.especes.create');
-Route::post('/admin/especes', [EspeceController::class, 'store'])->name('admin.especes.store');
-Route::get('/admin/especes/{espece}/edit', [EspeceController::class, 'edit'])->name('admin.especes.edit');
-Route::put('/admin/especes/{espece}', [EspeceController::class, 'update'])->name('admin.especes.update');
-Route::delete('/admin/especes/{espece}', [EspeceController::class, 'destroy'])->name('admin.especes.destroy');
+Route::get('/admin/especes', [EspeceController::class, 'adminIndex'])->name('admin.especes.index');
+Route::get('/admin/especes/create', [EspeceController::class, 'adminCreate'])->name('admin.especes.create');
+Route::post('/admin/especes', [EspeceController::class, 'adminStore'])->name('admin.especes.store');
+Route::get('/admin/especes/{espece}/edit', [EspeceController::class, 'adminEdit'])->name('admin.especes.edit');
+Route::put('/admin/especes/{espece}', [EspeceController::class, 'adminUpdate'])->name('admin.especes.update');
+Route::delete('/admin/especes/{espece}', [EspeceController::class, 'adminDestroy'])->name('admin.especes.destroy');
 
-Route::get('/admin/races', [RaceController::class, 'index'])->name('admin.races.index');
-Route::get('/admin/races/create', [RaceController::class, 'create'])->name('admin.races.create');
-Route::post('/admin/races', [RaceController::class, 'store'])->name('admin.races.store');
-Route::get('/admin/races/{race}/edit', [RaceController::class, 'edit'])->name('admin.races.edit');
-Route::put('/admin/races/{race}', [RaceController::class, 'update'])->name('admin.races.update')
-Route::delete('/admin/races/{race}', [RaceController::class, 'destroy'])->name('admin.races.destroy');
+Route::get('/admin/races', [RaceController::class, 'adminIndex'])->name('admin.races.index');
+Route::get('/admin/races/create', [RaceController::class, 'adminCreate'])->name('admin.races.create');
+Route::post('/admin/races', [RaceController::class, 'adminStore'])->name('admin.races.store');
+Route::get('/admin/races/{race}/edit', [RaceController::class, 'adminEdit'])->name('admin.races.edit');
+Route::put('/admin/races/{race}', [RaceController::class, 'adminUpdate'])->name('admin.races.update');
+Route::delete('/admin/races/{race}', [RaceController::class, 'adminDestroy'])->name('admin.races.destroy');
 
 
 });

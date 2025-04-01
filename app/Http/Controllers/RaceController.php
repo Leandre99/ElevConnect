@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Race;
+use App\Models\Espece;
 use Illuminate\Http\Request;
+use App\Http\Controllers\EspeceController;
 
 class RaceController extends Controller
 {

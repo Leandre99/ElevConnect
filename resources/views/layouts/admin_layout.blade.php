@@ -104,11 +104,11 @@
                 <i class="fas fa-tasks"></i> Tâches
             </a>
 
-            <a href="#">
+            <a href="{{route('admin.especes.index')}}" class="{{ request()->routeIs('admin.especes.index') ? 'active' : '' }}">
                 <i class="fas fa-dna"></i> Espèces
             </a>
 
-            <a href="#">
+            <a href="{{route('admin.races.index')}}" class="{{ request()->routeIs('admin.races.index') ? 'active' : '' }}">
                 <i class="fas fa-hippo"></i> Races
             </a>
 
