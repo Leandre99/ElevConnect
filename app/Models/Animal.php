@@ -13,7 +13,6 @@ class Animal extends Model
         'espece_id', 'race_id', 'age', 'nombre', 'ferme_id'
     ];
 
-    // Relations
     public function espece()
     {
         return $this->belongsTo(Espece::class);
@@ -34,4 +33,8 @@ class Animal extends Model
         return $this->hasMany(Tache::class);
     }
 
+    public function diagnostics()
+    {
+        return $this->hasMany(Diagnostic::class);
+    }
 }
