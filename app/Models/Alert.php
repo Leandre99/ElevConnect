@@ -8,14 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Alert extends Model
 {
     use HasFactory;
-    protected $fillable = ['description', 'priority', 'media', 'user_id'];
+
+    protected $fillable = ['description', 'priority', 'media', 'user_id', 'race_id', 'ferme_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function race()
-{
-    return $this->belongsTo(Race::class);
+    {
+        return $this->belongsTo(Race::class);
+    }
+
+    public function ferme()
+    {
+        return $this->belongsTo(Ferme::class);
+    }
+
+    public function diagnostics()
+    {
+        return $this->hasMany(Diagnostic::class);
+    }
 }
 
-}

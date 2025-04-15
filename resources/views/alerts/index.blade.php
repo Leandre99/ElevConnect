@@ -2,7 +2,6 @@
 <html lang="en-US" dir="ltr">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,15 +16,15 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://meet.jit.si/external_api.js"></script>
     <!-- Inclure DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
 
-<!-- Inclure DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#alertsTable').DataTable();
-    });
+    <!-- Inclure DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#alertsTable').DataTable();
+        });
     </script>
 
 </head>
@@ -74,14 +73,15 @@
                                         Gestion
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.farms') }}">Dashboard
+                                                Ferme</a>
                                         <li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.users') }}">Dashboard
+                                                User</a></li>
+                                        <li><a class="dropdown-item fw-medium" href="{{ route('admin.taches') }}">Dashboard
+                                                Tâche</a></li>
                                         <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
+                                                href="{{ route('admin.animals') }}">Dashboard Animal</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -104,14 +104,12 @@
                             @endif
 
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#"
-                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium"
-                                            href="{{ route('profile.edit') }}">Profil</a>
+                                    <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
                                     </li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -133,7 +131,7 @@
             <h1>Alertes</h1>
             <table id="alertsTable" class="display">
                 <thead>
-                    <tr>   
+                    <tr>
                         <th>Priorité</th>
                         <th>Description</th>
                         <th>Actions</th>
@@ -146,67 +144,94 @@
                             <td>{{ $alert->description }}</td>
                             <td>
                                 <!-- Voir les détails -->
-                                <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#alertModal{{ $alert->id }}">
+                                <button type="button" class="btn btn-info me-2" data-bs-toggle="modal"
+                                    data-bs-target="#alertModal{{ $alert->id }}">
                                     Voir les détails
                                 </button>
 
-                                @if (auth()->user()->role === 'veterinaire')
+                                @if (auth()->user()->role === 'Veterinaire')
                                     <!-- Intervenir -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#planMeetingModal{{ $alert->id }}" data-alerte-id="{{ $alert->id }}">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#planMeetingModal{{ $alert->id }}"
+                                        data-alerte-id="{{ $alert->id }}">
                                         Intervenir
+                                    </button>
+
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#diagnosticModal{{ $alert->id }}">
+                                        Émettre un diagnostic
                                     </button>
                                 @endif
 
                                 <!-- Modal pour Voir les détails -->
-                                <div class="modal fade" id="alertModal{{ $alert->id }}" tabindex="-1" aria-labelledby="alertModalLabel{{ $alert->id }}" aria-hidden="true">
+                                <div class="modal fade" id="alertModal{{ $alert->id }}" tabindex="-1"
+                                    aria-labelledby="alertModalLabel{{ $alert->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="alertModalLabel{{ $alert->id }}">Détails de l'alerte</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title" id="alertModalLabel{{ $alert->id }}">
+                                                    Détails de l'alerte</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <p><strong>Description:</strong> {{ $alert->description }}</p>
                                                 <p><strong>Priorité:</strong> {{ $alert->priority }}</p>
                                                 @if ($alert->media)
                                                     <p><strong>Media:</strong></p>
-                                                    <a href="{{ asset('storage/' . $alert->media) }}" target="_blank">
-                                                        <img src="{{ asset('storage/' . $alert->media) }}" class="img-fluid" alt="Media">
+                                                    <a href="{{ asset('storage/' . $alert->media) }}"
+                                                        target="_blank">
+                                                        <img src="{{ asset('storage/' . $alert->media) }}"
+                                                            class="img-fluid" alt="Media">
                                                     </a>
                                                 @endif
                                             </div>
                                             <div class="modal-footer">
                                                 @if (auth()->user()->role === 'veterinaire')
                                                     <!-- Bouton Intervenir dans le modal des détails -->
-                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#planMeetingModal{{ $alert->id }}" data-alerte-id="{{ $alert->id }}">
+                                                    <button type="button" class="btn btn-primary"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#planMeetingModal{{ $alert->id }}"
+                                                        data-alerte-id="{{ $alert->id }}">
                                                         Intervenir
                                                     </button>
                                                 @endif
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Fermer</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Modal pour Planifier la Réunion -->
-                                <div class="modal fade" id="planMeetingModal{{ $alert->id }}" tabindex="-1" aria-labelledby="planMeetingModalLabel{{ $alert->id }}" aria-hidden="true">
+                                <div class="modal fade" id="planMeetingModal{{ $alert->id }}" tabindex="-1"
+                                    aria-labelledby="planMeetingModalLabel{{ $alert->id }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="planMeetingModalLabel{{ $alert->id }}">Planifier une Réunion</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title"
+                                                    id="planMeetingModalLabel{{ $alert->id }}">Planifier une
+                                                    Réunion</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <form id="planMeetingForm{{ $alert->id }}" action="{{ route('meeting.schedule') }}" method="POST">
+                                            <form id="planMeetingForm{{ $alert->id }}"
+                                                action="{{ route('meeting.schedule') }}" method="POST">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <div class="mb-3">
-                                                        <label for="meetingDate{{ $alert->id }}" class="form-label">Date et Heure de la Réunion</label>
-                                                        <input type="datetime-local" class="form-control" id="meetingDate{{ $alert->id }}" name="meetingDate" required>
+                                                        <label for="meetingDate{{ $alert->id }}"
+                                                            class="form-label">Date et Heure de la Réunion</label>
+                                                        <input type="datetime-local" class="form-control"
+                                                            id="meetingDate{{ $alert->id }}" name="meetingDate"
+                                                            required>
                                                     </div>
-                                                    <input type="hidden" name="alert_id" value="{{ $alert->id }}">
+                                                    <input type="hidden" name="alert_id"
+                                                        value="{{ $alert->id }}">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Annuler</button>
                                                     <button type="submit" class="btn btn-primary">Planifier</button>
                                                 </div>
                                             </form>
@@ -214,14 +239,82 @@
                                     </div>
                                 </div>
 
+                                <!-- Modal pour Émettre un Diagnostic -->
+                                {{-- <div class="modal fade" id="diagnosticModal{{ $alert->id }}" tabindex="-1"
+                                    aria-labelledby="diagnosticModalLabel{{ $alert->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Émettre un Diagnostic</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Fermer"></button>
+                                            </div>
+                                            <form action="{{ route('diagnostics.store') }}" method="POST">
+                                                @csrf
+                                                <div class="modal-body">
+                                                    <!-- Sélection de l'animal -->
+                                                    <div class="mb-3">
+                                                        <label for="animal_id{{ $alert->id }}"
+                                                            class="form-label">Animal concerné</label>
+                                                        <select name="animal_id" id="animal_id{{ $alert->id }}"
+                                                            class="form-control" required>
+                                                            @foreach ($animals as $animal)
+                                                                <option value="{{ $animal->id }}">
+                                                                    {{ $animal->nom }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Sélection de la maladie -->
+                                                    <div class="mb-3">
+                                                        <label for="maladie_id{{ $alert->id }}"
+                                                            class="form-label">Maladie</label>
+                                                        <select name="maladie_id" id="maladie_id{{ $alert->id }}"
+                                                            class="form-control" required>
+                                                            @foreach ($maladies as $maladie)
+                                                                <option value="{{ $maladie->id }}">
+                                                                    {{ $maladie->nom }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Date du diagnostic -->
+                                                    <div class="mb-3">
+                                                        <label for="date{{ $alert->id }}"
+                                                            class="form-label">Date</label>
+                                                        <input type="date" name="date"
+                                                            id="date{{ $alert->id }}" class="form-control"
+                                                            required>
+                                                    </div>
+
+                                                    <!-- Traitement -->
+                                                    <div class="mb-3">
+                                                        <label for="traitement{{ $alert->id }}"
+                                                            class="form-label">Traitement recommandé</label>
+                                                        <textarea name="traitement" id="traitement{{ $alert->id }}" class="form-control" rows="3" required></textarea>
+                                                    </div>
+
+                                                    <!-- Lien avec l'alerte -->
+                                                    <input type="hidden" name="alert_id"
+                                                        value="{{ $alert->id }}">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="submit" class="btn btn-success">Soumettre</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
-
 
         <script>
             function startJitsiMeeting(meetingName) {

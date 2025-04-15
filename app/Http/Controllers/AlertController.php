@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Race;
+use App\Models\Animal;
 use App\Models\Alert;
 use Illuminate\Http\Request;
 use App\Mail\MeetingScheduled;
@@ -16,10 +17,10 @@ class AlertController extends Controller
         return view('alerts.index', compact('alerts'));
     }
     public function create()
-{
-    $races = Race::all();
-    return view('Animals', compact('races'));
-}
+    {
+        $races = Race::all();
+        return view('Animals', compact('races'));
+    }
 
 
     public function store(Request $request)
@@ -27,6 +28,8 @@ class AlertController extends Controller
         $request->validate([
             'description' => 'required',
             'priority' => 'required',
+            'race_id' => 'required|exists:races,id',
+            'ferme_id' => 'required|exists:fermes,id',
             'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,flv',
         ]);
 
@@ -34,9 +37,12 @@ class AlertController extends Controller
         $alert->description = $request->description;
         $alert->priority = $request->priority;
         $alert->user_id = auth()->id();
+        $alert->race_id = $request->race_id;
+        $alert->ferme_id = $request->ferme_id;
 
         if ($request->hasFile('media')) {
-            $path = $request->file('media')->store('alerts', 'public');
+            $file = $request->file('media');
+            $path = $file->store('alerts', 'public');
             $alert->media = $path;
         }
 
@@ -44,6 +50,8 @@ class AlertController extends Controller
 
         return back();
     }
+
+
 
     private function sendMeetingEmail($alert, $linkMeet, $meetingDateTime)
     {

@@ -131,6 +131,8 @@
                         </div>
                         <form action="{{ route('alerts.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" name="ferme_id" value="{{ $ferme->id }}">
+
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="description">Description du problème</label>

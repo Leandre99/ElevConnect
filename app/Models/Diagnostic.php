@@ -9,12 +9,7 @@ class Diagnostic extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['animal_id', 'maladie_id', 'veterinaire_id', 'alert_id', 'date', 'traitement'];
-
-    public function animal()
-    {
-        return $this->belongsTo(Animal::class);
-    }
+    protected $fillable = ['maladie_id', 'veterinaire_id', 'alert_id', 'date', 'traitement'];
 
     public function maladie()
     {
@@ -30,4 +25,15 @@ class Diagnostic extends Model
     {
         return $this->belongsTo(Alert::class, 'alert_id');
     }
+
+    public function race()
+    {
+        return $this->hasOneThrough(Race::class, Alert::class, 'id', 'id', 'alert_id', 'race_id');
+    }
+
+    public function ferme()
+    {
+        return $this->hasOneThrough(Ferme::class, Alert::class, 'id', 'id', 'alert_id', 'ferme_id');
+    }
 }
+

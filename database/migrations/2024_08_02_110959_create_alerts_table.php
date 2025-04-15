@@ -14,10 +14,11 @@ return new class extends Migration
             $table->string('priority');
             $table->string('media')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('animal_race')->nullable();
-            $table->foreignId('race_id')->nullable()->constrained('races')->after('user_id');
+            $table->foreignId('race_id')->constrained()->onDelete('cascade');
+            $table->foreignId('ferme_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
+        
     }
 
     public function down()

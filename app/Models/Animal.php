@@ -33,6 +33,11 @@ class Animal extends Model
         return $this->hasMany(Tache::class);
     }
 
+    public function alerts()
+{
+    return $this->hasMany(Alert::class);
+}
+
     public function diagnostics()
     {
         return $this->hasMany(Diagnostic::class);
