@@ -24,13 +24,13 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 2%">
                 <div class="container-fluid">
                     <a class="navbar-brand mx-auto" href="/" style="color: rgb(115, 168, 36)">ElevConnect</a>
-
+    
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                         aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
+    
                     <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             @guest
@@ -49,29 +49,17 @@
                                 </li>
                                 <li class="nav-item d-flex">
                                     <a class="nav-link fw-medium" style="font-weight:bold; position: absolute;right: 0;"
-                                        href="{{ route('register') }}">
+                                        href="{{ route('login') }}">
+                                        <span style="margin-right: 8px;">Connexion</span>
                                         <img src="{{ asset('assets/images/connexion.png') }}" width=30>
                                     </a>
                                 </li>
                             @endguest
-
+    
                             @auth
                                 @if (Auth::user()->role === 'admin')
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
-                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Gestion
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item fw-medium"
-                                                    href="{{ route('admin.farms') }}">Dashboard Ferme</a>
-                                            <li>
-                                            <li><a class="dropdown-item fw-medium"
-                                                    href="{{ route('admin.users') }}">Dashboard User</a></li>
-                                            <li><a class="dropdown-item fw-medium"
-                                                    href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
-                                            <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
-                                        </ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a>
                                     </li>
                                 @else
                                     <li class="nav-item px-2">
@@ -91,7 +79,7 @@
                                         <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                     </li>
                                 @endif
-
+    
                                 <li class="nav-item dropdown mx-auto">
                                     <a class="nav-link dropdown-toggle fw-medium" href="#"
                                         id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"

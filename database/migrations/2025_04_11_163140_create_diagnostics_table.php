@@ -14,6 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('animal_id');
             $table->unsignedBigInteger('maladie_id')->nullable();
             $table->unsignedBigInteger('veterinaire_id')->nullable();
+            $table->unsignedBigInteger('alert_id')->nullable();
             $table->date('date');
             $table->text('traitement');
             $table->timestamps();
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
             $table->foreign('maladie_id')->references('id')->on('maladies')->onDelete('set null');
             $table->foreign('veterinaire_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('alert_id')->references('id')->on('alerts')->onDelete('set null');
         });
     }
 
