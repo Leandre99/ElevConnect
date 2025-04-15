@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\ferme;
 use App\Models\Animal;
 use App\Models\Espece;
+use App\Models\Maladie;
+use App\Models\Diagnostic;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\EspeceController;
@@ -102,9 +104,98 @@ class AdminController extends Controller
         $farmCount = Ferme::count();
         $especeCount = Espece::count();
         $raceCount = Race::count();
+        $maladieCount = Maladie::count();
         return view('admin/admin_dashboard', compact(
-            'eleveurCount', 'veterinaireCount', 'farmCount', 'especeCount', 'raceCount'
+            'eleveurCount', 'veterinaireCount', 'farmCount', 'especeCount', 'raceCount','maladieCount'
         ));
     }
+
+    public function maladiesIndex()
+    {
+        $maladies = Maladie::all();
+        return view('admin.maladies.index', compact('maladies'));
+    }
+
+    public function maladiesCreate()
+    {
+        $races = Race::all();
+        return view('admin.maladies.create', compact('races'));
+    }
+
+    public function maladiesStore(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'symptomes' => 'required|string',
+            'race_id' => 'required|exists:races,id',
+        ]);
+
+        Maladie::create($request->all());
+        return redirect()->route('admin.maladies.index')->with('success', 'Maladie créée avec succès.');
+    }
+
+    public function maladiesEdit(Maladie $maladie)
+    {
+        $races = Race::all();
+        return view('admin.maladies.edit', compact('maladie','races'));
+    }
+
+    public function maladiesUpdate(Request $request, Maladie $maladie)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'symptomes' => 'required|string',
+            'race_id' => 'required|exists:races,id',
+        ]);
+    
+        $maladie->update($request->all());
+        return redirect()->route('admin.maladies.index')->with('success', 'Maladie mise à jour.');
+    }
+    
+    public function maladiesDestroy(Maladie $maladie)
+    {
+        $maladie->delete();
+        return redirect()->route('admin.maladies.index')->with('success', 'Maladie supprimée.');
+    }
+
+
+
+    public function diagnosticsIndex()
+{
+    $diagnostics = Diagnostic::with(['animal', 'maladie'])->get();
+    return view('admin.diagnostics.index', compact('diagnostics'));
+}
+
+public function diagnosticsCreate()
+{
+    $animals = Animal::all();
+    $maladies = Maladie::all();
+    return view('admin.diagnostics.create', compact('animals', 'maladies'));
+}
+
+public function diagnosticsStore(Request $request)
+{
+    Diagnostic::create($request->all());
+    return redirect()->route('admin.diagnostics.index');
+}
+
+public function diagnosticsEdit(Diagnostic $diagnostic)
+{
+    $animals = Animal::all();
+    $maladies = Maladie::all();
+    return view('admin.diagnostics.edit', compact('diagnostic', 'animals', 'maladies'));
+}
+
+public function diagnosticsUpdate(Request $request, Diagnostic $diagnostic)
+{
+    $diagnostic->update($request->all());
+    return redirect()->route('admin.diagnostics.index');
+}
+
+public function diagnosticsDestroy(Diagnostic $diagnostic)
+{
+    $diagnostic->delete();
+    return redirect()->route('admin.diagnostics.index');
+}
 
 }

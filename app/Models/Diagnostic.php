@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Diagnostic extends Model
 {
-    use HasFactory;
+    protected $fillable = ['animal_id', 'maladie_id', 'date'];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class);

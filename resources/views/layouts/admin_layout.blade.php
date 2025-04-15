@@ -96,7 +96,7 @@
                 <i class="fas fa-user"></i> Utilisateurs
             </a>
             <a href="{{ route('admin.farms') }}" class="{{ request()->routeIs('admin.farms') ? 'active' : '' }}">
-                <i class="fas fa-warehouse"></i> Ferme
+                <i class="fas fa-warehouse"></i> Fermes
             </a>
             <a href="{{ route('admin.animals') }}" class="{{ request()->routeIs('admin.animals') ? 'active' : '' }}">
                 <i class="fas fa-paw"></i> Animaux
@@ -109,6 +109,12 @@
             </a>
             <a href="{{ route('admin.races.index') }}" class="{{ request()->routeIs('admin.races.index') ? 'active' : '' }}">
                 <i class="fas fa-hippo"></i> Races
+            </a>
+            <a href="{{ route('admin.maladies.index') }}" class="{{ request()->routeIs('admin.maladies.index') ? 'active' : '' }}">
+                <i class="fas fa-virus"></i> Maladies
+            </a>
+            <a href="{{ route('admin.diagnostics.index') }}" class="{{ request()->routeIs('admin.diagnostics.index') ? 'active' : '' }}">
+                <i class="fas fa-stethoscope"></i> Diagnostics
             </a>
 
             <form method="POST" action="{{ route('logout') }}" id="logout-form">

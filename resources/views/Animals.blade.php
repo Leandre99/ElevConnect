@@ -53,7 +53,8 @@
                             </li>
                             <li class="nav-item d-flex">
                                 <a class="nav-link fw-medium" style="font-weight:bold; position: absolute;right: 0;"
-                                    href="{{ route('register') }}">
+                                    href="{{ route('login') }}">
+                                    <span style="margin-right: 8px;">Connexion</span>
                                     <img src="{{ asset('assets/images/connexion.png') }}" width=30>
                                 </a>
                             </li>
@@ -61,21 +62,8 @@
 
                         @auth
                             @if (Auth::user()->role === 'admin')
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarDropdown"
-                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Gestion
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.farms') }}">Dashboard Ferme</a>
-                                        <li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.users') }}">Dashboard User</a></li>
-                                        <li><a class="dropdown-item fw-medium"
-                                                href="{{ route('admin.taches') }}">Dashboard Tâche</a></li>
-                                        <li><a class="dropdown-item fw-medium" href="{{route('admin.animals')}}">Dashboard Animal</a></li>
-                                    </ul>
+                                <li class="nav-item">
+                                    <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a>
                                 </li>
                             @else
                                 <li class="nav-item px-2">
@@ -286,35 +274,12 @@
         </div>
 
     </main>
-    {{-- <script>
-        document.getElementById('espece').addEventListener('change', function() {
-            const selectedSpeciesId = this.value;
-            const raceSelect = document.getElementById('race');
 
-            // Réinitialiser la liste des races
-            raceSelect.innerHTML = '<option value="" disabled selected>Choisir une race</option>';
-
-            // Remplir la liste des races en fonction de l'espèce sélectionnée
-            fetch(`/especes/${selectedSpeciesId}/races`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(race => {
-                        const option = document.createElement('option');
-                        option.value = race.id;
-                        option.textContent = race.nomrace;
-                        raceSelect.appendChild(option);
-                    });
-                });
-        });
-    </script> --}}
     <script>
         document.getElementById('especes').addEventListener('change', function() {
             const selectedSpecies = this.value;
             const raceSelect = document.getElementById('race');
-            // Réinitialisez la liste des races
             raceSelect.innerHTML = '';
-
-            // Remplissez la liste des races en fonction de l'espèce sélectionnée
             switch (selectedSpecies) {
                 case 'volailles':
                     addRaceOption('Pintade');
@@ -341,7 +306,6 @@
                     break;
             }
 
-            // Fonction pour ajouter une option de race
             function addRaceOption(raceName) {
                 const option = document.createElement('option');
                 option.value = raceName;

@@ -11,13 +11,16 @@ return new class extends Migration
     {
         Schema::create('diagnostics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('animal_id')->constrained();
-            $table->foreignId('maladie_id')->constrained();
-            $table->integer('nombre_cas')->default(1);
-            $table->date('date_apparition');
-            $table->enum('statut', ['suspecte', 'confirme', 'gueri']);
-            $table->text('traitement')->nullable();
+            $table->unsignedBigInteger('animal_id');
+            $table->unsignedBigInteger('maladie_id')->nullable();
+            $table->unsignedBigInteger('veterinaire_id')->nullable();
+            $table->date('date');
+            $table->text('traitement');
             $table->timestamps();
+
+            $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
+            $table->foreign('maladie_id')->references('id')->on('maladies')->onDelete('set null');
+            $table->foreign('veterinaire_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

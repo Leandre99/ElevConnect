@@ -18,6 +18,7 @@ use App\Http\Controllers\VeterinaireController;
 use App\Http\Controllers\CompletedTaskController;
 use App\Http\Controllers\PerformanceReportController;
 use App\Http\Controllers\RaceController;
+use App\Http\Controllers\MaladieController;
 use App\Http\Controllers\DiagnosticController;
 
 Route::get('/', function () {
@@ -100,8 +101,24 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/races/{race}', [RaceController::class, 'adminUpdate'])->name('admin.races.update');
     Route::delete('/admin/races/{race}', [RaceController::class, 'adminDestroy'])->name('admin.races.destroy');
 
-    Route::resource('animals.diagnostics', DiagnosticController::class)
-    ->only(['create', 'store']);
+    Route::resource('maladies', MaladieController::class);
+    Route::resource('diagnostics', DiagnosticController::class);
+
+    Route::get('/admin/maladies', [AdminController::class, 'maladiesIndex'])->name('admin.maladies.index');
+    Route::get('/admin/maladies/create', [AdminController::class, 'maladiesCreate'])->name('admin.maladies.create');
+    Route::post('/admin/maladies', [AdminController::class, 'maladiesStore'])->name('admin.maladies.store');
+    Route::get('/admin/maladies/{maladie}/edit', [AdminController::class, 'maladiesEdit'])->name('admin.maladies.edit');
+    Route::put('/admin/maladies/{maladie}', [AdminController::class, 'maladiesUpdate'])->name('admin.maladies.update');
+    Route::delete('/admin/maladies/{maladie}', [AdminController::class, 'maladiesDestroy'])->name('admin.maladies.destroy');
+
+    Route::get('/admin/diagnostics', [AdminController::class, 'diagnosticsIndex'])->name('admin.diagnostics.index');
+    Route::get('/admin/diagnostics/create', [AdminController::class, 'diagnosticsCreate'])->name('admin.diagnostics.create');
+    Route::post('/admin/diagnostics', [AdminController::class, 'diagnosticsStore'])->name('admin.diagnostics.store');
+    Route::get('/admin/diagnostics/{diagnostic}/edit', [AdminController::class, 'diagnosticsEdit'])->name('admin.diagnostics.edit');
+    Route::put('/admin/diagnostics/{diagnostic}', [AdminController::class, 'diagnosticsUpdate'])->name('admin.diagnostics.update');
+    Route::delete('/admin/diagnostics/{diagnostic}', [AdminController::class, 'diagnosticsDestroy'])->name('admin.diagnostics.destroy');
+
+
 });
 
 Route::get('index', [PusherController::class, 'index']);

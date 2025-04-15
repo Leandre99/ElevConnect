@@ -41,6 +41,14 @@
                 <p class="fw-bold fs-5">{{ $raceCount }}</p>
             </div>
         </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="card shadow-sm p-3 text-center">
+                <i class="fas fa-virus fa-2x text-success"></i>
+                <h6 class="mt-2">Maladies</h6>
+                <p class="fw-bold fs-5">{{ $maladieCount }}</p>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

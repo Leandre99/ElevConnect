@@ -11,14 +11,18 @@ return new class extends Migration {
             $table->id();
             $table->string('nomtache');
             $table->unsignedBigInteger('race_id');
-            $table->integer('frequence')->nullable();
-            $table->integer('quantite')->nullable();
+            $table->unsignedBigInteger('espece_id')->nullable();
+            $table->string('frequence')->nullable();
+            $table->string('quantite')->nullable();
             $table->string('type')->nullable();
             $table->integer('age_min')->nullable();
             $table->integer('age_max')->nullable();
+            $table->integer('jour')->nullable();
+
             $table->timestamps();
 
             $table->foreign('race_id')->references('id')->on('races')->onDelete('cascade');
+            $table->foreign('espece_id')->references('id')->on('especes')->onDelete('cascade');
         });
     }
 

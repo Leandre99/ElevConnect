@@ -50,7 +50,7 @@
                             </li>
                             <li class="nav-item d-flex">
                                 <a class="nav-link fw-medium" style="font-weight:bold; position: absolute;right: 0;"
-                                    href="{{ route('register') }}">
+                                    href="{{ route('login') }}">
                                     <span style="margin-right: 8px;">Connexion</span>
                                     <img src="{{ asset('assets/images/connexion.png') }}" width=30>
                                 </a>
@@ -60,7 +60,7 @@
                         @auth
                             @if (Auth::user()->role === 'admin')
                                 <li class="nav-item">
-                                    <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a> <!-- Lien vers le dashboard admin -->
+                                    <a class="nav-link fw-medium" href="{{ route('admin.dashboard') }}">Tableau de bord</a>
                                 </li>
                             @else
                                 <li class="nav-item px-2">
