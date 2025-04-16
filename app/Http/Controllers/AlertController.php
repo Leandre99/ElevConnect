@@ -14,7 +14,13 @@ class AlertController extends Controller
 {
     public function index()
     {
-        $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie','diagnostics.veterinaire'])->get();
+        if (auth()->user()->role === 'eleveur') {
+            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
+                           ->where('user_id', auth()->id())
+                           ->get();
+        } else {
+            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])->get();
+        }
         $maladies = Maladie::all();
         return view('alerts.index', compact('alerts', 'maladies'));
     }
