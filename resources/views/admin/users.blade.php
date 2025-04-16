@@ -1,80 +1,87 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<div class="container py-4" style="margin-top: 5%">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold" style="color: rgb(115, 168, 36);">Liste des Utilisateurs ({{ $users->count() }})</h3>
-    </div>
+<div class="container mt-4">
+    <h2 class="mb-4 text-success">Liste des Utilisateurs</h2>
 
-    <div class="table-responsive">
-        <table id="usersTable" class="table table-striped align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>Id</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        <span class="badge bg-primary">{{ ucfirst($user->role) }}</span>
-                    </td>
-                    <td>
-                        @if ($user->status == 1)
-                            <span class="badge bg-success">Actif</span>
-                        @else
-                            <span class="badge bg-danger">Désactivé</span>
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <span><strong>Utilisateurs enregistrés ({{ $users->count() }})</strong></span>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Statut</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <span class="badge bg-primary">{{ ucfirst($user->role) }}</span>
+                            </td>
+                            <td>
+                                <span class="badge {{ $user->status == 1 ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $user->status == 1 ? 'Actif' : 'Désactivé' }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Confirmer la suppression ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Supprimer">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                <form action="{{ $user->status == 1 ? route('admin.users.deactivate', $user) : route('admin.users.activate', $user) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm {{ $user->status == 1 ? 'btn-success' : 'btn-danger' }}" onclick="return confirm('{{ $user->status == 1 ? "Confirmer la désactivation ?" : "Confirmer l'activation ?" }}')">
+                                        <i class="fas {{ $user->status == 1 ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                    </button>
+                                </form>
+                                
+                            </td>
+                        </tr>
+                        @endforeach
+
+                        @if ($users->isEmpty())
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Aucun utilisateur enregistré.</td>
+                        </tr>
                         @endif
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('admin.users.edit', $user) }}"><i class="fas fa-edit"></i> Modifier</a></li>
-                                <li>
-                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="dropdown-item text-danger"><i class="fas fa-trash"></i> Supprimer</button>
-                                    </form>
-                                </li>
-                                <li>
-                                    @if ($user->status == 1)
-                                        <a class="dropdown-item text-warning" href="{{ route('admin.users.deactivate', $user) }}">
-                                            <i class="fas fa-user-slash"></i> Désactiver
-                                        </a>
-                                    @else
-                                        <a class="dropdown-item text-success" href="{{ route('admin.users.activate', $user) }}">
-                                            <i class="fas fa-user-check"></i> Activer
-                                        </a>
-                                    @endif
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     $(document).ready(function() {
-        $('#usersTable').DataTable({
+        $('.table').DataTable({
             "paging": true,
             "searching": true,
             "ordering": true
+        });
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     });
 </script>

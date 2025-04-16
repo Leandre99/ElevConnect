@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mt-4">
     <div class="row">
-        <!-- Ligne 1 -->
         <div class="col-12 col-sm-6 col-md-3 mb-4">
             <div class="card shadow-sm p-3 text-center">
                 <i class="fas fa-users fa-2x text-success"></i>

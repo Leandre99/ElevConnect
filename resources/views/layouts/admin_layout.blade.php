@@ -116,6 +116,9 @@
             <a href="{{ route('admin.diagnostics.index') }}" class="{{ request()->routeIs('admin.diagnostics.index') ? 'active' : '' }}">
                 <i class="fas fa-stethoscope"></i> Diagnostics
             </a>
+            <a href="#" class="{{ request()->routeIs('admin.alertes.index') ? 'active' : '' }}">
+                <i class="fas fa-exclamation-triangle"></i> Alertes
+            </a>
 
             <form method="POST" action="{{ route('logout') }}" id="logout-form">
                 @csrf

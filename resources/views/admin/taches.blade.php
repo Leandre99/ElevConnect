@@ -1,49 +1,72 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold text-success">Liste des Tâches</h4>
-            <a href="{{ route('admin.create_tache') }}" class="btn btn-success">
+<div class="container mt-4">
+    <h2 class="mb-4 text-success">Liste des Tâches</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <span><strong>Tâches enregistrées ({{ $tasks->count() }})</strong></span>
+            <a href="{{ route('admin.create_tache') }}" class="btn btn-light btn-sm text-success fw-bold">
                 <i class="fas fa-plus"></i> Ajouter une Tâche
             </a>
         </div>
 
-        <div class="list-group">
-            @foreach ($tasks as $task)
-                <div class="list-group-item d-flex justify-content-between align-items-center shadow-sm p-3 mb-2 bg-white rounded">
-                    <div>
-                        <h6 class="fw-bold mb-1">{{ $task->nomtache }}</h6>
-                        <small class="text-muted">
-                            <i class="fas fa-paw"></i> Espèce : {{ $task->espece->nomespece ?? 'Non spécifié' }} |
-                            <i class="fas fa-dna"></i> Race : {{ $task->race->nomrace }} |
-                            <i class="fas fa-sync-alt"></i> Fréquence : {{ $task->frequence }} jours
-                        </small>
-                    </div>
-
-                    <div class="dropdown">
-                        <button class="btn btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Actions
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item text-primary" href="{{ route('admin.edit_tache', $task) }}">
-                                    <i class="fas fa-edit"></i> Modifier
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Espèce</th>
+                            <th>Race</th>
+                            <th>Fréquence (jours)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($tasks as $task)
+                        <tr>
+                            <td>{{ $task->id }}</td>
+                            <td>{{ $task->nomtache }}</td>
+                            <td>{{ $task->espece->nomespece ?? 'Non spécifié' }}</td>
+                            <td>{{ $task->race->nomrace ?? 'Non spécifiée' }}</td>
+                            <td>{{ $task->frequence }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('admin.edit_tache', $task) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i>
                                 </a>
-                            </li>
-                            <li>
-                                <form action="{{ route('admin.tasks.destroy', $task) }}" method="POST">
+                                <form action="{{ route('admin.tasks.destroy', $task) }}" method="POST" class="d-inline" onsubmit="return confirm('Confirmer la suppression ?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger">
-                                        <i class="fas fa-trash-alt"></i> Supprimer
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            @endforeach
+                            </td>
+                        </tr>
+                        @endforeach
+
+                        @if ($tasks->isEmpty())
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Aucune tâche enregistrée.</td>
+                        </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.table').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true
+        });
+    });
+</script>
 @endsection
