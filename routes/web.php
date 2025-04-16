@@ -112,9 +112,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/maladies/{maladie}', [AdminController::class, 'maladiesDestroy'])->name('admin.maladies.destroy');
 
     Route::get('/admin/diagnostics', [AdminController::class, 'diagnosticsIndex'])->name('admin.diagnostics.index');
-    Route::get('/admin/diagnostics/create', [AdminController::class, 'diagnosticsCreate'])->name('admin.diagnostics.create');
-    Route::post('/admin/diagnostics', [AdminController::class, 'diagnosticsStore'])->name('admin.diagnostics.store');
-    Route::get('/admin/diagnostics/{diagnostic}/edit', [AdminController::class, 'diagnosticsEdit'])->name('admin.diagnostics.edit');
     Route::put('/admin/diagnostics/{diagnostic}', [AdminController::class, 'diagnosticsUpdate'])->name('admin.diagnostics.update');
     Route::delete('/admin/diagnostics/{diagnostic}', [AdminController::class, 'diagnosticsDestroy'])->name('admin.diagnostics.destroy');
 

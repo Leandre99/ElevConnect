@@ -30,27 +30,16 @@
                         <td>{{ $ferme->nomferme }}</td>
                         <td>{{ $ferme->user->name }}</td>
                         <td class="text-center">
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item text-warning" href="{{ route('admin.animals.edit', $animal) }}">
-                                            <i class="fas fa-edit"></i> Modifier
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <form action="{{ route('admin.animals.destroy', $animal->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="dropdown-item text-danger">
-                                                <i class="fas fa-trash-alt"></i> Supprimer
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
+                                <a href="{{ route('admin.animals.edit', $animal) }}" class="btn btn-sm btn-primary" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('admin.animals.destroy', $animal->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Supprimer">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                         </td>
                     </tr>
                     @endforeach

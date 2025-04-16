@@ -7,9 +7,6 @@
     <div class="card shadow-sm">
         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
             <span><strong>Diagnostics enregistrés</strong></span>
-            <a href="{{ route('admin.diagnostics.create') }}" class="btn btn-light btn-sm text-success fw-bold">
-                <i class="fas fa-plus"></i> Ajouter
-            </a>
         </div>
 
         <div class="card-body">
@@ -19,7 +16,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Maladie</th>
-                            <th>Description</th>
+                            <th>Symptômes</th>
+                            <th>Traitement</th>
+                            <th>Vétérinaire</th>
+                            <th>Date</th>
+                            <th>ID Alerte</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -28,12 +29,13 @@
                         <tr>
                             <td>{{ $diagnostic->id }}</td>
                             <td>{{ $diagnostic->maladie->nom ?? 'N/A' }}</td>
-                            <td>{{ $diagnostic->description }}</td>
+                            <td>{{ $diagnostic->symptomes ?? 'N/A' }}</td>
+                            <td>{{ $diagnostic->traitement ?? 'N/A' }}</td>
+                            <td>{{ $diagnostic->veterinaire->name ?? 'N/A' }}</td>
+                            <td>{{ $diagnostic->created_at->format('d/m/Y H:i') ?? 'N/A' }}</td>
+                            <td>{{ $diagnostic->alert_id ?? 'N/A' }}</td>
                             <td class="text-center">
-                                <a href="{{ route('admin.diagnostics.edit', $diagnostic->id) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('admin.diagnostics.destroy', $diagnostic->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.diagnostics.destroy', $diagnostic->id) }}" method="POST" class="d-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Confirmer la suppression ?')">
@@ -46,7 +48,7 @@
 
                         @if ($diagnostics->isEmpty())
                         <tr>
-                            <td colspan="4" class="text-center text-muted">Aucun diagnostic enregistré.</td>
+                            <td colspan="8" class="text-center text-muted">Aucun diagnostic enregistré.</td>
                         </tr>
                         @endif
                     </tbody>
@@ -56,3 +58,12 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+</script>
+@endpush

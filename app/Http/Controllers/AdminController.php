@@ -9,6 +9,7 @@ use App\Models\Animal;
 use App\Models\Espece;
 use App\Models\Maladie;
 use App\Models\Diagnostic;
+use App\Models\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\EspeceController;
@@ -17,10 +18,10 @@ class AdminController extends Controller
 {
 
     public function indexFarms()
-        {
-            $farms = Ferme::all();
-            return view('admin.farms', compact('farms'));
-        }
+    {
+        $farms = Ferme::all();
+        return view('admin.farms', compact('farms'));
+    }
 
     public function indexUsers()
     {
@@ -35,15 +36,15 @@ class AdminController extends Controller
 
     public function updateFarm(Request $request, Ferme $farm)
     {
-    $validatedData = $request->validate([
-        'nomferme' => 'required|string|max:255',
-        'description' => 'required|string',
-        'adresse' => 'required|string|max:255',
-    ]);
+        $validatedData = $request->validate([
+            'nomferme' => 'required|string|max:255',
+            'description' => 'required|string',
+            'adresse' => 'required|string|max:255',
+        ]);
 
-    $farm->update($validatedData);
+        $farm->update($validatedData);
 
-    return redirect()->route('admin.farms')->with('success', 'Ferme mise à jour avec succès');
+        return redirect()->route('admin.farms')->with('success', 'Ferme mise à jour avec succès');
     }
 
 
@@ -94,7 +95,7 @@ class AdminController extends Controller
     {
         $animals = Animal::with('race', 'ferme')->get();
         $fermes = Ferme::all();
-        return view('admin.animals',['animals' => $animals, 'fermes' => $fermes]);
+        return view('admin.animals', ['animals' => $animals, 'fermes' => $fermes]);
     }
 
     public function index()
@@ -105,8 +106,17 @@ class AdminController extends Controller
         $especeCount = Espece::count();
         $raceCount = Race::count();
         $maladieCount = Maladie::count();
+        $alerteCount = Alert::count();
+        $diagnosticCount = Diagnostic::count();
         return view('admin/admin_dashboard', compact(
-            'eleveurCount', 'veterinaireCount', 'farmCount', 'especeCount', 'raceCount','maladieCount'
+            'eleveurCount',
+            'veterinaireCount',
+            'farmCount',
+            'especeCount',
+            'raceCount',
+            'maladieCount',
+            'alerteCount',
+            'diagnosticCount'
         ));
     }
 
@@ -137,7 +147,7 @@ class AdminController extends Controller
     public function maladiesEdit(Maladie $maladie)
     {
         $races = Race::all();
-        return view('admin.maladies.edit', compact('maladie','races'));
+        return view('admin.maladies.edit', compact('maladie', 'races'));
     }
 
     public function maladiesUpdate(Request $request, Maladie $maladie)
@@ -147,11 +157,11 @@ class AdminController extends Controller
             'symptomes' => 'required|string',
             'race_id' => 'required|exists:races,id',
         ]);
-    
+
         $maladie->update($request->all());
         return redirect()->route('admin.maladies.index')->with('success', 'Maladie mise à jour.');
     }
-    
+
     public function maladiesDestroy(Maladie $maladie)
     {
         $maladie->delete();
@@ -161,41 +171,38 @@ class AdminController extends Controller
 
 
     public function diagnosticsIndex()
-{
-    $diagnostics = Diagnostic::with(['animal', 'maladie'])->get();
-    return view('admin.diagnostics.index', compact('diagnostics'));
-}
+    {
+        $diagnostics = Diagnostic::with(['ferme', 'race', 'maladie'])->get();
+        return view('admin.diagnostics.index', compact('diagnostics'));
+    }
 
-public function diagnosticsCreate()
-{
-    $animals = Animal::all();
-    $maladies = Maladie::all();
-    return view('admin.diagnostics.create', compact('animals', 'maladies'));
-}
+    public function diagnosticsCreate()
+    {
+        $maladies = Maladie::all();
+        return view('admin.diagnostics.create', compact('maladies'));
+    }
 
-public function diagnosticsStore(Request $request)
-{
-    Diagnostic::create($request->all());
-    return redirect()->route('admin.diagnostics.index');
-}
+    public function diagnosticsStore(Request $request)
+    {
+        Diagnostic::create($request->all());
+        return redirect()->route('admin.diagnostics.index');
+    }
 
-public function diagnosticsEdit(Diagnostic $diagnostic)
-{
-    $animals = Animal::all();
-    $maladies = Maladie::all();
-    return view('admin.diagnostics.edit', compact('diagnostic', 'animals', 'maladies'));
-}
+    public function diagnosticsEdit(Diagnostic $diagnostic)
+    {
+        $maladies = Maladie::all();
+        return view('admin.diagnostics.edit', compact('diagnostic', 'maladies'));
+    }
 
-public function diagnosticsUpdate(Request $request, Diagnostic $diagnostic)
-{
-    $diagnostic->update($request->all());
-    return redirect()->route('admin.diagnostics.index');
-}
+    public function diagnosticsUpdate(Request $request, Diagnostic $diagnostic)
+    {
+        $diagnostic->update($request->all());
+        return redirect()->route('admin.diagnostics.index');
+    }
 
-public function diagnosticsDestroy(Diagnostic $diagnostic)
-{
-    $diagnostic->delete();
-    return redirect()->route('admin.diagnostics.index');
-}
-
+    public function diagnosticsDestroy(Diagnostic $diagnostic)
+    {
+        $diagnostic->delete();
+        return redirect()->route('admin.diagnostics.index');
+    }
 }

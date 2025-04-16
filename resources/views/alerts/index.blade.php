@@ -150,8 +150,7 @@
                                     </button>
 
 
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#diagnosticModal{{ $alert->id }}">
+                                    <button type="button" class="btn btn-success">
                                         Supprimer alerte
                                     </button>
                                 @endif

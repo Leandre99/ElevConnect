@@ -27,33 +27,16 @@
                     <td>{{ $farm->description }}</td>
                     <td>{{ $farm->adresse }}</td>
                     <td class="text-center">
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h"></i>
+                        <a href="{{ route('admin.farms.edit', $farm) }}" class="btn btn-sm btn-primary" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('admin.farms.toggleStatus', $farm) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-link p-0 m-0 {{ $farm->active ? 'text-danger' : 'text-success' }}" title="{{ $farm->active ? 'Désactiver' : 'Activer' }}">
+                                <i class="fas {{ $farm->active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
                             </button>
-                            <ul class="dropdown-menu">
-                                {{-- <li>
-                                    <a class="dropdown-item" href="{{ route('admin.farms.show', $farm) }}">
-                                        <i class="fas fa-eye"></i> Voir
-                                    </a>
-                                </li> --}}
-                                <li>
-                                    <a class="dropdown-item text-warning" href="{{ route('admin.farms.edit', $farm) }}">
-                                        <i class="fas fa-edit"></i> Modifier
-                                    </a>
-                                </li>
-                                <li>
-                                    <form action="{{ route('admin.farms.toggleStatus', $farm) }}" method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="dropdown-item {{ $farm->active ? 'text-danger' : 'text-success' }}">
-                                            <i class="fas {{ $farm->active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i> 
-                                            {{ $farm->active ? 'Désactiver' : 'Activer' }}
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
+                        </form>
                     </td>
                 </tr>
                 @endforeach
