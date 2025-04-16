@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('diagnostics', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('maladie_id')->nullable();
+            $table->text('symptomes')->nullable();
             $table->unsignedBigInteger('veterinaire_id')->nullable();
             $table->unsignedBigInteger('alert_id')->nullable();
             $table->date('date');

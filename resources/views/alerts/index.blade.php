@@ -15,10 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://meet.jit.si/external_api.js"></script>
-    <!-- Inclure DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
-
-    <!-- Inclure DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script>
@@ -26,7 +23,6 @@
             $('#alertsTable').DataTable();
         });
     </script>
-
 </head>
 
 <body>
@@ -143,18 +139,28 @@
                             <td>{{ $alert->priority }}</td>
                             <td>{{ $alert->description }}</td>
                             <td>
-                                <!-- Voir les détails -->
+                                @if (auth()->user()->role === 'Eleveur')
                                 <button type="button" class="btn btn-info me-2" data-bs-toggle="modal"
-                                    data-bs-target="#alertModal{{ $alert->id }}">
-                                    Voir les détails
-                                </button>
+                                data-bs-target="#alertModal{{ $alert->id }}">
+                                Voir les détails
+                            </button>
+                            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal"
+    data-bs-target="#alertDiagnosticsModal{{ $alert->id }}">
+    Voir le diagnostic
+</button>
+
+                       
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#diagnosticModal{{ $alert->id }}">
+                                       Supprimer alerte
+                                    </button>
+                                @endif
 
                                 @if (auth()->user()->role === 'Veterinaire')
-                                    <!-- Intervenir -->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#planMeetingModal{{ $alert->id }}"
                                         data-alerte-id="{{ $alert->id }}">
-                                        Intervenir
+                                        Planifier un meet
                                     </button>
 
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -240,82 +246,82 @@
                                 </div>
 
                                 <!-- Modal pour Émettre un Diagnostic -->
-                                {{-- <div class="modal fade" id="diagnosticModal{{ $alert->id }}" tabindex="-1"
+                                <div class="modal fade" id="diagnosticModal{{ $alert->id }}" tabindex="-1"
                                     aria-labelledby="diagnosticModalLabel{{ $alert->id }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Émettre un Diagnostic</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Fermer"></button>
-                                            </div>
-                                            <form action="{{ route('diagnostics.store') }}" method="POST">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <!-- Sélection de l'animal -->
-                                                    <div class="mb-3">
-                                                        <label for="animal_id{{ $alert->id }}"
-                                                            class="form-label">Animal concerné</label>
-                                                        <select name="animal_id" id="animal_id{{ $alert->id }}"
-                                                            class="form-control" required>
-                                                            @foreach ($animals as $animal)
-                                                                <option value="{{ $animal->id }}">
-                                                                    {{ $animal->nom }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <!-- Sélection de la maladie -->
-                                                    <div class="mb-3">
-                                                        <label for="maladie_id{{ $alert->id }}"
-                                                            class="form-label">Maladie</label>
-                                                        <select name="maladie_id" id="maladie_id{{ $alert->id }}"
-                                                            class="form-control" required>
-                                                            @foreach ($maladies as $maladie)
-                                                                <option value="{{ $maladie->id }}">
-                                                                    {{ $maladie->nom }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <!-- Date du diagnostic -->
-                                                    <div class="mb-3">
-                                                        <label for="date{{ $alert->id }}"
-                                                            class="form-label">Date</label>
-                                                        <input type="date" name="date"
-                                                            id="date{{ $alert->id }}" class="form-control"
-                                                            required>
-                                                    </div>
-
-                                                    <!-- Traitement -->
-                                                    <div class="mb-3">
-                                                        <label for="traitement{{ $alert->id }}"
-                                                            class="form-label">Traitement recommandé</label>
-                                                        <textarea name="traitement" id="traitement{{ $alert->id }}" class="form-control" rows="3" required></textarea>
-                                                    </div>
-
-                                                    <!-- Lien avec l'alerte -->
-                                                    <input type="hidden" name="alert_id"
-                                                        value="{{ $alert->id }}">
+                                   <div class="modal-dialog">
+                                       <div class="modal-content">
+                                           <div class="modal-header">
+                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                           </div>
+                                           <form action="{{ route('diagnostics.store') }}" method="POST">
+                                               @csrf
+                                               <div class="modal-body">
+                                                   <div class="mb-3">
+                                                       <label for="maladie_id{{ $alert->id }}" class="form-label">Maladie</label>
+                                                       <select name="maladie_id" id="maladie_id{{ $alert->id }}" class="form-control" required>
+                                                           @foreach ($maladies as $maladie)
+                                                               <option value="{{ $maladie->id }}">{{ $maladie->nom }}</option>
+                                                           @endforeach
+                                                       </select>
+                                                   </div>
+                                                   <div class="mb-3">
+                                                    <label for="symptomes_{{ $alert->id }}" class="form-label">Symptômes</label>
+                                                    <textarea name="symptomes" id="symptomes_{{ $alert->id }}" class="form-control" rows="1" readonly></textarea>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Annuler</button>
-                                                    <button type="submit" class="btn btn-success">Soumettre</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                   <div class="mb-3">
+                                                       <label for="date{{ $alert->id }}" class="form-label">Date</label>
+                                                       <input type="date" name="date" id="date{{ $alert->id }}" class="form-control" required>
+                                                   </div>
+                                                   <div class="mb-3">
+                                                       <label for="traitement{{ $alert->id }}" class="form-label">Traitement recommandé</label>
+                                                       <textarea name="traitement" id="traitement{{ $alert->id }}" class="form-control" rows="3" required></textarea>
+                                                   </div>
+                                                   <input type="hidden" name="alert_id" value="{{ $alert->id }}">
+                                                   <input type="hidden" name="ferme_id" value="{{ $alert->ferme_id }}">
+                                               </div>
+                                               <div class="modal-footer">
+                                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                   <button type="submit" class="btn btn-success">Soumettre</button>
+                                               </div>
+                                           </form>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <!-- Modal Voir le diagnostic -->
+                                <div class="modal fade" id="alertDiagnosticsModal{{ $alert->id }}" tabindex="-1" aria-labelledby="diagnosticModalLabel{{ $alert->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="diagnosticModalLabel{{ $alert->id }}">Diagnostic(s) pour Alerte #{{ $alert->id }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                                     </div>
-                                </div> --}}
-
-
+                                    <div class="modal-body">
+                                    @if ($alert->diagnostics->count() > 0)
+                                        @foreach ($alert->diagnostics as $diagnostic)
+                                            <div class="mb-3 border p-3 rounded bg-light">
+                                                <p><strong>Maladie :</strong> {{ $diagnostic->maladie->nom }}</p>
+                                                <p><strong>Symptômes :</strong> {{ $diagnostic->maladie->symptomes }}</p>
+                                                <p><strong>Traitement :</strong> {{ $diagnostic->traitement ?? 'Non spécifié' }}</p>
+                                                <p><strong>Soumis le :</strong> {{ $diagnostic->created_at->format('d/m/Y H:i') }}</p>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p class="text-muted">Aucun diagnostic enregistré pour cette alerte.</p>
+                                    @endif
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
         <script>
             function startJitsiMeeting(meetingName) {
                 const domain = 'meet.jit.si';
@@ -328,7 +334,6 @@
                 const api = new JitsiMeetExternalAPI(domain, options);
             }
 
-            // Ouvre le modal avec la réunion Jitsi
             function openJitsiModal(meetingName) {
                 startJitsiMeeting(meetingName);
                 $('#jitsiModal').modal('show');
@@ -346,12 +351,30 @@
                 });
             });
         </script>
-
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const selectMaladie = document.getElementById('maladie_id{{ $alert->id }}');
+                const symptomesField = document.getElementById('symptomes_{{ $alert->id }}');
+                selectMaladie.addEventListener('change', function () {
+                    const maladieId = this.value;
+                    if (maladieId) {
+                        fetch(`/maladies/${maladieId}/symptomes`)
+                            .then(response => response.json())
+                            .then(data => {
+                                symptomesField.value = data.symptomes;
+                            });
+                    } else {
+                        symptomesField.value = '';
+                    }
+                });
+                if (selectMaladie.value) {
+                    selectMaladie.dispatchEvent(new Event('change'));
+                }
+            });
+        </script>
         <script src="vendors/is/is.min.js"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
         <script src="assets/js/theme.js"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
-            rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
             integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
         </script>
@@ -376,9 +399,9 @@
                 });
             });
         </script>
+        <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

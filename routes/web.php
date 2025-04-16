@@ -141,6 +141,5 @@ Route::patch('taches/{tache}/mark-as-completed', [TacheController::class, 'markA
 
 Route::post('/meeting/schedule', [MeetingController::class, 'schedule'])->name('meeting.schedule');
 Route::post('/diagnostics', [DiagnosticController::class, 'store'])->name('diagnostics.store');
-
-// Route::get('/intervenir/{id}', [InterventionController::class, 'intervenir'])->name('intervenir');
+Route::get('/maladies/{id}/symptomes', [MaladieController::class, 'getSymptomes']);
 require __DIR__ . '/auth.php';

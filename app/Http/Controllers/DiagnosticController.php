@@ -1,41 +1,47 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Animal;
+
 use App\Models\Maladie;
+use App\Models\Diagnostic;
+use App\Models\Alert;
 use Illuminate\Http\Request;
 
 class DiagnosticController extends Controller
 {
-
     public function index()
     {
         //
     }
-    public function create(Animal $animal)
+
+    public function create($alert_id)
     {
-        $maladies = Maladie::where('espece_id', $animal->espece_id)->get();
-        return view('diagnostics.create', compact('animal', 'maladies'));
+        $alert = Alert::findOrFail($alert_id);
+        $maladies = Maladie::where('espece_id', $alert->espece_id)->get();
+
+        return view('diagnostics.create', compact('alert', 'maladies'));
     }
 
-    public function store(Request $request, Animal $animal)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'maladie_id' => 'required|exists:maladies,id',
-            'nombre_cas' => 'required|integer|min:1|max:' . $animal->nombre,
-            'traitement' => 'nullable|string'
+            'symptomes' => 'required|string',
+            'traitement' => 'nullable|string',
+            'alert_id' => 'required|exists:alerts,id',
         ]);
 
-        $animal->diagnostics()->create([
+        Diagnostic::create([
+            'veterinaire_id' => auth()->id(),
             'maladie_id' => $validated['maladie_id'],
-            'nombre_cas' => $validated['nombre_cas'],
-            'date_apparition' => now(),
-            'statut' => 'suspecte',
-            'traitement' => $validated['traitement']
+            'symptomes' => $validated['symptomes'],
+            'date' => now(),
+            'traitement' => $validated['traitement'],
+            'alert_id' => $validated['alert_id'],
         ]);
 
-        return redirect()->route('animals.show', $animal)
-            ->with('success', 'Diagnostic enregistré');
+        return redirect()->route('alerts.index')
+            ->with('success', 'Diagnostic enregistré avec succès.');
     }
 
     public function show(string $id)

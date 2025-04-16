@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Race;
 use App\Models\Animal;
 use App\Models\Alert;
+use App\Models\Maladie;
 use Illuminate\Http\Request;
 use App\Mail\MeetingScheduled;
 use Illuminate\Support\Facades\Mail;
@@ -13,9 +14,11 @@ class AlertController extends Controller
 {
     public function index()
     {
-        $alerts = Alert::all();
-        return view('alerts.index', compact('alerts'));
+        $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])->get();
+        $maladies = Maladie::all();
+        return view('alerts.index', compact('alerts', 'maladies'));
     }
+
     public function create()
     {
         $races = Race::all();

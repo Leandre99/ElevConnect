@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class MaladieController extends Controller
 {
+    public function getSymptomes($id)
+{
+    $maladie = Maladie::findOrFail($id);
+    return response()->json(['symptomes' => $maladie->symptomes]);
+}
+
     public function index()
     {
        //

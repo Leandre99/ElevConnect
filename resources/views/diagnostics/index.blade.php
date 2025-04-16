@@ -1,6 +1,5 @@
 <form action="{{ route('diagnostics.store', $animal) }}" method="POST">
     @csrf
-    
     <div class="form-group">
         <label>Maladie</label>
         <select name="maladie_id" class="form-control">
