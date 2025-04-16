@@ -14,7 +14,7 @@ class AlertController extends Controller
 {
     public function index()
     {
-        $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])->get();
+        $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie','diagnostics.veterinaire'])->get();
         $maladies = Maladie::all();
         return view('alerts.index', compact('alerts', 'maladies'));
     }
