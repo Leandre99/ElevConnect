@@ -20,7 +20,6 @@
                             <th>Traitement</th>
                             <th>Vétérinaire</th>
                             <th>Date</th>
-                            <th>ID Alerte</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -29,11 +28,10 @@
                         <tr>
                             <td>{{ $diagnostic->id }}</td>
                             <td>{{ $diagnostic->maladie->nom ?? 'N/A' }}</td>
-                            <td>{{ $diagnostic->symptomes ?? 'N/A' }}</td>
+                            <td>{{ $diagnostic->maladie->symptomes ?? 'Aucun symptôme' }}</td>
                             <td>{{ $diagnostic->traitement ?? 'N/A' }}</td>
                             <td>{{ $diagnostic->veterinaire->name ?? 'N/A' }}</td>
                             <td>{{ $diagnostic->created_at->format('d/m/Y H:i') ?? 'N/A' }}</td>
-                            <td>{{ $diagnostic->alert_id ?? 'N/A' }}</td>
                             <td class="text-center">
                                 <form action="{{ route('admin.diagnostics.destroy', $diagnostic->id) }}" method="POST" class="d-inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
                                     @csrf
@@ -57,6 +55,30 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectMaladie = document.getElementById('maladie_id_{{ $diagnostic->id }}');
+        const symptomesCell = document.getElementById('symptomes_{{ $diagnostic->id }}');
+        
+        selectMaladie.addEventListener('change', function() {
+            const maladieId = this.value;
+            if (maladieId) {
+                fetch(`/maladies/${maladieId}/symptomes`)
+                    .then(response => response.json())
+                    .then(data => {
+                        symptomesCell.textContent = data.symptomes; // Met à jour la cellule "Symptômes" avec les symptômes
+                    });
+            } else {
+                symptomesCell.textContent = 'Aucun symptôme';
+            }
+        });
+
+        // Si la maladie est déjà sélectionnée, charger les symptômes
+        if (selectMaladie.value) {
+            selectMaladie.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
 @endsection
 
 @push('scripts')
@@ -66,4 +88,5 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
 </script>
+
 @endpush
