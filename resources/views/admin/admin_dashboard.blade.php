@@ -61,6 +61,15 @@
                 <p class="fw-bold fs-5">{{ $diagnosticCount }}</p>
             </div>
         </div>
+
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card shadow-sm p-3 text-center">
+                <i class="fas fa-tasks fa-2x text-success"></i>
+                <h6 class="mt-2">Tâches</h6>
+                <p class="fw-bold fs-5">{{ $tacheCount }}</p>
+            </div>
+        </div>
+        
     </div>
 </div>
 @endsection

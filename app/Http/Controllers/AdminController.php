@@ -10,6 +10,7 @@ use App\Models\Espece;
 use App\Models\Maladie;
 use App\Models\Diagnostic;
 use App\Models\Alert;
+use App\Models\Tache;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\EspeceController;
@@ -108,6 +109,7 @@ class AdminController extends Controller
         $maladieCount = Maladie::count();
         $alerteCount = Alert::count();
         $diagnosticCount = Diagnostic::count();
+        $tacheCount = Tache::count();
         return view('admin/admin_dashboard', compact(
             'eleveurCount',
             'veterinaireCount',
@@ -116,7 +118,8 @@ class AdminController extends Controller
             'raceCount',
             'maladieCount',
             'alerteCount',
-            'diagnosticCount'
+            'diagnosticCount',
+            'tacheCount'
         ));
     }
 
