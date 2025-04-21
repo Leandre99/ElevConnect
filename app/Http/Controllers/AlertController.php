@@ -16,10 +16,15 @@ class AlertController extends Controller
     {
         if (auth()->user()->role === 'eleveur') {
             $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
+                           ->withCount(['diagnostics'])
                            ->where('user_id', auth()->id())
-                           ->get();
+                           ->where('is_active', true)
+                           ->paginate(8);
         } else {
-            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])->get();
+            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
+                           ->withCount(['diagnostics'])
+                           ->where('is_active', true)
+                           ->paginate(8);
         }
         $maladies = Maladie::all();
         return view('alerts.index', compact('alerts', 'maladies'));
@@ -61,9 +66,17 @@ class AlertController extends Controller
     }
 
 
-
     private function sendMeetingEmail($alert, $linkMeet, $meetingDateTime)
     {
         Mail::to($alert->user->email)->send(new MeetingScheduled($alert, $linkMeet, $meetingDateTime));
     }
+
+    public function disable($id)
+{
+    $alert = Alert::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+    $alert->update(['is_active' => false]);
+
+    return redirect()->back()->with('success', 'Alerte désactivée avec succès.');
+}
+
 }

@@ -15,7 +15,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
-                            <th>Message</th>
+                            <th>Description</th>
                             <th>Utilisateur</th>
                             <th>Race</th>
                             <th>Date</th>
@@ -26,7 +26,7 @@
                         @foreach ($alertes as $alerte)
                         <tr>
                             <td>{{ $alerte->id }}</td>
-                            <td>{{ $alerte->message ?? 'N/A' }}</td>
+                            <td>{{ $alerte->description ?? 'N/A' }}</td>
                             <td>{{ $alerte->user->name ?? 'N/A' }}</td>
                             <td>{{ $alerte->race->nom ?? 'N/A' }}</td>
                             <td>{{ $alerte->created_at->format('d/m/Y H:i') ?? 'N/A' }}</td>

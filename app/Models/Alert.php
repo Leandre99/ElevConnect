@@ -9,7 +9,7 @@ class Alert extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description', 'priority', 'media', 'user_id', 'race_id', 'ferme_id'];
+    protected $fillable = ['description', 'priority', 'media', 'user_id', 'race_id', 'ferme_id','is_active'];
 
     public function user()
     {
@@ -30,5 +30,15 @@ class Alert extends Model
     {
         return $this->hasMany(Diagnostic::class);
     }
+
+    // public function meetings() {
+    //     return $this->hasMany(Meeting::class);
+    // }
+
+    public function getStatutAttribute()
+{
+    return $this->diagnostics()->exists() ? 'Traitée' : 'Non traitée';
+}
+
 }
 

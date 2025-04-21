@@ -11,8 +11,8 @@
 
         <div class="card-body">
             <div class="mb-3">
-                <label class="form-label"><strong>Message :</strong></label>
-                <p class="form-control-plaintext">{{ $alerte->message ?? 'N/A' }}</p>
+                <label class="form-label"><strong>Description :</strong></label>
+                <p class="form-control-plaintext">{{ $alerte->description ?? 'N/A' }}</p>
             </div>
 
             <div class="mb-3">

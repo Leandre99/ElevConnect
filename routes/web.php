@@ -119,6 +119,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/alertes', [AdminController::class, 'indexAlertes'])->name('admin.alertes.index');
     Route::get('/admin/alertes/{alert}', [AdminController::class, 'showAlerte'])->name('admin.alertes.show');
     Route::delete('/admin/alertes/{alert}', [AdminController::class, 'destroyAlerte'])->name('admin.alertes.destroy');
+    Route::patch('/alerts/{id}/disable', [AlertController::class, 'disable'])->name('alerts.disable');
 
 });
 

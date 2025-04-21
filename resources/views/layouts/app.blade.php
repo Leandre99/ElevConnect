@@ -17,6 +17,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicons/favicon-16x16.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
     <link rel="manifest" href="{{ asset('assets/img/favicons/manifest.json') }}">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://meet.jit.si/external_api.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <meta name="msapplication-TileImage" content="{{ asset('assets/img/favicons/mstile-150x150.png') }}">
     <meta name="theme-color" content="#ffffff">
 </head>
@@ -136,6 +140,59 @@
         </footer>
     </main>
 
+    <script>
+        function startJitsiMeeting(meetingName) {
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: meetingName,
+                width: '100%',
+                height: 500,
+                parentNode: document.querySelector('#jitsi-container'),
+            };
+            const api = new JitsiMeetExternalAPI(domain, options);
+        }
+
+        function openJitsiModal(meetingName) {
+            startJitsiMeeting(meetingName);
+            $('#jitsiModal').modal('show');
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    var alerteId = this.getAttribute('data-alerte-id');
+                    var modalId = '#planMeetingModal' + alerteId;
+                    var modal = new bootstrap.Modal(document.querySelector(modalId));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            function truncateText(element, maxLength) {
+                const text = element.textContent.trim();
+                if (text.length > maxLength) {
+                    element.textContent = text.slice(0, maxLength) + '...';
+                }
+            }
+
+            const descriptionElements = document.querySelectorAll('.description-truncate');
+
+
+            descriptionElements.forEach(element => {
+                truncateText(element, 100);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#alertsTable').DataTable();
+        });
+    </script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('vendors/is/is.min.js') }}"></script>
