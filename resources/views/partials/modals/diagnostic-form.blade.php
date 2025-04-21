@@ -23,7 +23,7 @@
                     <div class="mb-3">
                         <label for="symptomes_{{ $alert->id }}" class="form-label">Symptômes</label>
                         <textarea name="symptomes" id="symptomes_{{ $alert->id }}" class="form-control" required></textarea>
-                    </div>                    
+                    </div>
                     <div class="mb-3">
                         <label for="date{{ $alert->id }}"
                             class="form-label">Date</label>
