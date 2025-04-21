@@ -120,17 +120,17 @@
                 <i class="fas fa-exclamation-triangle"></i> Alertes
             </a>
 
-            <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                @csrf
-                <a class="dropdown-item fw-medium text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
-            </form>
         </nav>
 
         <div class="content-area">
             <nav class="navbar d-flex justify-content-between">
                 <span class="fw-bold fs-5">Bienvenue sur le tableau de bord</span>
+                <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                    @csrf
+                    <a class="dropdown-item fw-medium text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </a>
+                </form>
             </nav>
 
             @yield('content')
