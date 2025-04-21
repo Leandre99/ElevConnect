@@ -114,8 +114,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/diagnostics', [AdminController::class, 'diagnosticsIndex'])->name('admin.diagnostics.index');
     Route::put('/admin/diagnostics/{diagnostic}', [AdminController::class, 'diagnosticsUpdate'])->name('admin.diagnostics.update');
     Route::delete('/admin/diagnostics/{diagnostic}', [AdminController::class, 'diagnosticsDestroy'])->name('admin.diagnostics.destroy');
+
+
     Route::get('/admin/alertes', [AdminController::class, 'indexAlertes'])->name('admin.alertes.index');
-    Route::delete('/admin/alertes/{id}', [AdminController::class, 'destroyAlerte'])->name('admin.alertes.destroy');
+    Route::get('/admin/alertes/{alert}', [AdminController::class, 'showAlerte'])->name('admin.alertes.show');
+    Route::delete('/admin/alertes/{alert}', [AdminController::class, 'destroyAlerte'])->name('admin.alertes.destroy');
+
 });
 
 Route::get('index', [PusherController::class, 'index']);

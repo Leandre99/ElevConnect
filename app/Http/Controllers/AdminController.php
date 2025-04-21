@@ -168,8 +168,6 @@ class AdminController extends Controller
         return redirect()->route('admin.maladies.index')->with('success', 'Maladie supprimée.');
     }
 
-
-
     public function diagnosticsIndex()
     {
         $diagnostics = Diagnostic::with(['ferme', 'race', 'maladie'])->get();
@@ -205,4 +203,23 @@ class AdminController extends Controller
         $diagnostic->delete();
         return redirect()->route('admin.diagnostics.index');
     }
+
+    public function indexAlertes()
+    {
+        $alertes = Alert::with(['user', 'race'])->latest()->get();
+        return view('admin.alertes.index', compact('alertes'));
+    }
+    
+    public function showAlerte(Alert $alert)
+    {
+        return view('admin.alertes.edit', ['alerte' => $alert]);
+    }
+    
+    public function destroyAlerte(Alert $alert)
+    {
+        $alert->delete();
+        return redirect()->route('admin.alertes.index')->with('success', 'Alerte supprimée avec succès.');
+    }
+    
+
 }

@@ -116,7 +116,7 @@
             <a href="{{ route('admin.diagnostics.index') }}" class="{{ request()->routeIs('admin.diagnostics.index') ? 'active' : '' }}">
                 <i class="fas fa-stethoscope"></i> Diagnostics
             </a>
-            <a href="#" class="{{ request()->routeIs('admin.alertes.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.alertes.index') }}" class="{{ request()->routeIs('admin.alertes.index') ? 'active' : '' }}">
                 <i class="fas fa-exclamation-triangle"></i> Alertes
             </a>
 
