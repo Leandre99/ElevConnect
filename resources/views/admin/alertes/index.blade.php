@@ -29,7 +29,7 @@
                             <td>{{ $alerte->id }}</td>
                             <td>{{ $alerte->description ?? 'N/A' }}</td>
                             <td>{{ $alerte->user->name ?? 'N/A' }}</td>
-                            <td>{{ $alerte->race->nom ?? 'N/A' }}</td>
+                            <td>{{ $alerte->race->nomrace ?? 'N/A' }}</td>
                             <td>{{ $alerte->created_at->format('d/m/Y H:i') ?? 'N/A' }}</td>
                             <td class="text-center">
                                 <a href="{{ route('admin.alertes.show', $alerte->id) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Détails">

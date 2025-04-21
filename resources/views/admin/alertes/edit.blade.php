@@ -22,7 +22,7 @@
 
             <div class="mb-3">
                 <label class="form-label"><strong>Race :</strong></label>
-                <p class="form-control-plaintext">{{ $alerte->race->nom ?? 'N/A' }}</p>
+                <p class="form-control-plaintext">{{ $alerte->race->nomrace ?? 'N/A' }}</p>
             </div>
 
             <div class="mb-3">
