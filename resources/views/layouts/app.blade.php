@@ -141,23 +141,6 @@
     </main>
 
     <script>
-        function startJitsiMeeting(meetingName) {
-            const domain = 'meet.jit.si';
-            const options = {
-                roomName: meetingName,
-                width: '100%',
-                height: 500,
-                parentNode: document.querySelector('#jitsi-container'),
-            };
-            const api = new JitsiMeetExternalAPI(domain, options);
-        }
-
-        function openJitsiModal(meetingName) {
-            startJitsiMeeting(meetingName);
-            $('#jitsiModal').modal('show');
-        }
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
                 button.addEventListener('click', function() {

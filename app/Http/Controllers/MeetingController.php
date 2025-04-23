@@ -10,28 +10,37 @@ use Illuminate\Http\Request;
 use App\Notifications\MeetingScheduled;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use App\Models\Meeting;
 
 class MeetingController extends Controller
 {
     public function schedule(Request $request)
-{
-    $request->validate([
-        'meetingDate' => 'required|date',
-        'alert_id' => 'required|exists:alerts,id',
-    ]);
+    {
+        
+        $request->validate([
+            'meetingDate' => 'required|date',
+            'alert_id' => 'required|exists:alerts,id',
+        ]);
 
-    $alert = Alert::find($request->alert_id);
+        $alert = Alert::find($request->alert_id);
 
-    $meetingDate = $request->meetingDate;
+        $meetingDate = $request->meetingDate;
 
-    $meetingUrl = $this->generateJitsiMeetUrl();
+        $meetingUrl = $this->generateJitsiMeetUrl();
 
 
-    $eleveur = User::find($alert->user_id);
+        $eleveur = User::find($alert->user_id);
 
-    Mail::to($eleveur->email)->send(new Alermail($meetingUrl, $meetingDate));
-    return redirect()->back()->with('success', 'Réunion planifiée et notification envoyée!');
-}
+        Mail::to($eleveur->email)->send(new Alermail($meetingUrl, $meetingDate));
+
+        Meeting::create([
+            'alert_id' => $alert->id,
+            'meeting_date' => $meetingDate,
+            'meeting_url' => $meetingUrl,
+        ]);
+        
+        return redirect()->back()->with('success', 'Réunion planifiée et notification envoyée!');
+    }
 
 
     private function generateJitsiMeetUrl()

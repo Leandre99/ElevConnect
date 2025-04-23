@@ -16,13 +16,13 @@ class AlertController extends Controller
     {
         if (auth()->user()->role === 'eleveur') {
             $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
-                           ->withCount(['diagnostics'])
+                           ->withCount(['diagnostics','meetings'])
                            ->where('user_id', auth()->id())
                            ->where('is_active', true)
                            ->paginate(8);
         } else {
             $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
-                           ->withCount(['diagnostics'])
+                           ->withCount(['diagnostics','meetings'])
                            ->where('is_active', true)
                            ->paginate(8);
         }
@@ -63,12 +63,6 @@ class AlertController extends Controller
         $alert->save();
 
         return back();
-    }
-
-
-    private function sendMeetingEmail($alert, $linkMeet, $meetingDateTime)
-    {
-        Mail::to($alert->user->email)->send(new MeetingScheduled($alert, $linkMeet, $meetingDateTime));
     }
 
     public function disable($id)

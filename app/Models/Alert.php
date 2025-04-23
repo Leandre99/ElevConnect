@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Meetings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,10 +31,10 @@ class Alert extends Model
         return $this->hasMany(Diagnostic::class);
     }
 
-    // public function meetings() {
-    //     return $this->hasMany(Meeting::class);
-    // }
-
+    public function meetings()
+    {
+        return $this->hasMany(Meeting::class);
+    }
     public function getStatutAttribute()
 {
     return $this->diagnostics()->exists() ? 'Traitée' : 'Non traitée';

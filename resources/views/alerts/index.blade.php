@@ -2,87 +2,95 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2 class="mb-4">Liste des alertes</h2>
-
-        <div class="row g-4">
-            @foreach ($alerts as $alert)
-                @php
-                    $priorite = match ($alert->priority) {
-                        'high' => 'Haute',
-                        'medium' => 'Moyenne',
-                        'low' => 'Faible',
-                        default => ucfirst($alert->priority),
-                    };
-                @endphp
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card border-0 shadow-sm h-100"
-                        style="border-left: 6px solid
-                        {{ $alert->priority === 'Haute' ? '#dc3545' : ($alert->priority === 'Moyenne' ? '#ffc107' : '#28a745') }};">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-capitalize">
-                                Priorité : <span
-                                    class="badge
-                                    {{ $priorite === 'Haute' ? 'bg-danger' : ($priorite === 'Moyenne' ? 'bg-warning text-dark' : 'bg-success') }}">
-                                    {{ $priorite }}
-                                </span>
-                                <h5>
-
-                                </h5 class="card-title"> Statut: <span
-                                    class="badge {{ $alert->statut === 'Traitée' ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $alert->statut }}
-                                </span>
-                                <p class="card-text mb-4">
-                                    {{ $alert->description }}
-                                </p>
-
-                                <div class="mt-auto">
-                                    <p class="mb-1"><i class="bi bi-heart-pulse"></i> Diagnostics :
-                                        {{ $alert->diagnostics_count ?? 0 }}</p>
-                                    <p><i class="bi bi-calendar-event"></i> Réunions : {{ $alert->meetings_count ?? 0 }}</p>
-
-                                    @if (auth()->user()->role === 'Eleveur')
-                                        <button class="btn btn-sm btn-outline-info mb-1 w-100" data-bs-toggle="modal"
-                                            data-bs-target="#alertModal{{ $alert->id }}">
-                                            <i class="bi bi-info-circle"></i> Détails
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-success w-100" data-bs-toggle="modal"
-                                            data-bs-target="#alertDiagnosticsModal{{ $alert->id }}">
-                                            <i class="bi bi-file-earmark-medical"></i> Diagnostics
-                                        </button>
-                                            @if ($alert->is_active)
-                                            <form action="{{ route('alerts.disable', $alert->id) }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                    onclick="return confirm('Confirmer la désactivation de cette alerte ?')">
-                                                    Désactiver
-                                                </button>
-                                            </form>
-                                            @endif
-                                    @endif
-
-                                    @if (auth()->user()->role === 'Veterinaire')
-                                        <button class="btn btn-sm btn-outline-info mb-1 w-100" data-bs-toggle="modal"
-                                            data-bs-target="#alertModal{{ $alert->id }}">
-                                            <i class="bi bi-info-circle"></i> Détails
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-primary mb-1 w-100" data-bs-toggle="modal"
-                                            data-bs-target="#planMeetingModal{{ $alert->id }}">
-                                            <i class="bi bi-calendar-check"></i> Planifier
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-success w-100" data-bs-toggle="modal"
-                                            data-bs-target="#diagnosticModal{{ $alert->id }}">
-                                            <i class="bi bi-check-circle"></i> Diagnostic
-                                        </button>
-                                    @endif
-
-                                </div>
-                        </div>
-                    </div>
+        <h2 class="mb-4">Liste de mes alertes</h2>
+            @if ($alerts->isEmpty())
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-exclamation-circle"></i> Vous n'avez émis aucune alerte pour le moment.
                 </div>
-            @endforeach
-        </div>
+            @else
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                    @foreach ($alerts as $alert)
+                        @php
+                            $priorite = match ($alert->priority) {
+                                'high' => 'Haute',
+                                'medium' => 'Moyenne',
+                                'low' => 'Faible',
+                                default => ucfirst($alert->priority),
+                            };
+                            $borderColor = match ($priorite) {
+                                'Haute' => '#dc3545',
+                                'Moyenne' => '#ffc107',
+                                'Faible' => '#28a745',
+                                default => '#6c757d',
+                            };
+                        @endphp
+
+                        <div class="col">
+                            <div class="card shadow-sm border-start border-4" style="border-left-color: {{ $borderColor }}">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span
+                                            class="badge {{ $priorite === 'Haute' ? 'bg-danger' : ($priorite === 'Moyenne' ? 'bg-warning text-dark' : 'bg-success') }}">
+                                            Priorité : {{ $priorite }}
+                                        </span>
+                                        <span
+                                            class="badge {{ $alert->statut === 'Traitée' ? 'bg-success' : 'bg-secondary' }}">
+                                            Statut : {{ $alert->statut }}
+                                        </span>
+                                    </div>
+
+                                    <p class="text-muted mb-3">{{ $alert->description }}</p>
+
+                                    <div class="mb-2">
+                                        <small><i class="bi bi-heart-pulse"></i> Diagnostics :
+                                            {{ $alert->diagnostics_count ?? 0 }}</small><br>
+                                        <small><i class="bi bi-calendar-event"></i>Meets Planifiés :
+                                            {{ $alert->meetings_count ?? 0 }}</small>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        @if (auth()->user()->role === 'Eleveur')
+                                            <button class="btn btn-sm btn-outline-info w-100 mb-2" data-bs-toggle="modal"
+                                                data-bs-target="#alertModal{{ $alert->id }}">
+                                                <i class="bi bi-info-circle"></i> Détails
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success w-100 mb-2" data-bs-toggle="modal"
+                                                data-bs-target="#alertDiagnosticsModal{{ $alert->id }}">
+                                                <i class="bi bi-file-earmark-medical"></i> Diagnostics
+                                            </button>
+                                            @if ($alert->is_active)
+                                                <form action="{{ route('alerts.disable', $alert->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100"
+                                                        onclick="return confirm('Confirmer la désactivation de cette alerte ?')">
+                                                        <i class="bi bi-x-circle"></i> Supprimer
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @elseif (auth()->user()->role === 'Veterinaire')
+                                            <button class="btn btn-sm btn-outline-info w-100 mb-2" data-bs-toggle="modal"
+                                                data-bs-target="#alertModal{{ $alert->id }}">
+                                                <i class="bi bi-info-circle"></i> Détails
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary w-100 mb-2" data-bs-toggle="modal"
+                                                data-bs-target="#planMeetingModal{{ $alert->id }}">
+                                                <i class="bi bi-calendar-check"></i> Planifier Meet
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success w-100" data-bs-toggle="modal"
+                                                data-bs-target="#diagnosticModal{{ $alert->id }}">
+                                                <i class="bi bi-check-circle"></i> Diagnostic
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
     </div>
 
     @foreach ($alerts as $alert)
@@ -111,5 +119,22 @@
                 selectMaladie.dispatchEvent(new Event('change'));
             }
         });
+    </script>
+    <script>
+        function startJitsiMeeting(meetingName) {
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: meetingName,
+                width: '100%',
+                height: 500,
+                parentNode: document.querySelector('#jitsi-container'),
+            };
+            const api = new JitsiMeetExternalAPI(domain, options);
+        }
+
+        function openJitsiModal(meetingName) {
+            startJitsiMeeting(meetingName);
+            $('#jitsiModal').modal('show');
+        }
     </script>
 @endsection

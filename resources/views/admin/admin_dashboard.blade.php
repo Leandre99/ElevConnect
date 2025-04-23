@@ -69,7 +69,6 @@
                 <p class="fw-bold fs-5">{{ $tacheCount }}</p>
             </div>
         </div>
-        
     </div>
 </div>
 @endsection
