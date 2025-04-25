@@ -55,10 +55,9 @@
                                                 data-bs-target="#alertModal{{ $alert->id }}">
                                                 <i class="bi bi-info-circle"></i> Détails
                                             </button>
-                                            <button class="btn btn-sm btn-outline-success w-100 mb-2" data-bs-toggle="modal"
-                                                data-bs-target="#alertDiagnosticsModal{{ $alert->id }}">
-                                                <i class="bi bi-file-earmark-medical"></i> Diagnostics
-                                            </button>
+                                            <a href="{{ route('alerts.diagnostics', $alert->id) }}" class="btn btn-sm btn-outline-info w-100 mb-2">
+                                                <i class="bi bi-file-earmark-medical"></i> Voir Diagnostics
+                                            </a>
                                             @if ($alert->is_active)
                                                 <form action="{{ route('alerts.disable', $alert->id) }}" method="POST">
                                                     @csrf

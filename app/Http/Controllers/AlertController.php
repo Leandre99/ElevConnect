@@ -73,4 +73,11 @@ class AlertController extends Controller
     return redirect()->back()->with('success', 'Alerte désactivée avec succès.');
 }
 
+public function showDiagnostics($alertId)
+{
+    $alert = Alert::with('diagnostics.maladie', 'diagnostics.veterinaire')->findOrFail($alertId);
+
+    return view('alerts.diagnostics', compact('alert'));
+}
+
 }
