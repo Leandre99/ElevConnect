@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicons/favicon-16x16.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
     <link rel="manifest" href="{{ asset('assets/img/favicons/manifest.json') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://meet.jit.si/external_api.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
@@ -30,13 +31,13 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 2%">
             <div class="container-fluid">
                 <a class="navbar-brand mx-auto" href="/" style="color: rgb(115, 168, 36)">ElevConnect</a>
-    
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-    
+
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         @guest
@@ -59,7 +60,7 @@
                                 </a>
                             </li>
                         @endguest
-    
+
                         @auth
                             @if (Auth::user()->role === 'admin')
                                 <li class="nav-item">
@@ -82,7 +83,7 @@
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                 </li>
                             @endif
-    
+
                             <li class="nav-item dropdown mx-auto">
                                 <a class="nav-link dropdown-toggle fw-medium" href="#"
                                     id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
