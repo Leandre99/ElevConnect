@@ -15,17 +15,18 @@ class AlertController extends Controller
     public function index()
     {
         if (auth()->user()->role === 'eleveur') {
-            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
-                           ->withCount(['diagnostics','meetings'])
-                           ->where('user_id', auth()->id())
-                           ->where('is_active', true)
-                           ->paginate(8);
+            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie', 'meetings'])
+                ->withCount(['diagnostics', 'meetings'])
+                ->where('user_id', auth()->id())
+                ->latest()
+                ->paginate(8);
         } else {
-            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie'])
-                           ->withCount(['diagnostics','meetings'])
-                           ->where('is_active', true)
-                           ->paginate(8);
+            $alerts = Alert::with(['ferme', 'race', 'diagnostics.maladie', 'meetings'])
+                ->withCount(['diagnostics', 'meetings'])
+                ->latest()
+                ->paginate(8);
         }
+
         $maladies = Maladie::all();
         return view('alerts.index', compact('alerts', 'maladies'));
     }
@@ -36,48 +37,50 @@ class AlertController extends Controller
         return view('Animals', compact('races'));
     }
 
-
     public function store(Request $request)
     {
-        $request->validate([
-            'description' => 'required',
-            'priority' => 'required',
+        $validated = $request->validate([
+            'description' => 'required|string',
+            'priority' => 'required|string|in:high,medium,low',
             'race_id' => 'required|exists:races,id',
             'ferme_id' => 'required|exists:fermes,id',
-            'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,flv',
+            'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,flv|max:2048', // Limitation de la taille à 2MB
         ]);
+    
+        try {
+            $alert = new Alert();
+            $alert->description = $validated['description'];
+            $alert->priority = $validated['priority'];
+            $alert->user_id = auth()->id();
+            $alert->race_id = $validated['race_id'];
+            $alert->ferme_id = $validated['ferme_id'];
+    
+            if ($request->hasFile('media')) {
+                $file = $request->file('media');
+                $path = $file->store('alerts', 'public');
+                $alert->media = $path;
+            }
 
-        $alert = new Alert();
-        $alert->description = $request->description;
-        $alert->priority = $request->priority;
-        $alert->user_id = auth()->id();
-        $alert->race_id = $request->race_id;
-        $alert->ferme_id = $request->ferme_id;
-
-        if ($request->hasFile('media')) {
-            $file = $request->file('media');
-            $path = $file->store('alerts', 'public');
-            $alert->media = $path;
+            $alert->status = 'Non traitée';
+            $alert->save();
+    
+            return back()->with('success', 'Alerte ajoutée avec succès!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erreur lors de l\'ajout de l\'alerte: ' . $e->getMessage());
         }
-
-        $alert->save();
-
-        return back();
+    }
+    public function disable($id)
+    {
+        $alert = Alert::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $alert->update(['status' => 'Désactivée']);
+        return redirect()->back()->with('success', 'Alerte désactivée avec succès.');
     }
 
-    public function disable($id)
-{
-    $alert = Alert::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
-    $alert->update(['is_active' => false]);
 
-    return redirect()->back()->with('success', 'Alerte désactivée avec succès.');
-}
+    public function showDiagnostics($alertId)
+    {
+        $alert = Alert::with('diagnostics.maladie', 'diagnostics.veterinaire')->findOrFail($alertId);
 
-public function showDiagnostics($alertId)
-{
-    $alert = Alert::with('diagnostics.maladie', 'diagnostics.veterinaire')->findOrFail($alertId);
-
-    return view('alerts.diagnostics', compact('alert'));
-}
-
+        return view('alerts.diagnostics', compact('alert'));
+    }
 }

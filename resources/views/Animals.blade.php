@@ -2,14 +2,16 @@
 
 @section('content')
     <div class="container">
-        <h1 style="padding-top: 5%">Animaux de la ferme: {{ $ferme->nomferme }}</h1>
+        <h3 style="padding-top: 5%">Animaux de la ferme: {{ $ferme->nomferme }}</h3>
+        <div class="d-flex justify-content-between align-items-center my-4">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAnimalModal">
+                Ajouter un animal
+            </button>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAnimalModal">
-            Ajouter un animal
-        </button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
-            Signaler une maladie
-        </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">
+                Signaler une maladie
+            </button>
+        </div>
 
         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -59,52 +61,46 @@
             </div>
         </div>
 
-        <h3 class="mt-4"style="padding-bottom: 2%">Liste des animaux</h3>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <table id="animalsTable" class="display table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Espèce</th>
-                                <th>Race</th>
-                                <th>Âge (Semaines)</th>
-                                <th>Nombre d'animaux</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($animaux as $animal)
-                                <tr>
-                                    <td>{{ $animal->race->espece->nomespece }}</td>
-                                    <td>{{ $animal->race->nomrace }}</td>
-                                    <td>{{ $animal->age }}</td>
-                                    <td>{{ $animal->nombre }}</td>
-                                    <td>
-                                        <div class="d-flex">
-                                            <a href="{{ route('animals.edit', $animal->id) }}"
-                                                class="btn btn-warning btn-sm me-2">Modifier</a>
-                                            <form
-                                                action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Espèce</th>
+                        <th>Race</th>
+                        <th>Âge (Semaines)</th>
+                        <th>Nombre d'animaux</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($animaux as $animal)
+                        <tr>
+                            <td>{{ $animal->race->espece->nomespece }}</td>
+                            <td>{{ $animal->race->nomrace }}</td>
+                            <td>{{ $animal->age }}</td>
+                            <td>{{ $animal->nombre }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a href="{{ route('animals.edit', $animal->id) }}"
+                                        class="btn btn-warning btn-sm me-2">Modifier</a>
+                                    <form
+                                        action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
         <div class="modal fade" id="addAnimalModal" tabindex="-1" aria-labelledby="addAnimalModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addAnimalModalLabel">Ajouter un animal à la ferme:
@@ -184,7 +180,7 @@
             });
         });
     </script>
-        {{-- <script>
+    {{-- <script>
             document.getElementById('especes').addEventListener('change', function() {
                 const selectedSpecies = this.value;
                 const raceSelect = document.getElementById('race');

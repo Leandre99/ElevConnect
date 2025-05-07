@@ -48,19 +48,18 @@
                                 <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
                             </li>
                             <li class="nav-item px-2">
-                                <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Vétérinaires</a>
                             </li>
                             <li class="nav-item px-2">
                                 <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                             </li>
                             <li class="nav-item d-flex">
-                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute;right: 0;" href="{{ route('login') }}">
+                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute; right: 0;" href="{{ route('login') }}">
                                     <span style="margin-right: 8px;">Connexion</span>
-                                    <img src="{{ asset('assets/images/connexion.png') }}" width=30>
+                                    <img src="{{ asset('assets/images/connexion.png') }}" width="30">
                                 </a>
                             </li>
                         @endguest
-
                         @auth
                             @if (Auth::user()->role === 'admin')
                                 <li class="nav-item">
@@ -70,11 +69,13 @@
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium active" style="font-weight: bold;" href="{{ route('welcome') }}">Accueil</a>
                                 </li>
+                                @if (Auth::user()->role === 'Eleveur')
+                                    <li class="nav-item px-2">
+                                        <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
+                                    </li>
+                                @endif
                                 <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
-                                </li>
-                                <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Véterinaires</a>
+                                    <a class="nav-link fw-medium" href="{{ route('Veterinaire') }}">Vétérinaires</a>
                                 </li>
                                 <li class="nav-item px-2">
                                     <a class="nav-link fw-medium" href="{{ route('alerts.index') }}">Alertes</a>
@@ -83,20 +84,21 @@
                                     <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                                 </li>
                             @endif
-
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#"
-                                    id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a></li>
+                                    <li>
+                                        <a class="dropdown-item fw-medium" href="{{ route('profile.edit') }}">Profil</a>
+                                    </li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <li>
                                             <a class="dropdown-item fw-medium" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault(); this.closest('form').submit();">Se déconnecter</a>
+                                               onclick="event.preventDefault(); this.closest('form').submit();">
+                                                Se déconnecter
+                                            </a>
                                         </li>
                                     </form>
                                 </ul>

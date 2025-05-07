@@ -9,7 +9,7 @@ class Alert extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description', 'priority', 'media', 'user_id', 'race_id', 'ferme_id','is_active'];
+    protected $fillable = ['description', 'priority','status', 'media', 'user_id', 'race_id', 'ferme_id','is_active'];
 
     public function user()
     {

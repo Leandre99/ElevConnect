@@ -40,8 +40,11 @@ class DiagnosticController extends Controller
             'alert_id' => $validated['alert_id'],
         ]);
 
+        $alert = Alert::findOrFail($validated['alert_id']);
+        $alert->update(['status' => 'Traitée']);
+
         return redirect()->route('alerts.index')
-            ->with('success', 'Diagnostic enregistré avec succès.');
+            ->with('success', 'Diagnostic enregistré et alerte traitée avec succès.');
     }
 
     public function show(string $id)
