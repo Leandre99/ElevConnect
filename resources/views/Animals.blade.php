@@ -80,19 +80,24 @@
                             <td>{{ $animal->age }}</td>
                             <td>{{ $animal->nombre }}</td>
                             <td>
-                                <div class="d-flex">
-                                    <a href="{{ route('animals.edit', $animal->id) }}"
-                                        class="btn btn-warning btn-sm me-2">Modifier</a>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('animals.edit', $animal->id) }}" class="text-warning"
+                                        title="Modifier">
+                                        <i class="bi bi-pencil-square fs-1"></i>
+                                    </a>
                                     <form
                                         action="{{ route('animals.destroy', ['ferme' => $ferme->id, 'animal' => $animal->id]) }}"
                                         method="POST"
                                         onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                        <button type="submit" class="btn btn-link text-danger p-0 m-0" title="Supprimer">
+                                            <i class="bi bi-trash fs-1 "></i>
+                                        </button>
                                     </form>
                                 </div>
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>
