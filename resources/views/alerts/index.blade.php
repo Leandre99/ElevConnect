@@ -139,8 +139,7 @@
     </div>
 
     @foreach ($alerts as $alert)
-        @include('partials.modals.alert-details', ['alert' => $alert])
-        @include('partials.modals.alert-diagnostics', ['alert' => $alert])
+        @include('partials.modals.alert-details', ['alert' => $alert]))
         @include('partials.modals.plan-meeting', ['alert' => $alert])
         @include('partials.modals.diagnostic-form', ['alert' => $alert, 'maladies' => $maladies])
     @endforeach
