@@ -25,13 +25,6 @@
                         <textarea name="symptomes" id="symptomes_{{ $alert->id }}" class="form-control" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="date{{ $alert->id }}"
-                            class="form-label">Date</label>
-                        <input type="date" name="date"
-                            id="date{{ $alert->id }}" class="form-control"
-                            required>
-                    </div>
-                    <div class="mb-3">
                         <label for="traitement{{ $alert->id }}"
                             class="form-label">Traitement recommandé</label>
                         <textarea name="traitement" id="traitement{{ $alert->id }}" class="form-control" rows="3" required></textarea>
