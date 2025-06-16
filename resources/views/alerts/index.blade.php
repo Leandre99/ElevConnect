@@ -82,6 +82,10 @@
                                                 </form>
                                             @endif
                                         @elseif (auth()->user()->role === 'Veterinaire')
+                                        <a href="{{ route('alerts.diagnostics', $alert->id) }}"
+                                                class="btn btn-sm btn-outline-primary" title="Voir diagnostics">
+                                                <i class="bi bi-file-earmark-medical"></i>
+                                            </a>
                                             @if ($alert->status !== 'Désactivée')
                                                 <button class="btn btn-sm btn-outline-primary" title="Planifier réunion"
                                                     data-bs-toggle="modal"
@@ -139,7 +143,7 @@
     </div>
 
     @foreach ($alerts as $alert)
-        @include('partials.modals.alert-details', ['alert' => $alert]))
+        @include('partials.modals.alert-details', ['alert' => $alert])
         @include('partials.modals.plan-meeting', ['alert' => $alert])
         @include('partials.modals.diagnostic-form', ['alert' => $alert, 'maladies' => $maladies])
     @endforeach

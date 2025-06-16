@@ -72,8 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
-    Route::get('admin/{user}/activate', [AdminController::class, 'activate'])->name('admin.users.activate');
-    Route::get('admin/{user}/deactivate', [AdminController::class, 'deactivate'])->name('admin.users.deactivate');
+    Route::patch('admin/{user}/activate', [AdminController::class, 'activate'])->name('admin.users.activate');
+    Route::patch('admin/{user}/deactivate', [AdminController::class, 'deactivate'])->name('admin.users.deactivate');
 
     Route::get('/admin/animals', [AdminController::class, 'indexAnimals'])->name('admin.animals');
     Route::get('admin/animals/{id}/edit', [AnimalController::class, 'editAdminAnimal'])->name('admin.animals.edit');

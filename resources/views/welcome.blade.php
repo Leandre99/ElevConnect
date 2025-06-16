@@ -146,11 +146,8 @@
                                             src="{{ asset('assets/img/icons/tache.png') }}" height="60"
                                             alt="" />
                                         <div class="card-body">
-                                            <h6 class="fw-bold fs-1 heading-color">Gestion des tâches</h6>
-                                            <p class="mt-3 mb-md-0 mb-lg-2">Abandonnez les listes de tâches
-                                                manuscrites! Notre application génère automatiquement un programme
-                                                journalier personnalisé pour votre élevage, en tenant compte de vos
-                                                animaux et de vos besoins spécifiques.</p>
+                                            <h6 class="fw-bold fs-1 heading-color">Gestion de l'élevage</h6>
+                                            <p class="mt-3 mb-md-0 mb-lg-2">Gérez vos fermes, vos animaux et vos tâches quotidiennes en quelques clics.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -161,10 +158,8 @@
                                             src="{{ asset('assets/img/icons/rapport.png') }}" height="60"
                                             alt="" />
                                         <div class="card-body">
-                                            <h6 class="fw-bold fs-1 heading-color">Rapport de Performances</h6>
-                                            <p class="mt-3 mb-md-0 mb-lg-2">Obtenez des rapports complets et
-                                                personnalisés qui résument vos activités d'élevage, vous offrant une
-                                                vision claire de vos performances.</p>
+                                            <h6 class="fw-bold fs-1 heading-color">Rapports et Alertes</h6>
+                                            <p class="mt-3 mb-md-0 mb-lg-2">Suivez vos performances et recevez des alertes en cas de problème de santé.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -175,12 +170,10 @@
                                             src="{{ asset('assets/img/icons/veterinaire.png') }}" height="60"
                                             alt="" />
                                         <div class="card-body">
-                                            <h6 class="fw-bold fs-1 heading-color">Connection avec nos vétérinaires
+                                            <h6 class="fw-bold fs-1 heading-color">Messagerie Vétérinaire
                                             </h6>
                                             <p class="mt-3 mb-md-0 mb-lg-2"> Posez des questions sur la santé de vos
-                                                animaux, obtenez des diagnostics et recevez des recommandations de
-                                                traitement personnalisées
-                                                avec des vétérinaires certifiés par chat ou vidéo.</p>
+                                                animaux, communiquez avec le vétérinaire, demandez un diagnostic et obtenez des recommandations.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -191,63 +184,113 @@
             </div>
         </section>
 
-        <section class="py-0">
-            <div class="bg-holder"
-                style="background-image:url(assets/img/illustrations/how-it-works.png);background-position:center bottom;background-size:cover;">
-            </div>
+<section class="py-0">
+    <div class="bg-holder"
+        style="background-image:url(assets/img/illustrations/how-it-works.png);background-position:center bottom;background-size:cover">
+    </div>
 
-            <div class="container-lg">
-                <div class="row justify-content-center">
-                    <div class="col-sm-8 col-md-9 col-xl-5 text-center pt-8">
-                        <h5 class="fw-bold fs-3 fs-xxl-5 lh-sm mb-3 text-white">Comment ça marche ?</h5>
-                        <p class="mb-5 text-white">L'application s'appuie sur vos données et les paramètres définis
-                            pour générer des tâches quotidiennes personnalisées. En cas de maladies ou d'inquiétude vous
-                            pouvez consulter un vétérinaire via la plateforme.</p>
-                    </div>
-                    <div class="col-sm-9 col-md-12 col-xxl-9">
-                        <div class="theme-tab">
-                            <ul class="nav justify-content-between">
-                                <li class="nav-item" role="presentation"><a class="nav-link active fw-semi-bold"
-                                        href="#bootstrap-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
-                                        id="tab-1"><span class="nav-item-circle-parent"><span
-                                                class="nav-item-circle">01</span></span></a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
-                                        href="#bootstrap-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
-                                        id="tab-2"><span class="nav-item-circle-parent"><span
-                                                class="nav-item-circle">02</span></span></a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
-                                        href="#bootstrap-tab3" data-bs-toggle="tab" data-bs-target="#tab3"
-                                        id="tab-3"><span class="nav-item-circle-parent"><span
-                                                class="nav-item-circle">03</span></span></a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
-                                        href="#bootstrap-tab4" data-bs-toggle="tab" data-bs-target="#tab4"
-                                        id="tab-4"><span class="nav-item-circle-parent"><span
-                                                class="nav-item-circle">04</span></span></a></li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="tab1" role="tabpanel"
-                                    aria-labelledby="tab-1">
-                                    <div class="row align-items-center my-6 mx-auto">
-                                        <div class="col-md-6 col-lg-5 offset-md-1">
-                                            <h3 class="fw-bold lh-base text-white">Créez un compte éleveur puis
-                                                sélectionner vos animaux et leurs spécificités.</h3>
-                                        </div>
-                                        <div class="col-md-5 text-white offset-lg-1">
-                                            <p class="mb-0">L'application collecte des données sur les tâches
-                                                accomplies par l'éleveur, les événements enregistrés et les informations
-                                                saisies manuellement.
-                                                Ces données sont analysées pour générer des rapports de performance qui
-                                                fournissent à l'éleveur un aperçu de ses activités et de l'état de son
-                                                élevage</p>
-                                        </div>
-                                    </div>
+    <div class="container-lg">
+        <div class="row justify-content-center">
+            <div class="col-sm-8 col-md-9 col-xl-5 text-center pt-8">
+                <h5 class="fw-bold fs-3 fs-xxl-5 lh-sm mb-3 text-white">Comment ça marche ?</h5>
+                <p class="mb-5 text-white">
+                    La plateforme a été pensée afin de faciliter la gestion de l’élevage et le suivi de la santé des animaux. 
+                    Elle connecte éleveurs et vétérinaires, centralise toutes les données, et offre des outils pour assurer le suivi de vos cheptels de manière simple et efficace.
+                </p>
+            </div>
+            <div class="col-sm-9 col-md-12 col-xxl-9">
+                <div class="theme-tab">
+                    <ul class="nav justify-content-between">
+                        <li class="nav-item" role="presentation"><a class="nav-link active fw-semi-bold"
+                                href="#bootstrap-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
+                                id="tab-1"><span class="nav-item-circle-parent"><span
+                                        class="nav-item-circle">01</span></span></a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
+                                href="#bootstrap-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
+                                id="tab-2"><span class="nav-item-circle-parent"><span
+                                        class="nav-item-circle">02</span></span></a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
+                                href="#bootstrap-tab3" data-bs-toggle="tab" data-bs-target="#tab3"
+                                id="tab-3"><span class="nav-item-circle-parent"><span
+                                        class="nav-item-circle">03</span></span></a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
+                                href="#bootstrap-tab4" data-bs-toggle="tab" data-bs-target="#tab4"
+                                id="tab-4"><span class="nav-item-circle-parent"><span
+                                        class="nav-item-circle">04</span></span></a></li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab-1">
+                            <div class="row align-items-center my-6 mx-auto">
+                                <div class="col-md-6 col-lg-5 offset-md-1">
+                                   <h3 class="fw-bold lh-base text-white">
+                                      Créez votre compte éleveur et enregistrez vos animaux
+                                   </h3>
+                                </div>
+                                <div class="col-md-5 text-white offset-lg-1">
+                                   <p class="mb-0">
+                                      Une fois inscrit, vous pourriez ajouter vos animaux, préciser leur race, leur espèce et leur sexe. 
+                                      Cette étape vous permet de centraliser toutes les données de vos bêtes afin d'en assurer le suivi.
+                                   </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab-2">
+                            <div class="row align-items-center my-6 mx-auto">
+                                <div class="col-md-6 col-lg-5 offset-md-1">
+                                   <h3 class="fw-bold lh-base text-white">
+                                      Générez vos tâches, signalez vos cas particuliers
+                                   </h3>
+                                </div>
+                                <div class="col-md-5 text-white offset-lg-1">
+                                   <p class="mb-0">
+                                      L’application vous propose automatiquement des tâches journalières en fonction de vos animaux. 
+                                      Elle vous alerte sur certains cas particuliers (comme une maladie) afin que vous puissiez demander l’avis d'un vétérinaire.
+                                   </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab-3">
+                            <div class="row align-items-center my-6 mx-auto">
+                                <div class="col-md-6 col-lg-5 offset-md-1">
+                                   <h3 class="fw-bold lh-base text-white">
+                                      Communiquez avec le vétérinaire et recevez un diagnostic
+                                   </h3>
+                                </div>
+                                <div class="col-md-5 text-white offset-lg-1">
+                                   <p class="mb-0">
+                                      Depuis la messagerie de l’application, vous pourriez échanger avec le vétérinaire en cas de cas suspect. 
+                                      Celui-ci peut formuler un diagnostic, prescrire des traitements et assurer le suivi de vos animaux.
+                                   </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab-4">
+                            <div class="row align-items-center my-6 mx-auto">
+                                <div class="col-md-6 col-lg-5 offset-md-1">
+                                   <h3 class="fw-bold lh-base text-white">
+                                     Visualisez vos performances et vos rapports
+                                   </h3>
+                                </div>
+                                <div class="col-md-5 text-white offset-lg-1">
+                                   <p class="mb-0">
+                                      L’éleveur peut générer des rapports statistiques sur son activité, 
+                                      voir l’évolution de son cheptel, le suivi des cas particuliers, 
+                                      et évaluer ses performances afin d’améliorer la gestion de son élevage.
+                                   </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+
+
 
         <section class="py-8" id="testimonial">
             <div class="container-lg">

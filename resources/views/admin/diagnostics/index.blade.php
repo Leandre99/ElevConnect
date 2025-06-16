@@ -49,6 +49,29 @@
                                         </form>
                                     </td>
                                 </tr>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const selectMaladie = document.getElementById('maladie_id_{{ $diagnostic->id }}');
+                                        const symptomesCell = document.getElementById('symptomes_{{ $diagnostic->id }}');
+
+                                        selectMaladie.addEventListener('change', function() {
+                                            const maladieId = this.value;
+                                            if (maladieId) {
+                                                fetch(`/maladies/${maladieId}/symptomes`)
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        symptomesCell.textContent = data
+                                                            .symptomes;
+                                                    });
+                                            } else {
+                                                symptomesCell.textContent = 'Aucun symptôme';
+                                            }
+                                        });
+                                        if (selectMaladie.value) {
+                                            selectMaladie.dispatchEvent(new Event('change'));
+                                        }
+                                    });
+                                </script>
                             @endforeach
 
                             @if ($diagnostics->isEmpty())
@@ -62,31 +85,6 @@
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectMaladie = document.getElementById('maladie_id_{{ $diagnostic->id }}');
-            const symptomesCell = document.getElementById('symptomes_{{ $diagnostic->id }}');
-
-            selectMaladie.addEventListener('change', function() {
-                const maladieId = this.value;
-                if (maladieId) {
-                    fetch(`/maladies/${maladieId}/symptomes`)
-                        .then(response => response.json())
-                        .then(data => {
-                            symptomesCell.textContent = data
-                            .symptomes; // Met à jour la cellule "Symptômes" avec les symptômes
-                        });
-                } else {
-                    symptomesCell.textContent = 'Aucun symptôme';
-                }
-            });
-
-            // Si la maladie est déjà sélectionnée, charger les symptômes
-            if (selectMaladie.value) {
-                selectMaladie.dispatchEvent(new Event('change'));
-            }
-        });
-    </script>
 @endsection
 
 @push('scripts')
