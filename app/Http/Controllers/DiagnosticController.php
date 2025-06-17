@@ -42,6 +42,7 @@ class DiagnosticController extends Controller
                 'traitement' => $validated['traitement'],
                 'nom_autre_maladie' => $validated['nouvelle_maladie'],
                 'symptomes_autre' => $validated['symptomes'],
+                'veterinaire_id' => auth()->id()
             ]);
         } else {
             Diagnostic::create([
@@ -50,6 +51,7 @@ class DiagnosticController extends Controller
                 'ferme_id' => $validated['ferme_id'],
                 'symptomes' => $validated['symptomes'],
                 'traitement' => $validated['traitement'],
+                'veterinaire_id' => auth()->id()
             ]);
         }
 

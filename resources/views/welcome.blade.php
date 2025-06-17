@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Plateforme ElevConnect</title>
-    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link
+        rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
@@ -36,7 +39,8 @@
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         @guest
                             <li class="nav-item px-2">
-                                <a class="nav-link fw-medium active" style="font-weight: bold;" href="{{ route('welcome') }}">Accueil</a>
+                                <a class="nav-link fw-medium active" style="font-weight: bold;"
+                                    href="{{ route('welcome') }}">Accueil</a>
                             </li>
                             <li class="nav-item px-2">
                                 <a class="nav-link fw-medium" href="{{ route('Ferme') }}">Ma ferme</a>
@@ -48,7 +52,8 @@
                                 <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                             </li>
                             <li class="nav-item d-flex">
-                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute; right: 0;" href="{{ route('login') }}">
+                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute; right: 0;"
+                                    href="{{ route('login') }}">
                                     <span style="margin-right: 8px;">Connexion</span>
                                     <img src="{{ asset('assets/images/connexion.png') }}" width="30">
                                 </a>
@@ -61,7 +66,8 @@
                                 </li>
                             @else
                                 <li class="nav-item px-2">
-                                    <a class="nav-link fw-medium active" style="font-weight: bold;" href="{{ route('welcome') }}">Accueil</a>
+                                    <a class="nav-link fw-medium active" style="font-weight: bold;"
+                                        href="{{ route('welcome') }}">Accueil</a>
                                 </li>
                                 @if (Auth::user()->role === 'Eleveur')
                                     <li class="nav-item px-2">
@@ -79,7 +85,8 @@
                                 </li>
                             @endif
                             <li class="nav-item dropdown mx-auto">
-                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" id="navbarScrollingDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -90,7 +97,7 @@
                                         @csrf
                                         <li>
                                             <a class="dropdown-item fw-medium" href="{{ route('logout') }}"
-                                               onclick="event.preventDefault(); this.closest('form').submit();">
+                                                onclick="event.preventDefault(); this.closest('form').submit();">
                                                 Se déconnecter
                                             </a>
                                         </li>
@@ -116,10 +123,12 @@
                 <div class="row align-items-center min-vh-75 min-vh-lg-100">
                     <div class="col-md-7 col-lg-6 col-xxl-5 mb-5 py-6 text-sm-start text-center">
 
-                        <h1 class="mt-6 mb-sm-4 fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6"><br class="d-block d-lg-block" />ElevConnect,</h1>
+                        <h1 class="mt-6 mb-sm-4 fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6"><br
+                                class="d-block d-lg-block" />ElevConnect,</h1>
                         <p class="mb-4 fs-1" style="color: black;">Simplifiez votre élevage, maximisez votre
                             productivité et assurez le bien-être de chaque animal grace à des spécialistes.</p>
-                            <a class="btn btn-success mb-5" href="{{ route('Ferme') }}" style="cursor: pointer;">Ma ferme</a>
+                        <a class="btn btn-success mb-5" href="{{ route('Ferme') }}" style="cursor: pointer;">Ma
+                            ferme</a>
 
                     </div>
                 </div>
@@ -147,7 +156,8 @@
                                             alt="" />
                                         <div class="card-body">
                                             <h6 class="fw-bold fs-1 heading-color">Gestion de l'élevage</h6>
-                                            <p class="mt-3 mb-md-0 mb-lg-2">Gérez vos fermes, vos animaux et vos tâches quotidiennes en quelques clics.</p>
+                                            <p class="mt-3 mb-md-0 mb-lg-2">Gérez vos fermes, vos animaux et vos tâches
+                                                quotidiennes en quelques clics.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +169,8 @@
                                             alt="" />
                                         <div class="card-body">
                                             <h6 class="fw-bold fs-1 heading-color">Rapports et Alertes</h6>
-                                            <p class="mt-3 mb-md-0 mb-lg-2">Suivez vos performances et recevez des alertes en cas de problème de santé.</p>
+                                            <p class="mt-3 mb-md-0 mb-lg-2">Suivez vos performances et recevez des
+                                                alertes en cas de problème de santé.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +184,8 @@
                                             <h6 class="fw-bold fs-1 heading-color">Messagerie Vétérinaire
                                             </h6>
                                             <p class="mt-3 mb-md-0 mb-lg-2"> Posez des questions sur la santé de vos
-                                                animaux, communiquez avec le vétérinaire, demandez un diagnostic et obtenez des recommandations.</p>
+                                                animaux, communiquez avec le vétérinaire, demandez un diagnostic et
+                                                obtenez des recommandations.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -184,113 +196,120 @@
             </div>
         </section>
 
-<section class="py-0">
-    <div class="bg-holder"
-        style="background-image:url(assets/img/illustrations/how-it-works.png);background-position:center bottom;background-size:cover">
-    </div>
-
-    <div class="container-lg">
-        <div class="row justify-content-center">
-            <div class="col-sm-8 col-md-9 col-xl-5 text-center pt-8">
-                <h5 class="fw-bold fs-3 fs-xxl-5 lh-sm mb-3 text-white">Comment ça marche ?</h5>
-                <p class="mb-5 text-white">
-                    La plateforme a été pensée afin de faciliter la gestion de l’élevage et le suivi de la santé des animaux. 
-                    Elle connecte éleveurs et vétérinaires, centralise toutes les données, et offre des outils pour assurer le suivi de vos cheptels de manière simple et efficace.
-                </p>
+        <section class="py-0">
+            <div class="bg-holder"
+                style="background-image:url(assets/img/illustrations/how-it-works.png);background-position:center bottom;background-size:cover">
             </div>
-            <div class="col-sm-9 col-md-12 col-xxl-9">
-                <div class="theme-tab">
-                    <ul class="nav justify-content-between">
-                        <li class="nav-item" role="presentation"><a class="nav-link active fw-semi-bold"
-                                href="#bootstrap-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
-                                id="tab-1"><span class="nav-item-circle-parent"><span
-                                        class="nav-item-circle">01</span></span></a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
-                                href="#bootstrap-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
-                                id="tab-2"><span class="nav-item-circle-parent"><span
-                                        class="nav-item-circle">02</span></span></a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
-                                href="#bootstrap-tab3" data-bs-toggle="tab" data-bs-target="#tab3"
-                                id="tab-3"><span class="nav-item-circle-parent"><span
-                                        class="nav-item-circle">03</span></span></a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
-                                href="#bootstrap-tab4" data-bs-toggle="tab" data-bs-target="#tab4"
-                                id="tab-4"><span class="nav-item-circle-parent"><span
-                                        class="nav-item-circle">04</span></span></a></li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab-1">
-                            <div class="row align-items-center my-6 mx-auto">
-                                <div class="col-md-6 col-lg-5 offset-md-1">
-                                   <h3 class="fw-bold lh-base text-white">
-                                      Créez votre compte éleveur et enregistrez vos animaux
-                                   </h3>
-                                </div>
-                                <div class="col-md-5 text-white offset-lg-1">
-                                   <p class="mb-0">
-                                      Une fois inscrit, vous pourriez ajouter vos animaux, préciser leur race, leur espèce et leur sexe. 
-                                      Cette étape vous permet de centraliser toutes les données de vos bêtes afin d'en assurer le suivi.
-                                   </p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab-2">
-                            <div class="row align-items-center my-6 mx-auto">
-                                <div class="col-md-6 col-lg-5 offset-md-1">
-                                   <h3 class="fw-bold lh-base text-white">
-                                      Générez vos tâches, signalez vos cas particuliers
-                                   </h3>
+            <div class="container-lg">
+                <div class="row justify-content-center">
+                    <div class="col-sm-8 col-md-9 col-xl-5 text-center pt-8">
+                        <h5 class="fw-bold fs-3 fs-xxl-5 lh-sm mb-3 text-white">Comment ça marche ?</h5>
+                        <p class="mb-5 text-white">
+                            La plateforme a été pensée afin de faciliter la gestion de l’élevage et le suivi de la santé
+                            des animaux.
+                            Elle connecte éleveurs et vétérinaires, centralise toutes les données, et offre des outils
+                            pour assurer le suivi de vos cheptels de manière simple et efficace.
+                        </p>
+                    </div>
+                    <div class="col-sm-9 col-md-12 col-xxl-9">
+                        <div class="theme-tab">
+                            <ul class="nav justify-content-between">
+                                <li class="nav-item" role="presentation"><a class="nav-link active fw-semi-bold"
+                                        href="#bootstrap-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
+                                        id="tab-1"><span class="nav-item-circle-parent"><span
+                                                class="nav-item-circle">01</span></span></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
+                                        href="#bootstrap-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
+                                        id="tab-2"><span class="nav-item-circle-parent"><span
+                                                class="nav-item-circle">02</span></span></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
+                                        href="#bootstrap-tab3" data-bs-toggle="tab" data-bs-target="#tab3"
+                                        id="tab-3"><span class="nav-item-circle-parent"><span
+                                                class="nav-item-circle">03</span></span></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link fw-semi-bold"
+                                        href="#bootstrap-tab4" data-bs-toggle="tab" data-bs-target="#tab4"
+                                        id="tab-4"><span class="nav-item-circle-parent"><span
+                                                class="nav-item-circle">04</span></span></a></li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="tab1" role="tabpanel"
+                                    aria-labelledby="tab-1">
+                                    <div class="row align-items-center my-6 mx-auto">
+                                        <div class="col-md-6 col-lg-5 offset-md-1">
+                                            <h3 class="fw-bold lh-base text-white">
+                                                Créez votre compte éleveur et enregistrez vos animaux
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-5 text-white offset-lg-1">
+                                            <p class="mb-0">
+                                                Une fois inscrit, vous pourriez ajouter vos animaux, préciser leur race,
+                                                leur espèce et leur sexe.
+                                                Cette étape vous permet de centraliser toutes les données de vos bêtes
+                                                afin d'en assurer le suivi.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-5 text-white offset-lg-1">
-                                   <p class="mb-0">
-                                      L’application vous propose automatiquement des tâches journalières en fonction de vos animaux. 
-                                      Elle vous alerte sur certains cas particuliers (comme une maladie) afin que vous puissiez demander l’avis d'un vétérinaire.
-                                   </p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab-3">
-                            <div class="row align-items-center my-6 mx-auto">
-                                <div class="col-md-6 col-lg-5 offset-md-1">
-                                   <h3 class="fw-bold lh-base text-white">
-                                      Communiquez avec le vétérinaire et recevez un diagnostic
-                                   </h3>
+                                <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab-2">
+                                    <div class="row align-items-center my-6 mx-auto">
+                                        <div class="col-md-6 col-lg-5 offset-md-1">
+                                            <h3 class="fw-bold lh-base text-white">
+                                                Générez vos tâches, signalez vos cas particuliers
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-5 text-white offset-lg-1">
+                                            <p class="mb-0">
+                                                L’application vous propose automatiquement des tâches journalières en
+                                                fonction de vos animaux.
+                                                Elle vous alerte sur certains cas particuliers (comme une maladie) afin
+                                                que vous puissiez demander l’avis d'un vétérinaire.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-5 text-white offset-lg-1">
-                                   <p class="mb-0">
-                                      Depuis la messagerie de l’application, vous pourriez échanger avec le vétérinaire en cas de cas suspect. 
-                                      Celui-ci peut formuler un diagnostic, prescrire des traitements et assurer le suivi de vos animaux.
-                                   </p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab-4">
-                            <div class="row align-items-center my-6 mx-auto">
-                                <div class="col-md-6 col-lg-5 offset-md-1">
-                                   <h3 class="fw-bold lh-base text-white">
-                                     Visualisez vos performances et vos rapports
-                                   </h3>
+                                <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab-3">
+                                    <div class="row align-items-center my-6 mx-auto">
+                                        <div class="col-md-6 col-lg-5 offset-md-1">
+                                            <h3 class="fw-bold lh-base text-white">
+                                                Communiquez avec le vétérinaire et recevez un diagnostic
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-5 text-white offset-lg-1">
+                                            <p class="mb-0">
+                                                Depuis la messagerie de l’application, vous pourriez échanger avec le
+                                                vétérinaire en cas de cas suspect.
+                                                Celui-ci peut formuler un diagnostic, prescrire des traitements et
+                                                assurer le suivi de vos animaux.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-5 text-white offset-lg-1">
-                                   <p class="mb-0">
-                                      L’éleveur peut générer des rapports statistiques sur son activité, 
-                                      voir l’évolution de son cheptel, le suivi des cas particuliers, 
-                                      et évaluer ses performances afin d’améliorer la gestion de son élevage.
-                                   </p>
+
+                                <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab-4">
+                                    <div class="row align-items-center my-6 mx-auto">
+                                        <div class="col-md-6 col-lg-5 offset-md-1">
+                                            <h3 class="fw-bold lh-base text-white">
+                                                Visualisez vos performances et vos rapports
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-5 text-white offset-lg-1">
+                                            <p class="mb-0">
+                                                L’éleveur peut générer des rapports statistiques sur son activité,
+                                                voir l’évolution de son cheptel, le suivi des cas particuliers,
+                                                et évaluer ses performances afin d’améliorer la gestion de son élevage.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-
+        </section>
 
         <section class="py-8" id="testimonial">
             <div class="container-lg">
@@ -454,7 +473,8 @@
             <div class="container">
                 <div class="row text-md-left">
                     <div class="col-md-4 col-lg-4 col-sm-4">
-                        <h5><img class="img-fluid" src="{{ asset('assets/images/preview.png') }}" style="width:50%;">
+                        <h5><img class="img-fluid" src="{{ asset('assets/images/preview.png') }}"
+                                style="width:50%;">
                         </h5>
                         <p style="margin-left:8%; color:white;"><b>Elev<span style="color: black;">Connect</b></p>
                     </div><br>
@@ -465,21 +485,21 @@
                     </div><br>
 
                     <div class="col-md-4 col-lg-4 col-sm-4">
-                    <div class="card bg-success">
-                        <div class="card-body p-sm-4">
-                            <h5 style="color:black;">ElevConnect</h5>
-                            <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
-                            <p>
+                        <div class="card bg-success">
+                            <div class="card-body p-sm-4">
+                                <h5 style="color:black;">ElevConnect</h5>
+                                <p class="mb-0 text-white">Adresse: 123 Rue des Éleveurs, Benin</p>
+                                <p>
                                 <ul class="list-unstyled">
                                     <li>
                                         <i class="agrikon-icon-email"></i>
                                         <a href="mailto:leandreelisha20@gmail.com">ElevConnect@company.com</a>
                                     </li>
                                 </ul>
-                            </p>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div><br>
             </div>
         </footer>
@@ -487,8 +507,14 @@
     <script src="vendors/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="assets/js/theme.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&amp;display=swap"
+        rel="stylesheet">
 </body>
+
 </html>
