@@ -73,6 +73,9 @@ class PerformanceReportController extends Controller
         })->map(function ($tasks, $key) {
             return $tasks->count();
         })->values();
+$totalTasksData = $reportLabels->map(function ($date) use ($totalTasks) {
+    return $totalTasks;
+});
 
         return view('performance-reports', [
             'completedTasks' => $completedTasks,
@@ -83,75 +86,95 @@ class PerformanceReportController extends Controller
             'reportLabels' => $reportLabels,
             'completedTasksData' => $completedTasksData,
             'ferme_id' => $ferme_id,
-            'total_task' => 0
+            'total_task' => $totalTasks,
+            'totalTasksData' => $totalTasksData
         ]);
     }
 
-    public function getPerformanceReports(Request $request, $ferme_id)
-    {
-        $startDate = $request->input('start_date', Carbon::now()->startOfMonth()->toDateString());
-        $endDate = $request->input('end_date', Carbon::now()->endOfMonth()->toDateString());
-        $user_id = Auth::id();
+public function getPerformanceReports(Request $request, $ferme_id)
+{
+    $startDate = $request->input('start_date', Carbon::now()->startOfMonth()->toDateString());
+    $endDate = $request->input('end_date', Carbon::now()->endOfMonth()->toDateString());
+    $user_id = Auth::id();
 
-        $ferme = Ferme::find($ferme_id);
+    $ferme = Ferme::find($ferme_id);
 
-        if (!$ferme) {
-            return redirect()->back()->withErrors('La ferme spécifiée n\'existe pas.');
-        }
-
-        $race = $ferme->race;
-
-        if (!$race) {
-            return redirect()->back()->withErrors('La race associée à la ferme n\'est pas définie.');
-        }
-
-        $averageAgeWeeks = 8;
-        $speciesDuration = [
-            'Vache' => 52,
-            'Taureaux' => 52,
-            'Veau' => 30,
-            'Balibali' => 30,
-            'Autres' => 30,
-            'Chèvre Djallonké' => 30,
-            'Chèvre du Sahel' => 30,
-            'Porc Local' => 20,
-            'Porc Landrace' => 20,
-            'Pintade' => 12,
-            'Poulet de chair' => 6,
-            'Poule pondeuse' => 52,
-            'Dinde' => 12,
-            'Poulet locale (Bicyclette)' => 6,
-        ];
-
-        $speciesName = $race->name ?? 'Vache';
-        $remainingWeeks = isset($speciesDuration[$speciesName]) ? $speciesDuration[$speciesName] - $averageAgeWeeks : 0;
-        $endDatePrediction = Carbon::now()->addWeeks($remainingWeeks);
-
-        $date_ferme = Carbon::parse($ferme->created_at);
-        $date = $date_ferme->diffInDays(Carbon::parse($startDate));
-
-        if ($race) {
-            $total_task = Task::where('race_id', $race->id)
-                ->where('jour', '<=', $date)
-                ->count();
-        } else {
-            $total_task = 0;
-        }
-
-        $completedTasks = CompletedTask::where('user_id', $user_id)
-            ->where('ferme_id', $ferme_id)
-            ->whereBetween('created_at', [Carbon::parse($startDate), Carbon::parse($endDate)])
-            ->with(['task'])
-            ->get();
-
-        $completedTasksCount = $completedTasks->count();
-
-        return view('performance-reports', [
-            'completedTasks' => $completedTasks,
-            'ferme_id' => $ferme_id,
-            'completedTasksCount' => $completedTasksCount,
-            'endDatePrediction' => $endDatePrediction->toDateString(),
-            'total_task' => $total_task
-        ]);
+    if (!$ferme) {
+        return redirect()->back()->withErrors('La ferme spécifiée n\'existe pas.');
     }
+
+    $race = $ferme->race;
+
+    if (!$race) {
+        return redirect()->back()->withErrors('La race associée à la ferme n\'est pas définie.');
+    }
+
+    $averageAgeWeeks = 8;
+    $speciesDuration = [
+        'Vache' => 52,
+        'Taureaux' => 52,
+        'Veau' => 30,
+        'Balibali' => 30,
+        'Autres' => 30,
+        'Chèvre Djallonké' => 30,
+        'Chèvre du Sahel' => 30,
+        'Porc Local' => 20,
+        'Porc Landrace' => 20,
+        'Pintade' => 12,
+        'Poulet de chair' => 6,
+        'Poule pondeuse' => 52,
+        'Dinde' => 12,
+        'Poulet locale (Bicyclette)' => 6,
+    ];
+
+    $speciesName = $race->name ?? 'Vache';
+    $remainingWeeks = isset($speciesDuration[$speciesName]) ? $speciesDuration[$speciesName] - $averageAgeWeeks : 0;
+    $endDatePrediction = Carbon::now()->addWeeks($remainingWeeks);
+
+    $date_ferme = Carbon::parse($ferme->created_at);
+    $date = $date_ferme->diffInDays(Carbon::parse($startDate));
+
+    // Total des tâches global (pas forcément par date)
+    if ($race) {
+        $total_task = Task::where('race_id', $race->id)
+            ->where('jour', '<=', $date)
+            ->count();
+    } else {
+        $total_task = 0;
+    }
+
+    $completedTasks = CompletedTask::where('user_id', $user_id)
+        ->where('ferme_id', $ferme_id)
+        ->whereBetween('created_at', [Carbon::parse($startDate), Carbon::parse($endDate)])
+        ->with(['task'])
+        ->get();
+
+    $groupedCompleted = $completedTasks->groupBy(function ($item) {
+        return Carbon::parse($item->created_at)->format('d-m-Y');
+    });
+
+    $reportLabels = $groupedCompleted->keys()->sort()->values();
+
+    $completedTasksData = $reportLabels->map(function ($date) use ($groupedCompleted) {
+        return $groupedCompleted->get($date)->count();
+    });
+
+    $totalTasksData = $reportLabels->map(function ($date) use ($total_task) {
+        return $total_task;
+    });
+
+    $completedTasksCount = $completedTasks->count();
+
+    return view('performance-reports', [
+        'completedTasks' => $completedTasks,
+        'ferme_id' => $ferme_id,
+        'completedTasksCount' => $completedTasksCount,
+        'endDatePrediction' => $endDatePrediction->toDateString(),
+        'total_task' => $total_task,
+        'reportLabels' => $reportLabels,
+        'completedTasksData' => $completedTasksData,
+        'totalTasksData' => $totalTasksData,
+    ]);
+}
+
 }
