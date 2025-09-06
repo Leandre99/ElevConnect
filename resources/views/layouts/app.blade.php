@@ -54,8 +54,8 @@
                                 <a class="nav-link fw-medium" href="{{ route('Contact') }}">Nous Contacter</a>
                             </li>
                             <li class="nav-item d-flex">
-                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute; right: 0;" href="{{ route('register') }}">
-                                    <span style="margin-right: 8px;">Connexion/Inscription</span>
+                                <a class="nav-link fw-medium" style="font-weight:bold; position: absolute; right: 0;" href="{{ route('login') }}">
+                                    <span style="margin-right: 8px;">Connexion</span>
                                     <img src="{{ asset('assets/images/connexion.png') }}" width="30">
                                 </a>
                             </li>
