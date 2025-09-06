@@ -53,8 +53,8 @@
                             </li>
                             <li class="nav-item d-flex">
                                 <a class="nav-link fw-medium" style="font-weight:bold; position: absolute; right: 0;"
-                                    href="{{ route('login') }}">
-                                    <span style="margin-right: 8px;">Connexion</span>
+                                    href="{{ route('register') }}">
+                                    <span style="margin-right: 8px;">Connexion/Inscription</span>
                                     <img src="{{ asset('assets/images/connexion.png') }}" width="30">
                                 </a>
                             </li>
