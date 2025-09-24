@@ -65,5 +65,32 @@ class UserSeeder extends Seeder
             'description' => 'Vétérinaire au Kenya, experte en médecine vétérinaire et conservation de la faune sauvage.',
             'contact' => '96785249',
         ]);
+
+        User::create([
+            'name' => 'Dr. Marie Kouassi',
+            'email' => 'mariekouassi@gmail.com',
+            'password' => Hash::make('MarieKouassi123'),
+            'role' => 'Veterinaire',
+            'description' => 'Vétérinaire ivoirienne spécialisée en santé animale et nutrition du bétail, avec 10 ans d’expérience en élevage bovin et caprin.',
+            'contact' => '96781234',
+        ]);
+
+        User::create([
+            'name' => 'Dr. Samuel Mensah',
+            'email' => 'samuelmensah@gmail.com',
+            'password' => Hash::make('SamuelMensah123'),
+            'role' => 'Veterinaire',
+            'description' => 'Vétérinaire ghanéen spécialisé en pathologie animale et santé publique vétérinaire, passionné par la prévention des maladies infectieuses.',
+            'contact' => '96784567',
+        ]);
+
+        User::create([
+            'name' => 'Dr. Aïssa Traoré',
+            'email' => 'aissatraore@gmail.com',
+            'password' => Hash::make('AissaTraore123'),
+            'role' => 'Veterinaire',
+            'description' => 'Vétérinaire malienne, experte en médecine des animaux de ferme et en gestion sanitaire des élevages communautaires.',
+            'contact' => '96787654',
+        ]);
     }
 }

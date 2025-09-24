@@ -39,17 +39,17 @@ class TacheController extends Controller
 
     public function store(Request $request)
     {
-        // Logique pour créer une nouvelle tâche
+
     }
 
     public function update(Request $request, Tache $tache)
     {
-        // Logique pour mettre à jour une tâche
+
     }
 
     public function destroy(Tache $tache)
     {
-        // Logique pour supprimer une tâche
+
     }
 
     public function markAsCompleted(Request $request,Tache $tache)
