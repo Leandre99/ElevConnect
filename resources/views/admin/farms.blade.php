@@ -19,6 +19,7 @@
                             <th>Nom</th>
                             <th>Description</th>
                             <th>Adresse</th>
+                            <th>Statut</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -30,15 +31,24 @@
                             <td>{{ $farm->nomferme }}</td>
                             <td>{{ $farm->description }}</td>
                             <td>{{ $farm->adresse }}</td>
+                            <td>
+                                <span class="badge {{ $farm->is_active ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $farm->is_active ? 'Active' : 'Désactivée' }}
+                                </span>
+                            </td>
                             <td class="text-center">
-                                <a href="{{ route('admin.farms.edit', $farm) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('admin.farms.edit', $farm) }}" class="btn btn-sm btn-primary"
+                                   data-bs-toggle="tooltip" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
+
                                 <form action="{{ route('admin.farms.toggleStatus', $farm) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn btn-sm {{ $farm->active ? 'btn-danger' : 'btn-success' }}" onclick="return confirm('{{ $farm->active ? "Confirmer la désactivation ?" : "Confirmer l'activation ?" }}')">
-                                        <i class="fas {{ $farm->active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+                                    <button type="submit"
+                                        class="btn btn-sm {{ $farm->is_active ? 'btn-success' : 'btn-danger' }}"
+                                        onclick="return confirm('{{ $farm->is_active ? 'Confirmer la désactivation ?' : 'Confirmer l\'activation ?' }}')">
+                                        <i class="fas {{ $farm->is_active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
                                     </button>
                                 </form>
                             </td>
@@ -47,7 +57,7 @@
 
                         @if ($farms->isEmpty())
                         <tr>
-                            <td colspan="6" class="text-center text-muted">Aucune ferme enregistrée.</td>
+                            <td colspan="7" class="text-center text-muted">Aucune ferme enregistrée.</td>
                         </tr>
                         @endif
                     </tbody>
@@ -63,6 +73,11 @@
             "paging": true,
             "searching": true,
             "ordering": true
+        });
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     });
 </script>

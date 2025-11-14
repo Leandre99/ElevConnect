@@ -66,55 +66,61 @@ class EspeceController extends Controller
     }
 
     public function adminIndex()
-{
-    $especes = Espece::all();
-    return view('admin.especes.index', compact('especes'));
-}
+    {
+        $especes = Espece::all();
+        return view('admin.especes.index', compact('especes'));
+    }
 
-public function adminCreate()
-{
-    return view('admin.especes.create');
-}
+    public function adminCreate()
+    {
+        return view('admin.especes.create');
+    }
 
-public function adminStore(Request $request)
-{
-    $request->validate([
-        'nomespece' => 'required|string|max:255',
+    public function adminStore(Request $request)
+    {
+        $request->validate([
+            'nomespece' => 'required|string|max:255',
+        ]);
+        $espece = Espece::create([
+            'nomespece' => $request->nomespece,
+        ]);
+
+        log_admin_action('create_espece', 'Espece', $espece->id, [
+        'nomespece' => $request->nomespece
     ]);
+        return redirect()->route('admin.especes.index')->with('success', 'Espèce ajoutée avec succès.');
+    }
 
-    Espece::create([
-        'nomespece' => $request->nomespece,
-    ]);
+    public function adminEdit($id)
+    {
+        $espece = Espece::findOrFail($id);
+        return view('admin.especes.edit', compact('espece'));
+    }
 
-    return redirect()->route('admin.especes')->with('success', 'Espèce ajoutée avec succès.');
-}
+    public function adminUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'nomespece' => 'required|string|max:255',
+        ]);
+        $espece = Espece::findOrFail($id);
+        $old = $espece->getOriginal();
 
-public function adminEdit($id)
-{
-    $espece = Espece::findOrFail($id);
-    return view('admin.especes.edit', compact('espece'));
-}
+        $espece->update([
+            'nomespece' => $request->nomespece,
+        ]);
+        log_admin_action('update_espece', 'Espece', $espece->id, [
+            'before' => $old,
+            'after' => $espece->getChanges()
+        ]);
+        return redirect()->route('admin.especes.index')->with('success', 'Espèce mise à jour avec succès.');
+    }
 
-public function adminUpdate(Request $request, $id)
-{
-    $request->validate([
-        'nomespece' => 'required|string|max:255',
-    ]);
+    public function adminDestroy($id)
+    {
+        $espece = Espece::findOrFail($id);
+        $espece->delete();
+        log_admin_action('delete_espece', 'Espece', $espece->id, ['info' => 'Espece supprimee']);
 
-    $espece = Espece::findOrFail($id);
-    $espece->update([
-        'nomespece' => $request->nomespece,
-    ]);
-
-    return redirect()->route('admin.especes')->with('success', 'Espèce mise à jour avec succès.');
-}
-
-public function adminDestroy($id)
-{
-    $espece = Espece::findOrFail($id);
-    $espece->delete();
-
-    return redirect()->route('admin.especes')->with('success', 'Espèce supprimée avec succès.');
-}
-
+        return redirect()->route('admin.especes.index')->with('success', 'Espèce supprimée avec succès.');
+    }
 }

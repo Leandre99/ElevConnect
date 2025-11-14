@@ -119,7 +119,9 @@
             <a href="{{ route('admin.alertes.index') }}" class="{{ request()->routeIs('admin.alertes.index') ? 'active' : '' }}">
                 <i class="fas fa-exclamation-triangle"></i> Alertes
             </a>
-
+            <a href="{{ route('admin.logs') }}" class="{{ request()->routeIs('admin.logs') ? 'active' : '' }}">
+                <i class="fas fa-history"></i>Historique des actions
+            </a>
         </nav>
 
         <div class="content-area">

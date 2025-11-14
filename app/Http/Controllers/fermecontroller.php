@@ -84,9 +84,16 @@ class FermeController extends Controller
     }
     public function toggleStatus(Ferme $farm)
     {
-        $farm->active = !$farm->active;
-        $farm->save();
-        return redirect()->route('admin.farms.index')->with('success', 'Statut de la ferme mis à jour avec succès.');
+        $farm->is_active = !$farm->is_active;
+    $farm->save();
+
+    log_admin_action(
+        'toggle_farm_status',
+        'Ferme',
+        $farm->id,
+        ['is_active' => $farm->is_active]
+    );
+        return redirect()->route('admin.farms')->with('success', 'Statut de la ferme mis à jour avec succès.');
     }
 
     public function showAnimals($farmId)

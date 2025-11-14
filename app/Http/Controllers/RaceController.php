@@ -63,61 +63,71 @@ class RaceController extends Controller
     }
 
     public function adminIndex()
-{
-    $races = Race::with('espece')->get();
-    return view('admin.races.index', compact('races'));
-}
+    {
+        $races = Race::with('espece')->get();
+        return view('admin.races.index', compact('races'));
+    }
 
-public function adminCreate()
-{
-    $especes = Espece::all();
-    return view('admin.races.create', compact('especes'));
-}
+    public function adminCreate()
+    {
+        $especes = Espece::all();
+        return view('admin.races.create', compact('especes'));
+    }
 
-public function adminStore(Request $request)
-{
-    $request->validate([
-        'espece_id' => 'required|exists:especes,id',
-        'nomrace' => 'required|string|max:255',
-    ]);
+    public function adminStore(Request $request)
+    {
+        $request->validate([
+            'espece_id' => 'required|exists:especes,id',
+            'nomrace' => 'required|string|max:255',
+        ]);
 
-    Race::create([
-        'espece_id' => $request->espece_id,
-        'nomrace' => $request->nomrace,
-    ]);
+        $race = Race::create([
+            'espece_id' => $request->espece_id,
+            'nomrace' => $request->nomrace,
+        ]);
 
-    return redirect()->route('admin.races')->with('success', 'Race ajoutée avec succès.');
-}
+        log_admin_action('create_race', 'Race', $race->id, $request->all());
+        return redirect()->route('admin.races.index')->with('success', 'Race ajoutée avec succès.');
+    }
 
-public function adminEdit($id)
-{
-    $race = Race::findOrFail($id);
-    $especes = Espece::all();
-    return view('admin.races.edit', compact('race', 'especes'));
-}
+    public function adminEdit($id)
+    {
+        $race = Race::findOrFail($id);
+        $especes = Espece::all();
+        return view('admin.races.edit', compact('race', 'especes'));
+    }
 
-public function adminUpdate(Request $request, $id)
-{
-    $request->validate([
-        'espece_id' => 'required|exists:especes,id',
-        'nomrace' => 'required|string|max:255',
-    ]);
+    public function adminUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'espece_id' => 'required|exists:especes,id',
+            'nomrace' => 'required|string|max:255',
+        ]);
 
-    $race = Race::findOrFail($id);
-    $race->update([
-        'espece_id' => $request->espece_id,
-        'nomrace' => $request->nomrace,
-    ]);
+        $race = Race::findOrFail($id);
+        $old = $race->getOriginal();
+        $race->update([
+            'espece_id' => $request->espece_id,
+            'nomrace' => $request->nomrace,
+        ]);
 
-    return redirect()->route('admin.races')->with('success', 'Race mise à jour avec succès.');
-}
+        log_admin_action('update_race', 'Race', $race->id, [
+            'before' => $old,
+            'after'  => $race->getChanges()
+        ]);
+        return redirect()->route('admin.races.index')->with('success', 'Race mise à jour avec succès.');
+    }
 
-public function adminDestroy($id)
-{
-    $race = Race::findOrFail($id);
-    $race->delete();
+    public function adminDestroy($id)
+    {
+        $race = Race::findOrFail($id);
+        $old = $race->getOriginal();
+        $race->delete();
 
-    return redirect()->route('admin.races')->with('success', 'Race supprimée avec succès.');
-}
-
+        log_admin_action('delete_race', 'Race', $race->id, [
+            'info' => 'suppression de la race',
+            'avant' => $old
+        ]);
+        return redirect()->route('admin.races.index')->with('success', 'Race supprimée avec succès.');
+    }
 }

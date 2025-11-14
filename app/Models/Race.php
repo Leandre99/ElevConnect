@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Race extends Model
 {
     protected $fillable = [
-        'especes_id',
+        'espece_id',
         'nomrace',
     ];
 

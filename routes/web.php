@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -120,7 +121,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/alertes/{alert}', [AdminController::class, 'showAlerte'])->name('admin.alertes.show');
     Route::delete('/admin/alertes/{alert}', [AdminController::class, 'destroyAlerte'])->name('admin.alertes.destroy');
     Route::patch('/alerts/{id}/disable', [AlertController::class, 'disable'])->name('alerts.disable');
-
+    Route::get('/admin/logs', function () {
+        $logs = \App\Models\AdminLog::with('admin')->latest()->get();
+        return view('admin.logs', compact('logs'));
+    })->name('admin.logs');
 });
 
 Route::get('index', [PusherController::class, 'index']);
@@ -134,7 +138,7 @@ Route::post('alerts/store', [AlertController::class, 'store'])->name('alerts.sto
 Route::post('alerts/{alert}/intervene', [AlertController::class, 'intervene'])->name('alerts.intervene');
 
 Route::middleware(['veterinaire'])->group(function () {
-Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
+    Route::get('/alerts', [AlertController::class, 'index'])->name('alerts.index');
 });
 
 Route::get('ferme/{ferme_id}/animal/{animal_id}', [AnimalController::class, 'createTaskForAnimal'])->name('generatetache');
