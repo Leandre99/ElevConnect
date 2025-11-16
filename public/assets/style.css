@@ -1,0 +1,14 @@
+.list-group-item {
+    flex-wrap: wrap !important;
+}
+
+@media (max-width: 768px) {
+    .list-group-item .btn-group {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 10px;
+    }
+}
