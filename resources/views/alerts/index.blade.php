@@ -10,7 +10,7 @@
 
         @if ($alerts->isEmpty())
             <div class="alert alert-info text-center">
-                <i class="bi bi-exclamation-circle"></i> Vous n'avez émis aucune alerte pour le moment.
+                <i class="bi bi-exclamation-circle"></i> Aucune alerte émise pour le moment.
             </div>
         @else
             <div class="table-responsive">
