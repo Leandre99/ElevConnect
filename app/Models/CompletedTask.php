@@ -13,8 +13,10 @@ class CompletedTask extends Model
         'tache_id',
         'user_id',
         'ferme_id',
-        'completed_at',
         'nomtache',
+        'completed_at',
+        'race_id',
+        'quantite', 'race_id'
     ];
 
     public function tache()
@@ -27,4 +29,10 @@ class CompletedTask extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+        public function race()
+    {
+        return $this->belongsTo(Race::class);
+    }
+
 }

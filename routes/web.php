@@ -125,6 +125,12 @@ Route::middleware('auth')->group(function () {
         $logs = \App\Models\AdminLog::with('admin')->latest()->get();
         return view('admin.logs', compact('logs'));
     })->name('admin.logs');
+    
+    Route::get('/completed-tasks/soins/{farm}', [CompletedTaskController::class, 'soinsParFerme'])
+    ->name('completedTasks.soinsParFerme');
+
+    Route::post('/completed-tasks/store', [CompletedTaskController::class, 'store'])
+    ->name('completedTasks.store');
 });
 
 Route::get('index', [PusherController::class, 'index']);

@@ -9,7 +9,6 @@ class TaskSeeder extends Seeder
 {
     public function run()
     {
-        // Insérer les tâches avec les ids d'espèces corrects
         DB::table('tasks')->insert( [
 
             //Pour les Porcs Locaux (race_id = 7)
