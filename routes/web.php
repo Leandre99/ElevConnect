@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('Veterinaire', [VeterinaireController::class, 'index'])->name('Veterinaire');
     Route::get('/fermes', [FermeController::class, 'index'])->name('Ferme');
 });
+Route::get('/alerts/global', [App\Http\Controllers\AlertController::class, 'global'])->name('alerts.global');
 
 Route::get('Contact', [FormController::class, 'showContactForm'])->name('Contact');
 Route::post('form', [FormController::class, 'store'])->name('form');

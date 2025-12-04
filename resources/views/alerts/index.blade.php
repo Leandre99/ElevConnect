@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container mt-4">
+    <div class="mb-3">
+        <a href="{{ route('alerts.global') }}" class="btn btn-outline-primary">
+            Consulter toutes les alertes & diagnostics
+        </a>
+    </div>
     @if (auth()->user()->role === 'Eleveur')
     <h2 class="mb-4">Liste de mes alertes</h2>
     @elseif (auth()->user()->role === 'Veterinaire')

@@ -9,6 +9,7 @@ use App\Models\Maladie;
 use Illuminate\Http\Request;
 use App\Mail\MeetingScheduled;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Espece;
 
 class AlertController extends Controller
 {
@@ -104,4 +105,30 @@ class AlertController extends Controller
 
         return view('alerts.diagnostics', compact('alert'));
     }
+
+public function global(Request $request)
+{
+    $query = Alert::with(['diagnostics.maladie', 'diagnostics.veterinaire', 'ferme', 'race.espece'])
+        ->latest();
+
+    // Filtre optionnel par espèce
+    if ($request->filled('espece_id')) {
+        $query->whereHas('race', function ($q) use ($request) {
+            $q->where('espece_id', $request->espece_id);
+        });
+    }
+
+    // Filtre optionnel par race
+    if ($request->filled('race_id')) {
+        $query->where('race_id', $request->race_id);
+    }
+
+    $alerts = $query->paginate(15);
+
+    $especes = \App\Models\Espece::all();
+    $races = \App\Models\Race::all();
+
+    return view('alerts.global', compact('alerts', 'especes', 'races'));
+}
+
 }
