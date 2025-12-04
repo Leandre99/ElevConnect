@@ -218,7 +218,6 @@
                         addRaceOption('Porc Landrace')
                         break;
                 }
-    
                 function addRaceOption(raceName) {
                     const option = document.createElement('option');
                     option.value = raceName;

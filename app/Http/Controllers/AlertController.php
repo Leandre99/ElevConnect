@@ -44,9 +44,9 @@ class AlertController extends Controller
             'priority' => 'required|string|in:high,medium,low',
             'race_id' => 'required|exists:races,id',
             'ferme_id' => 'required|exists:fermes,id',
-            'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,flv|max:2048', // Limitation de la taille à 2MB
+            'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,flv|max:2048',
         ]);
-    
+
         try {
             $alert = new Alert();
             $alert->description = $validated['description'];
@@ -54,7 +54,7 @@ class AlertController extends Controller
             $alert->user_id = auth()->id();
             $alert->race_id = $validated['race_id'];
             $alert->ferme_id = $validated['ferme_id'];
-    
+
             if ($request->hasFile('media')) {
                 $file = $request->file('media');
                 $path = $file->store('alerts', 'public');
@@ -63,18 +63,39 @@ class AlertController extends Controller
 
             $alert->status = 'Non traitée';
             $alert->save();
-    
+            log_activity(
+                'create_alert',
+                'Alert',
+                $alert->id,
+                [
+                    'description' => $alert->description,
+                    'priority' => $alert->priority,
+                    'ferme_id' => $alert->ferme_id,
+                    'race_id' => $alert->race_id,
+                    'status' => $alert->status,
+                ]
+            );
+
             return back()->with('success', 'Alerte ajoutée avec succès!');
         } catch (\Exception $e) {
             return back()->with('error', 'Erreur lors de l\'ajout de l\'alerte: ' . $e->getMessage());
         }
     }
+
     public function disable($id)
     {
         $alert = Alert::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
         $alert->update(['status' => 'Désactivée']);
+        log_activity(
+            'disable_alert',
+            'Alert',
+            $alert->id,
+            ['status' => $alert->status]
+        );
+
         return redirect()->back()->with('success', 'Alerte désactivée avec succès.');
     }
+
 
 
     public function showDiagnostics($alertId)

@@ -21,6 +21,7 @@ use App\Http\Controllers\PerformanceReportController;
 use App\Http\Controllers\RaceController;
 use App\Http\Controllers\MaladieController;
 use App\Http\Controllers\DiagnosticController;
+use App\Models\ActivityLog;
 
 Route::get('/', function () {
     return view('welcome');
@@ -122,10 +123,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/alertes/{alert}', [AdminController::class, 'destroyAlerte'])->name('admin.alertes.destroy');
     Route::patch('/alerts/{id}/disable', [AlertController::class, 'disable'])->name('alerts.disable');
     Route::get('/admin/logs', function () {
-        $logs = \App\Models\AdminLog::with('admin')->latest()->get();
-        return view('admin.logs', compact('logs'));
+    $logs = ActivityLog::with('user')->latest()->get();
+    return view('admin.logs', compact('logs'));
     })->name('admin.logs');
-    
     Route::get('/completed-tasks/soins/{farm}', [CompletedTaskController::class, 'soinsParFerme'])
     ->name('completedTasks.soinsParFerme');
 

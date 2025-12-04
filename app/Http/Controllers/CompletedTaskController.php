@@ -28,14 +28,23 @@ class CompletedTaskController extends Controller
             'quantite' => 'nullable|string',
         ]);
 
-        CompletedTask::create([
-            'tache_id' => null, // c'est un soin manuel, pas lié à une tache préexistante
+        $completedTask = CompletedTask::create([
+            'tache_id' => null, // c'est un soin manuel
             'user_id' => Auth::id(),
             'ferme_id' => $request->ferme_id,
             'nomtache' => $request->nomtache,
             'completed_at' => $request->completed_at,
             'quantite' => $request->quantite,
-            'race_id' => $request->race_id, // ajouter si tu modifies le model pour le stocker
+            'race_id' => $request->race_id,
+        ]);
+
+        // 🔹 Log de l’action
+        log_activity('create_completed_task', 'CompletedTask', $completedTask->id, [
+            'nomtache' => $completedTask->nomtache,
+            'ferme_id' => $completedTask->ferme_id,
+            'race_id' => $completedTask->race_id,
+            'completed_at' => $completedTask->completed_at,
+            'quantite' => $completedTask->quantite
         ]);
 
         return redirect()->back()->with('success', 'Soin ajouté avec succès !');

@@ -45,11 +45,15 @@ class AnimalController extends Controller
             ->first();
 
         if ($animal) {
-
+            $old = $animal->toArray();
             $animal->nombre = $request->input('nombre');
             $animal->save();
-        } else {
 
+            log_activity('update_animal', 'Animal', $animal->id, [
+                'before' => $old,
+                'after' => $animal->getChanges()
+            ]);
+        } else {
             $animal = new Animal();
             $animal->espece_id = $request->input('espece_id');
             $animal->race_id = $request->input('race_id');
@@ -57,14 +61,26 @@ class AnimalController extends Controller
             $animal->nombre = $request->input('nombre');
             $animal->ferme_id = $ferme->id;
             $animal->save();
+
+            log_activity('create_animal', 'Animal', $animal->id, [
+                'espece_id' => $animal->espece_id,
+                'race_id' => $animal->race_id,
+                'age' => $animal->age,
+                'nombre' => $animal->nombre,
+                'ferme_id' => $ferme->id
+            ]);
         }
 
         return redirect()->route('animals.index', $ferme)->with('success', 'Animal ajouté/mis à jour avec succès.');
     }
 
+
     public function destroy(Ferme $ferme, Animal $animal)
     {
+        $animalData = $animal->toArray();
         $animal->delete();
+
+        log_activity('delete_animal', 'Animal', $animal->id, $animalData);
 
         return back()->with('success', 'Animal supprimé avec succès.');
     }
@@ -101,21 +117,37 @@ class AnimalController extends Controller
             ->first();
 
         if ($existingAnimal) {
-
+            $old = $existingAnimal->toArray();
             $existingAnimal->nombre = $request->input('nombre');
             $existingAnimal->save();
+
+            log_activity('update_animal', 'Animal', $existingAnimal->id, [
+                'before' => $old,
+                'after' => $existingAnimal->getChanges()
+            ]);
+
+            $deletedAnimalData = $animal->toArray();
             $animal->delete();
+
+            log_activity('delete_animal', 'Animal', $animal->id, $deletedAnimalData);
         } else {
+            $old = $animal->toArray();
             $animal->update([
                 'espece_id' => $request->input('espece_id'),
                 'race_id' => $request->input('race_id'),
                 'age' => $request->input('age'),
                 'nombre' => $request->input('nombre'),
             ]);
+
+            log_activity('update_animal', 'Animal', $animal->id, [
+                'before' => $old,
+                'after' => $animal->getChanges()
+            ]);
         }
 
         return redirect()->route('animals.index', $ferme)->with('success', 'Animal mis à jour avec succès.');
     }
+
 
     public function createTaskForAnimal($ferme_id, $animal_id)
     {
@@ -164,26 +196,36 @@ class AnimalController extends Controller
     }
 
     public function editAdminAnimal(Animal $animal)
-{
-    $fermes = Ferme::all();
-    $races = Race::all();
-    return view('admin.edit_animal', compact('animal', 'fermes', 'races'));
-}
+    {
+        $fermes = Ferme::all();
+        $races = Race::all();
+        return view('admin.edit_animal', compact('animal', 'fermes', 'races'));
+    }
 
 
-public function updateAdminAnimal(Request $request, Animal $animal)
-{
-    $animal->update($request->all());
-    return redirect()->route('admin.animals')->with('success', 'Animal mis à jour avec succès.');
-}
+    public function updateAdminAnimal(Request $request, Animal $animal)
+    {
+        $old = $animal->toArray();
+        $animal->update($request->all());
+
+        log_activity('update_animal_admin', 'Animal', $animal->id, [
+            'before' => $old,
+            'after' => $animal->getChanges()
+        ]);
+
+        return redirect()->route('admin.animals')->with('success', 'Animal mis à jour avec succès.');
+    }
 
 
 
-public function destroyAdminAnimal($id)
-{
-    $animal = Animal::findOrFail($id);
-    $animal->delete();
-    return redirect()->route('admin.animals')->with('success', 'Animal deleted successfully!');
-}
+    public function destroyAdminAnimal($id)
+    {
+        $animal = Animal::findOrFail($id);
+        $animalData = $animal->toArray();
+        $animal->delete();
 
+        log_activity('delete_animal_admin', 'Animal', $animal->id, $animalData);
+
+        return redirect()->route('admin.animals')->with('success', 'Animal supprimé avec succès!');
+    }
 }

@@ -37,31 +37,29 @@ class TacheController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {}
 
-    }
+    public function update(Request $request, Tache $tache) {}
 
-    public function update(Request $request, Tache $tache)
-    {
+    public function destroy(Tache $tache) {}
 
-    }
-
-    public function destroy(Tache $tache)
-    {
-
-    }
-
-    public function markAsCompleted(Request $request,Tache $tache)
+    public function markAsCompleted(Request $request, Tache $tache)
     {
         $tache->status = 1;
         $tache->save();
 
-        CompletedTask::create([
+        $completedTask = CompletedTask::create([
             'tache_id' => $tache->id,
             'user_id' => auth()->id(),
             'ferme_id' => $tache->ferme_id,
             'completed_at' => now(),
+        ]);
+        log_activity('complete_task', 'Tache', $tache->id, [
+            'completed_task_id' => $completedTask->id,
+            'user_id' => auth()->id(),
+            'ferme_id' => $tache->ferme_id,
+            'completed_at' => $completedTask->completed_at,
+            'nomtache' => $tache->nomtache ?? null
         ]);
 
         return redirect()->back()->with('success', 'La tâche a été marquée comme terminée.');

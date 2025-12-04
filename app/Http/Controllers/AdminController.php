@@ -45,7 +45,7 @@ class AdminController extends Controller
 
         $farm->update($validatedData);
 
-        log_admin_action(
+        log_activity(
             'update_farm',
             'Ferme',
             $farm->id,
@@ -58,7 +58,7 @@ class AdminController extends Controller
     public function destroyFarm(Ferme $farm)
     {
         $farm->delete();
-        log_admin_action('delete_farm', 'Ferme', $farm->id, ['info' => 'suppression de la ferme']);
+        log_activity('delete_farm', 'Ferme', $farm->id, ['info' => 'suppression de la ferme']);
         return redirect()->route('admin.farms')->with('success', 'Ferme supprimée avec succès');
     }
 
@@ -73,7 +73,7 @@ class AdminController extends Controller
 
         $user->update($request->all());
 
-        log_admin_action(
+        log_activity(
             'update_user',
             'User',
             $user->id,
@@ -91,7 +91,7 @@ class AdminController extends Controller
 
         $user->delete();
 
-        log_admin_action('delete_user', 'User', $id, ['info' => 'suppression de l’utilisateur']);
+        log_activity('delete_user', 'User', $id, ['info' => 'suppression de l’utilisateur']);
         return redirect()->route('admin.users')->with('success', 'Utilisateur supprimé avec succès');
     }
 
@@ -102,7 +102,7 @@ class AdminController extends Controller
             $user->status = true;
             $user->save();
         }
-        log_admin_action('activate_veterinaire', 'User', $user->id, ['status' => 'active']);
+        log_activity('activate_veterinaire', 'User', $user->id, ['status' => 'active']);
 
         return redirect()->route('admin.users')->with('success', 'Veterinaire active avec succes.');
     }
@@ -114,7 +114,7 @@ class AdminController extends Controller
             $user->status = false;
             $user->save();
         }
-        log_admin_action('deactivate_veterinaire', 'User', $user->id, ['status' => 'Desactive']);
+        log_activity('deactivate_veterinaire', 'User', $user->id, ['status' => 'Desactive']);
 
         return redirect()->route('admin.users')->with('success', 'Veterinaire desactive avec succes.');
     }
@@ -171,7 +171,7 @@ class AdminController extends Controller
         ]);
 
         $maladie = Maladie::create($request->all());
-        log_admin_action('create_maladie', 'Maladie', $maladie->id, $request->all());
+        log_activity('create_maladie', 'Maladie', $maladie->id, $request->all());
         return redirect()->route('admin.maladies.index')->with('success', 'Maladie cree avec succès.');
     }
 
@@ -191,7 +191,7 @@ class AdminController extends Controller
         $old = $maladie->getOriginal();
         $maladie->update($request->all());
 
-        log_admin_action('update_maladie', 'Maladie', $maladie->id, [
+        log_activity('update_maladie', 'Maladie', $maladie->id, [
             'before' => $old,
             'after'  => $maladie->getChanges()
         ]);
@@ -202,7 +202,7 @@ class AdminController extends Controller
     public function maladiesDestroy(Maladie $maladie)
     {
         $maladie->delete();
-        log_admin_action('delete_maladie', 'Maladie', $maladie->id, [
+        log_activity('delete_maladie', 'Maladie', $maladie->id, [
     'info' => "Suppression de la maladie : {$maladie->nom}"
 ]);
 
@@ -224,7 +224,7 @@ class AdminController extends Controller
     public function diagnosticsStore(Request $request)
     {
         $diagnostic = Diagnostic::create($request->all());
-        log_admin_action('create_diagnostic', 'Diagnostic', $diagnostic->id, $request->all());
+        log_activity('create_diagnostic', 'Diagnostic', $diagnostic->id, $request->all());
         return redirect()->route('admin.diagnostics.index');
     }
 
@@ -240,7 +240,7 @@ class AdminController extends Controller
 
         $diagnostic->update($request->all());
 
-        log_admin_action('update_diagnostic', 'Diagnostic', $diagnostic->id, [
+        log_activity('update_diagnostic', 'Diagnostic', $diagnostic->id, [
             'before' => $old,
             'after'  => $diagnostic->getChanges()
         ]);
@@ -251,7 +251,7 @@ class AdminController extends Controller
     public function diagnosticsDestroy(Diagnostic $diagnostic)
     {
         $diagnostic->delete();
-        log_admin_action('delete_diagnostic', 'Diagnostic', $diagnostic->id);
+        log_activity('delete_diagnostic', 'Diagnostic', $diagnostic->id);
 
         return redirect()->route('admin.diagnostics.index');
     }
@@ -269,7 +269,7 @@ class AdminController extends Controller
     public function destroyAlerte(Alert $alert)
     {
         $alert->delete();
-        log_admin_action('delete_alerte', 'Alert', $alert->id);
+        log_activity('delete_alerte', 'Alert', $alert->id);
 
         return redirect()->route('admin.alertes.index')->with('success', 'Alerte supprimée avec succès.');
     }

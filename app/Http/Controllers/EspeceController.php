@@ -85,7 +85,7 @@ class EspeceController extends Controller
             'nomespece' => $request->nomespece,
         ]);
 
-        log_admin_action('create_espece', 'Espece', $espece->id, [
+        log_activity('create_espece', 'Espece', $espece->id, [
         'nomespece' => $request->nomespece
     ]);
         return redirect()->route('admin.especes.index')->with('success', 'Espèce ajoutée avec succès.');
@@ -108,7 +108,8 @@ class EspeceController extends Controller
         $espece->update([
             'nomespece' => $request->nomespece,
         ]);
-        log_admin_action('update_espece', 'Espece', $espece->id, [
+        
+        log_activity('update_espece', 'Espece', $espece->id, [
             'before' => $old,
             'after' => $espece->getChanges()
         ]);
@@ -119,7 +120,7 @@ class EspeceController extends Controller
     {
         $espece = Espece::findOrFail($id);
         $espece->delete();
-        log_admin_action('delete_espece', 'Espece', $espece->id, ['info' => 'Espece supprimee']);
+        log_activity('delete_espece', 'Espece', $espece->id, ['info' => 'Espece supprimee']);
 
         return redirect()->route('admin.especes.index')->with('success', 'Espèce supprimée avec succès.');
     }

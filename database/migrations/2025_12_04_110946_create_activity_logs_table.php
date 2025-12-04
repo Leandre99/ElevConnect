@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+   public function up()
 {
-    Schema::create('admin_logs', function (Blueprint $table) {
+    Schema::create('activity_logs', function (Blueprint $table) {
         $table->id();
-        $table->unsignedBigInteger('admin_id');
+        $table->unsignedBigInteger('user_id')->nullable();
         $table->string('action');
         $table->string('model')->nullable();
         $table->integer('model_id')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
 
 public function down()
 {
-    Schema::dropIfExists('admin_logs');
+    Schema::dropIfExists('activity_logs');
 }
 
 };

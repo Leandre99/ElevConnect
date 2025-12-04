@@ -23,22 +23,30 @@ class FermeController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nomferme' => 'required',
-            'description' => 'required',
-            'adresse' => 'required',
-        ]);
+{
+    $request->validate([
+        'nomferme' => 'required',
+        'description' => 'required',
+        'adresse' => 'required',
+    ]);
 
-        Ferme::create([
-            'user_id' => auth()->user()->id,
-            'nomferme' => $request->nomferme,
-            'description' => $request->description,
-            'adresse' => $request->adresse,
-        ]);
+    $ferme = Ferme::create([
+        'user_id' => auth()->user()->id,
+        'nomferme' => $request->nomferme,
+        'description' => $request->description,
+        'adresse' => $request->adresse,
+    ]);
 
-        return redirect()->route('Ferme')->with('success', 'Ferme créée avec succès.');
-    }
+    // Log de l'action
+    log_activity(
+        'create_farm',
+        'Ferme',
+        $ferme->id,
+        ['nomferme' => $ferme->nomferme, 'description' => $ferme->description, 'adresse' => $ferme->adresse]
+    );
+
+    return redirect()->route('Ferme')->with('success', 'Ferme créée avec succès.');
+}
 
     public function edit($id)
     {
@@ -47,28 +55,49 @@ class FermeController extends Controller
     }
 
     public function update(Request $request, Ferme $ferme)
-    {
-        $request->validate([
-            'nomferme' => 'required',
-            'description' => 'required',
-            'adresse' => 'required',
-        ]);
+{
+    $request->validate([
+        'nomferme' => 'required',
+        'description' => 'required',
+        'adresse' => 'required',
+    ]);
 
-        $ferme->update([
-            'nomferme' => $request->nomferme,
-            'description' => $request->description,
-            'adresse' => $request->adresse,
-        ]);
+    $old = $ferme->toArray(); // garder l’état avant modification
 
-        return redirect()->route('Ferme')->with('success', 'Ferme mise à jour avec succès.');
-    }
+    $ferme->update([
+        'nomferme' => $request->nomferme,
+        'description' => $request->description,
+        'adresse' => $request->adresse,
+    ]);
+
+    log_activity(
+        'update_farm',
+        'Ferme',
+        $ferme->id,
+        [
+            'before' => $old,
+            'after'  => $ferme->getChanges()
+        ]
+    );
+
+    return redirect()->route('Ferme')->with('success', 'Ferme mise à jour avec succès.');
+}
 
     public function destroy(Ferme $ferme)
-    {
-        $ferme->is_active = false;
-        $ferme->save();
-        return redirect()->route('Ferme')->with('success', 'Ferme désactivée avec succès.');
-    }
+{
+    $ferme->is_active = false;
+    $ferme->save();
+
+    log_activity(
+        'deactivate_farm',
+        'Ferme',
+        $ferme->id,
+        ['is_active' => $ferme->is_active]
+    );
+
+    return redirect()->route('Ferme')->with('success', 'Ferme désactivée avec succès.');
+}
+
     public function activate(Ferme $ferme)
     {
         $ferme->is_active = true;
@@ -87,7 +116,7 @@ class FermeController extends Controller
         $farm->is_active = !$farm->is_active;
     $farm->save();
 
-    log_admin_action(
+    log_activity(
         'toggle_farm_status',
         'Ferme',
         $farm->id,

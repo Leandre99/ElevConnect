@@ -1,14 +1,15 @@
 <?php
 
-use App\Models\AdminLog;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
-function log_admin_action($action, $model = null, $model_id = null, $details = null)
+function log_activity($action, $model = null, $model_id = null, $details = null)
 {
-    AdminLog::create([
-        'admin_id' => auth()->id(),
-        'action'   => $action,
-        'model'    => $model,
+    ActivityLog::create([
+        'user_id' => Auth::id(),
+        'action' => $action,
+        'model' => $model,
         'model_id' => $model_id,
-        'details'  => is_array($details) ? json_encode($details) : $details
+        'details' => is_array($details) ? json_encode($details) : $details,
     ]);
 }

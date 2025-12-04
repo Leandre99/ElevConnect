@@ -34,7 +34,7 @@ class DiagnosticController extends Controller
         ]);
 
         if ($validated['maladie_id'] === 'autre') {
-            Diagnostic::create([
+            $diagnostic = Diagnostic::create([
                 'maladie_id' => null,
                 'alert_id' => $validated['alert_id'],
                 'ferme_id' => $validated['ferme_id'],
@@ -45,7 +45,7 @@ class DiagnosticController extends Controller
                 'veterinaire_id' => auth()->id()
             ]);
         } else {
-            Diagnostic::create([
+            $diagnostic = Diagnostic::create([
                 'maladie_id' => $validated['maladie_id'],
                 'alert_id' => $validated['alert_id'],
                 'ferme_id' => $validated['ferme_id'],
@@ -55,8 +55,27 @@ class DiagnosticController extends Controller
             ]);
         }
 
+        // 🔹 Log de la création du diagnostic
+        log_activity('create_diagnostic', 'Diagnostic', $diagnostic->id, [
+            'alert_id' => $diagnostic->alert_id,
+            'ferme_id' => $diagnostic->ferme_id,
+            'maladie_id' => $diagnostic->maladie_id,
+            'nom_autre_maladie' => $diagnostic->nom_autre_maladie,
+            'symptomes' => $diagnostic->symptomes,
+            'traitement' => $diagnostic->traitement,
+            'veterinaire_id' => $diagnostic->veterinaire_id
+        ]);
+
+        // Mise à jour de l'alerte et log
         $alert = Alert::findOrFail($validated['alert_id']);
+        $oldAlert = $alert->toArray();
         $alert->update(['status' => 'Traitée']);
+
+        log_activity('update_alert_status', 'Alert', $alert->id, [
+            'before' => $oldAlert,
+            'after' => ['status' => $alert->status]
+        ]);
+
         return redirect()->route('alerts.index')
             ->with('success', 'Diagnostic enregistré et alerte traitée avec succès.');
     }

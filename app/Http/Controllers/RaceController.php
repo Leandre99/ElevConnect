@@ -86,7 +86,7 @@ class RaceController extends Controller
             'nomrace' => $request->nomrace,
         ]);
 
-        log_admin_action('create_race', 'Race', $race->id, $request->all());
+        log_activity('create_race', 'Race', $race->id, $request->all());
         return redirect()->route('admin.races.index')->with('success', 'Race ajoutée avec succès.');
     }
 
@@ -111,7 +111,7 @@ class RaceController extends Controller
             'nomrace' => $request->nomrace,
         ]);
 
-        log_admin_action('update_race', 'Race', $race->id, [
+        log_activity('update_race', 'Race', $race->id, [
             'before' => $old,
             'after'  => $race->getChanges()
         ]);
@@ -124,7 +124,7 @@ class RaceController extends Controller
         $old = $race->getOriginal();
         $race->delete();
 
-        log_admin_action('delete_race', 'Race', $race->id, [
+        log_activity('delete_race', 'Race', $race->id, [
             'info' => 'suppression de la race',
             'avant' => $old
         ]);

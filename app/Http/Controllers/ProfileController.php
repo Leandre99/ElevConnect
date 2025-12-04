@@ -21,16 +21,22 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $old = $user->getOriginal();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
-
-        $request->user()->save();
+        $user->save();
+        log_activity('update_profile', 'User', $user->id, [
+            'before' => $old,
+            'after' => $user->getChanges()
+        ]);
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
 
     public function destroy(Request $request): RedirectResponse
     {
@@ -39,10 +45,10 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
+        $userData = $user->toArray();
         Auth::logout();
-
         $user->delete();
+        log_activity('delete_profile', 'User', $user->id, $userData);
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdminLog extends Model
+class ActivityLog extends Model
 {
-    protected $fillable = [
-        'admin_id',
+     protected $fillable = [
+        'user_id',
         'action',
         'model',
         'model_id',
         'details'
     ];
-    public function admin()
-{
-    return $this->belongsTo(User::class, 'admin_id');
-}
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
